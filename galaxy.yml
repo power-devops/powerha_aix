@@ -16,10 +16,10 @@ tags: [power, aix, powerha, cluster]
 
 dependencies: {}
 
-repository: http://github.com/power-devops/ansible-powerha
+repository: http://github.com/power-devops/powerha_aix
 documentation: http://www.power-devops.com
 homepage: http://www.power-devops.com
-issues: http://github.com/power-devops/ansible-powerha/issues
+issues: http://github.com/power-devops/powerha_aix/issues
 
 build_ignore: []
 
