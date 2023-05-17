@@ -1,0 +1,25 @@
+namespace: powerdevops
+name: powerha_aix
+version: 1.0.0
+readme: README.md
+
+authors:
+- Andrey Klyachkin <info@power-devops.com>
+
+
+description: IBM PowerHA SystemMirror 7.2.X cluster management
+
+license:
+- GPL-3.0-only
+
+tags: [power, aix, powerha, cluster]
+
+dependencies: {}
+
+repository: http://github.com/power-devops/ansible-powerha
+documentation: http://www.power-devops.com
+homepage: http://www.power-devops.com
+issues: http://github.com/power-devops/ansible-powerha/issues
+
+build_ignore: []
+
