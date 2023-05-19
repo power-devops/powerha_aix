@@ -11,7 +11,7 @@ module: service_ip
 short_description: manage service_ip resource in PowerHA cluster
 version_added: "1.0.0"
 
-description: This module creates/deletes/changes service_ip resource in PowerHA cluster. 
+description: This module creates/deletes/changes service_ip resource in PowerHA cluster.
 
 options:
     name:
@@ -54,10 +54,11 @@ RETURN = r'''
 # possible return values
 '''
 
-from ansible.module_utils.basic import AnsibleModule, is_executable
 import os
+from ansible.module_utils.basic import AnsibleModule, is_executable
 
-CLMGR='/usr/es/sbin/cluster/utilities/clmgr'
+CLMGR = '/usr/es/sbin/cluster/utilities/clmgr'
+
 
 def get_cluster_ip(module):
     cmd = "%s query service_ip %s" % (CLMGR, module.params['name'])
@@ -66,6 +67,7 @@ def get_cluster_ip(module):
     if rc != 0:
         return 'absent', rc, stdout, stderr
     return 'present', rc, stdout, stderr
+
 
 def add_cluster_ip(module):
     cmd = "%s add service_ip %s" % (CLMGR, module.params['name'])
@@ -78,17 +80,19 @@ def add_cluster_ip(module):
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
 
+
 def delete_cluster_ip(module):
     cmd = "%s delete service_ip %s" % (CLMGR, module.params['name'])
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
 
+
 def run_module():
     module_args = dict(
-        name = dict(type='str', required=True),
-        state = dict(type='str', required=False, choices=['present', 'absent'], default='present'),
-        network = dict(type='str', required=False, default='net_ether_01'),
-        netmask = dict(type='str', required=False)
+        name=dict(type='str', required=True),
+        state=dict(type='str', required=False, choices=['present', 'absent'], default='present'),
+        network=dict(type='str', required=False, default='net_ether_01'),
+        netmask=dict(type='str', required=False)
     )
 
     result = dict(
@@ -103,47 +107,48 @@ def run_module():
 
     # check if we can run clmgr
     if not os.path.exists(CLMGR):
-        result['message']='IBM PowerHA is not installed or clmgr is not found'
+        result['message'] = 'IBM PowerHA is not installed or clmgr is not found'
         module.fail_json(msg=result['message'], rc=1)
 
     if not is_executable(CLMGR):
-        result['message']='clmgr can not be executed by the current user'
+        result['message'] = 'clmgr can not be executed by the current user'
         module.fail_json(msg=result['message'], rc=1)
 
-    if module.params['state'] == None or module.params['state'] == 'present':
+    if module.params['state'] is None or module.params['state'] == 'present':
         state, result['rc'], result['stdout'], result['stderr'] = get_cluster_ip(module)
         if state == 'present':
-            result['message']='servce ip is already defined'
+            result['message'] = 'servce ip is already defined'
             module.exit_json(**result)
-        result['changed']=True
+        result['changed'] = True
         if module.check_mode:
-            result['message']='service ip will be defined'
+            result['message'] = 'service ip will be defined'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = add_cluster_ip(module)
         if result['rc'] != 0:
-            result['message']='adding service ip to the cluster failed. see stderr for any error messages'
+            result['message'] = 'adding service ip to the cluster failed. see stderr for any error messages'
             module.fail_json(msg=result['message'], rc=result['rc'], result=result)
-        result['message']='service ip added to the cluster'
+        result['message'] = 'service ip added to the cluster'
     elif module.params['state'] == 'absent':
         state, result['rc'], result['stdout'], result['stderr'] = get_cluster_ip(module)
         if state == 'absent':
-            result['message']='servce ip is not defined'
-            result['rc']=0
+            result['message'] = 'servce ip is not defined'
+            result['rc'] = 0
             module.exit_json(**result)
-        result['changed']=True
+        result['changed'] = True
         if module.check_mode:
-            result['message']='service ip will be deleted'
+            result['message'] = 'service ip will be deleted'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = delete_cluster_ip(module)
         if result['rc'] != 0:
-            result['message']='deleting service ip failed. see stderr for any error messages'
+            result['message'] = 'deleting service ip failed. see stderr for any error messages'
             module.fail_json(msg=result['message'], rc=result['rc'], result=result)
-        result['message']='service ip is deleted'
+        result['message'] = 'service ip is deleted'
     module.exit_json(**result)
+
 
 def main():
     run_module()
 
+
 if __name__ == '__main__':
     main()
-

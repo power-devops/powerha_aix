@@ -95,10 +95,11 @@ RETURN = r'''
 # possible return values
 '''
 
-from ansible.module_utils.basic import AnsibleModule, is_executable
 import os
+from ansible.module_utils.basic import AnsibleModule, is_executable
 
-CLMGR='/usr/es/sbin/cluster/utilities/clmgr'
+CLMGR = '/usr/es/sbin/cluster/utilities/clmgr'
+
 
 def get_rg(module):
     cmd = "%s query resource_group %s" % (CLMGR, module.params['name'])
@@ -106,11 +107,12 @@ def get_rg(module):
     rc, stdout, stderr = module.run_command(cmd)
     if rc != 0:
         return 'absent', rc, stdout, stderr
-    state='present'
+    state = 'present'
     for line in stdout.splitlines():
         if line.startswith('STATE='):
-            state=line.split('=')[1].strip('"').lower()
+            state = line.split('=')[1].strip('"').lower()
     return state, rc, stdout, stderr
+
 
 def add_rg(module):
     cmd = "%s add resource_group %s" % (CLMGR, module.params['name'])
@@ -121,7 +123,7 @@ def add_rg(module):
         opts += " fallover=%s" % module.params['fallover']
     if 'fallback' in module.params and module.params['fallback'] != '':
         opts += " fallback=%s" % module.params['fallback']
-    if 'nodes' in module.params and module.params['nodes'] != None:
+    if 'nodes' in module.params and module.params['nodes'] is not None:
         oldopts = opts
         try:
             opts += ' nodes='
@@ -130,7 +132,7 @@ def add_rg(module):
             opts = opts[:-1]
         except TypeError:
             opts = oldopts
-    if 'service' in module.params and module.params['service'] != None:
+    if 'service' in module.params and module.params['service'] is not None:
         oldopts = opts
         try:
             opts += ' service_label='
@@ -139,7 +141,7 @@ def add_rg(module):
             opts = opts[:-1]
         except TypeError:
             opts = oldopts
-    if 'application' in module.params and module.params['application'] != None:
+    if 'application' in module.params and module.params['application'] is not None:
         oldopts = opts
         try:
             opts += ' applications='
@@ -148,7 +150,7 @@ def add_rg(module):
             opts = opts[:-1]
         except TypeError:
             opts = oldopts
-    if 'volgrp' in module.params and module.params['volgrp'] != None:
+    if 'volgrp' in module.params and module.params['volgrp'] is not None:
         oldopts = opts
         try:
             opts += ' volume_group='
@@ -161,32 +163,36 @@ def add_rg(module):
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
 
+
 def delete_rg(module):
     cmd = "%s delete resource_group %s" % (CLMGR, module.params['name'])
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
+
 
 def start_rg(module):
     cmd = "%s online resource_group %s" % (CLMGR, module.params['name'])
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
 
+
 def stop_rg(module):
     cmd = "%s offline resource_group %s" % (CLMGR, module.params['name'])
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
 
+
 def run_module():
     module_args = dict(
-        name = dict(type='str', required=True),
-        state = dict(type='str', required=False, choices=['present', 'absent', 'started', 'stopped', 'online', 'offline'], default='present'),
-        nodes = dict(type='list', required=False, elements='str'),
-        startup = dict(type='str', required=False, choices=['OHN','OFAN','OAAN','OUDP'], aliases=['start']),
-        fallover = dict(type='str', required=False, choices=['FNPN', 'FUDNP', 'BO']),
-        fallback = dict(type='str', required=False, choices=['NFB', 'FBHPN']),
-        service = dict(type='list', required=False, elements='str', aliases=['service_ip', 'service_label']),
-        application = dict(type='list', required=False, elements='str', aliases=['app', 'applications']),
-        volgrp = dict(type='list', required=False, elements='str', aliases=['vg', 'volume_group'])
+        name=dict(type='str', required=True),
+        state=dict(type='str', required=False, choices=['present', 'absent', 'started', 'stopped', 'online', 'offline'], default='present'),
+        nodes=dict(type='list', required=False, elements='str'),
+        startup=dict(type='str', required=False, choices=['OHN', 'OFAN', 'OAAN', 'OUDP'], aliases=['start']),
+        fallover=dict(type='str', required=False, choices=['FNPN', 'FUDNP', 'BO']),
+        fallback=dict(type='str', required=False, choices=['NFB', 'FBHPN']),
+        service=dict(type='list', required=False, elements='str', aliases=['service_ip', 'service_label']),
+        application=dict(type='list', required=False, elements='str', aliases=['app', 'applications']),
+        volgrp=dict(type='list', required=False, elements='str', aliases=['vg', 'volume_group'])
     )
 
     result = dict(
@@ -201,83 +207,84 @@ def run_module():
 
     # check if we can run clmgr
     if not os.path.exists(CLMGR):
-        result['message']='IBM PowerHA is not installed or clmgr is not found'
+        result['message'] = 'IBM PowerHA is not installed or clmgr is not found'
         module.fail_json(msg=result['message'], rc=1)
 
     if not is_executable(CLMGR):
-        result['message']='clmgr can not be executed by the current user'
+        result['message'] = 'clmgr can not be executed by the current user'
         module.fail_json(msg=result['message'], rc=1)
 
-    if module.params['state'] == None or module.params['state'] == 'present':
+    if module.params['state'] is None or module.params['state'] == 'present':
         state, result['rc'], result['stdout'], result['stderr'] = get_rg(module)
         if state != 'absent':
-            result['message']='resource group is already defined'
+            result['message'] = 'resource group is already defined'
             module.exit_json(**result)
-        result['changed']=True
+        result['changed'] = True
         if module.check_mode:
-            result['message']='resource group will be defined'
+            result['message'] = 'resource group will be defined'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = add_rg(module)
         if result['rc'] != 0:
-            result['message']='adding resource group to the cluster failed. see stderr for any error messages'
+            result['message'] = 'adding resource group to the cluster failed. see stderr for any error messages'
             module.fail_json(msg=result['message'], rc=result['rc'], result=result)
-        result['message']='resource group added to the cluster'
+        result['message'] = 'resource group added to the cluster'
     elif module.params['state'] == 'absent':
         state, result['rc'], result['stdout'], result['stderr'] = get_rg(module)
         if state == 'absent':
-            result['message']='resource group is not defined'
-            result['rc']=0
+            result['message'] = 'resource group is not defined'
+            result['rc'] = 0
             module.exit_json(**result)
-        result['changed']=True
+        result['changed'] = True
         if module.check_mode:
-            result['message']='resource group will be deleted'
+            result['message'] = 'resource group will be deleted'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = delete_rg(module)
         if result['rc'] != 0:
-            result['message']='deleting resource group failed. see stderr for any error messages'
+            result['message'] = 'deleting resource group failed. see stderr for any error messages'
             module.fail_json(msg=result['message'], rc=result['rc'], result=result)
-        result['message']='resource group is deleted'
+        result['message'] = 'resource group is deleted'
     elif module.params['state'] == 'started' or module.params['state'] == 'online':
         state, result['rc'], result['stdout'], result['stderr'] = get_rg(module)
         if state == 'absent':
-            result['message']='resource group is not defined'
+            result['message'] = 'resource group is not defined'
             module.fail_json(msg=result['message'], rc=result['rc'], result=result)
         if state == 'online':
-            result['message']='resource group is already online'
-            result['rc']=0
+            result['message'] = 'resource group is already online'
+            result['rc'] = 0
             module.exit_json(**result)
-        result['changed']=True
+        result['changed'] = True
         if module.check_mode:
-            result['message']='resource group will be started'
+            result['message'] = 'resource group will be started'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = start_rg(module)
         if result['rc'] != 0:
-            result['message']='starting resource group failed. see stderr for any error messages'
+            result['message'] = 'starting resource group failed. see stderr for any error messages'
             module.fail_json(msg=result['message'], rc=result['rc'], result=result)
-        result['message']='resource group is started'
+        result['message'] = 'resource group is started'
     elif module.params['state'] == 'stopped' or module.params['state'] == 'offline':
         state, result['rc'], result['stdout'], result['stderr'] = get_rg(module)
         if state == 'absent':
-            result['message']='resource group is not defined'
+            result['message'] = 'resource group is not defined'
             module.fail_json(msg=result['message'], rc=result['rc'], result=result)
         if state == 'offline':
-            result['message']='resource group is already offline'
-            result['rc']=0
+            result['message'] = 'resource group is already offline'
+            result['rc'] = 0
             module.exit_json(**result)
-        result['changed']=True
+        result['changed'] = True
         if module.check_mode:
-            result['message']='resource group will be stopped'
+            result['message'] = 'resource group will be stopped'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = stop_rg(module)
         if result['rc'] != 0:
-            result['message']='stopping resource group failed. see stderr for any error messages'
+            result['message'] = 'stopping resource group failed. see stderr for any error messages'
             module.fail_json(msg=result['message'], rc=result['rc'], result=result)
-        result['message']='resource group is stopped'
+        result['message'] = 'resource group is stopped'
     module.exit_json(**result)
+
 
 def main():
     run_module()
 
+
 if __name__ == '__main__':
     main()
-

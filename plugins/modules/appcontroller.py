@@ -60,10 +60,11 @@ RETURN = r'''
 # possible return values
 '''
 
-from ansible.module_utils.basic import AnsibleModule, is_executable
 import os
+from ansible.module_utils.basic import AnsibleModule, is_executable
 
-CLMGR='/usr/es/sbin/cluster/utilities/clmgr'
+CLMGR = '/usr/es/sbin/cluster/utilities/clmgr'
+
 
 def get_ac(module):
     cmd = "%s query application_controller %s" % (CLMGR, module.params['name'])
@@ -72,6 +73,7 @@ def get_ac(module):
     if rc != 0:
         return 'absent', rc, stdout, stderr
     return 'present', rc, stdout, stderr
+
 
 def add_ac(module):
     cmd = "%s add application_controller %s" % (CLMGR, module.params['name'])
@@ -86,18 +88,20 @@ def add_ac(module):
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
 
+
 def delete_ac(module):
     cmd = "%s delete application_controller %s" % (CLMGR, module.params['name'])
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
 
+
 def run_module():
     module_args = dict(
-        name = dict(type='str', required=True),
-        state = dict(type='str', required=False, choices=['present', 'absent'], default='present'),
-        start = dict(type='path', required=False, aliases=['startscript', 'start_script']),
-        stop = dict(type='path', required=False, aliases=['stopscript', 'stop_script']),
-        mode = dict(type='str', required=False, choices=['foreground', 'background'], default='background', aliases=['startup_mode','startupmode'])
+        name=dict(type='str', required=True),
+        state=dict(type='str', required=False, choices=['present', 'absent'], default='present'),
+        start=dict(type='path', required=False, aliases=['startscript', 'start_script']),
+        stop=dict(type='path', required=False, aliases=['stopscript', 'stop_script']),
+        mode=dict(type='str', required=False, choices=['foreground', 'background'], default='background', aliases=['startup_mode', 'startupmode'])
     )
 
     result = dict(
@@ -112,46 +116,48 @@ def run_module():
 
     # check if we can run clmgr
     if not os.path.exists(CLMGR):
-        result['message']='IBM PowerHA is not installed or clmgr is not found'
+        result['message'] = 'IBM PowerHA is not installed or clmgr is not found'
         module.fail_json(msg=result['message'], rc=1)
 
     if not is_executable(CLMGR):
-        result['message']='clmgr can not be executed by the current user'
+        result['message'] = 'clmgr can not be executed by the current user'
         module.fail_json(msg=result['message'], rc=1)
 
-    if module.params['state'] == None or module.params['state'] == 'present':
+    if module.params['state'] is None or module.params['state'] == 'present':
         state, result['rc'], result['stdout'], result['stderr'] = get_ac(module)
         if state == 'present':
-            result['message']='application controller is already defined'
+            result['message'] = 'application controller is already defined'
             module.exit_json(**result)
-        result['changed']=True
+        result['changed'] = True
         if module.check_mode:
-            result['message']='application controller will be defined'
+            result['message'] = 'application controller will be defined'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = add_ac(module)
         if result['rc'] != 0:
-            result['message']='adding application controller to the cluster failed. see stderr for any error messages'
+            result['message'] = 'adding application controller to the cluster failed. see stderr for any error messages'
             module.fail_json(msg=result['message'], rc=result['rc'], result=result)
-        result['message']='application controller added to the cluster'
+        result['message'] = 'application controller added to the cluster'
     elif module.params['state'] == 'absent':
         state, result['rc'], result['stdout'], result['stderr'] = get_ac(module)
         if state == 'absent':
-            result['message']='application controller is not defined'
-            result['rc']=0
+            result['message'] = 'application controller is not defined'
+            result['rc'] = 0
             module.exit_json(**result)
-        result['changed']=True
+        result['changed'] = True
         if module.check_mode:
-            result['message']='application controller will be deleted'
+            result['message'] = 'application controller will be deleted'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = delete_ac(module)
         if result['rc'] != 0:
-            result['message']='deleting application controller failed. see stderr for any error messages'
+            result['message'] = 'deleting application controller failed. see stderr for any error messages'
             module.fail_json(msg=result['message'], rc=result['rc'], result=result)
-        result['message']='application controller is deleted'
+        result['message'] = 'application controller is deleted'
     module.exit_json(**result)
+
 
 def main():
     run_module()
+
 
 if __name__ == '__main__':
     main()

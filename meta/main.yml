@@ -1,0 +1,24 @@
+---
+galaxy_info:
+  author: Andrey Klyachkin <info@power-devops.com>
+  description: IBM PowerHA SystemMirror 7.2.X cluster management
+  company: eNFence
+
+  license: GNU General Public License v3.0
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: AIX
+      versions:
+        - 7.2
+        - 7.3
+
+  galaxy_tags:
+    - aix
+    - ibmpower
+    - power
+    - cluster
+    - powerha
+
+dependencies: []
