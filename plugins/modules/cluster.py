@@ -11,7 +11,7 @@ module: cluster
 short_description: manage PowerHA cluster
 version_added: "1.0.0"
 
-description: This module creates/deletes/starts or stops a PowerHA cluster. Depending on the state different set of attributes are required. 
+description: This module creates/deletes/starts or stops a PowerHA cluster. Depending on the state different set of attributes are required.
 
 options:
     name:
@@ -35,7 +35,7 @@ options:
         required: false
         type: bool
 
-author: 
+author:
     - Andrey Klyachkin <info@power-devops.com>
 '''
 

@@ -11,7 +11,7 @@ module: rg
 short_description: manage resource groups in PowerHA cluster
 version_added: "1.0.0"
 
-description: This module creates or deletes resource group in PowerHA cluster. 
+description: This module creates or deletes resource group in PowerHA cluster.
 
 options:
     name:

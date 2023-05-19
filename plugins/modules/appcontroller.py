@@ -11,7 +11,7 @@ module: appcontroller
 short_description: manage application_controller resource in PowerHA cluster
 version_added: "1.0.0"
 
-description: This module creates or deletes application_controller resource in PowerHA cluster. 
+description: This module creates or deletes application_controller resource in PowerHA cluster.
 
 options:
     name:
@@ -161,4 +161,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
