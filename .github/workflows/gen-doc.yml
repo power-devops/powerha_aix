@@ -1,0 +1,54 @@
+---
+name: generate documentation
+
+on:
+  release:
+    types: [published]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  ########################################################################
+  # generate doc files
+  ########################################################################
+  gen-doc:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.8']
+        ansible-version: ['2.9']
+
+    name: generate documenation source files
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v2
+      
+    - name: setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: install document generation requirements
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install ansible==${{ matrix.ansible-version }}.*
+        python -m pip install ansible-doc-extractor
+        python -m pip install sphinx
+        python -m pip install sphinx_rtd_theme
+        python -m pip install --upgrade myst-parser
+        
+    - name: run document generator script
+      run: |
+        [[ ! -d $(pwd)/docs/source/modules ]] && mkdir -p $(pwd)/docs/source/modules
+        [[ ! -d $(pwd)/docs/build ]] && mkdir -p $(pwd)/docs/build
+        ansible-doc-extractor $(pwd)/docs/source/modules $(pwd)/plugins/modules/*.py
+        sphinx-build -b html $(pwd)/docs/source/modules $(pwd)/docs/build
+        touch $(pwd)/docs/build/.nojekyll
+
+    - name: publish documentation to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: docs/build
+        branch: gh-pages
