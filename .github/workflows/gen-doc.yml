@@ -44,7 +44,7 @@ jobs:
         [[ ! -d $(pwd)/docs/source/modules ]] && mkdir -p $(pwd)/docs/source/modules
         [[ ! -d $(pwd)/docs/build ]] && mkdir -p $(pwd)/docs/build
         ansible-doc-extractor $(pwd)/docs/source/modules $(pwd)/plugins/modules/*.py
-        sphinx-build -b html $(pwd)/docs/source/modules $(pwd)/docs/build
+        sphinx-build -b html $(pwd)/docs/source $(pwd)/docs/build
         touch $(pwd)/docs/build/.nojekyll
 
     - name: publish documentation to GitHub Pages
