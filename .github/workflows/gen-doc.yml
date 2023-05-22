@@ -42,10 +42,8 @@ jobs:
     - name: run document generator script
       run: |
         find . -ls
-        [[ ! -d $(pwd)/docs/source/modules ]] && mkdir -p $(pwd)/docs/source/modules
-        [[ ! -d $(pwd)/docs/build ]] && mkdir -p $(pwd)/docs/build
-        ansible-doc-extractor $(pwd)/docs/source/modules $(pwd)/plugins/modules/*.py
-        sphinx-build -b html $(pwd)/docs/source $(pwd)/docs/build
+        pwd
+        make doc
         touch $(pwd)/docs/build/.nojekyll
 
     - name: publish documentation to GitHub Pages
