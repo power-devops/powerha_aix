@@ -15,14 +15,13 @@ It is tested with IBM PowerHA 7.2.7 but should work with any PowerHA starting 7.
 
 ## Documentation
 
-As for now the documentation is available using ansible-doc. If you already installed the collection you
-can read the documentation like:
+Documentation is available at https://power-devops.github.io/powerha_aix/.
+
+If you already installed the collection you can read the documentation using ansible-doc:
 
 ```
 ansible-doc -M ./collections/ansible_collections/powerdevops/powerha_aix/plugins/modules powerdevops.powerha_aix.cluster
 ```
-
-The web documentation is planned.
 
 ## Modules
 
