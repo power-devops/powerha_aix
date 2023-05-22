@@ -1,6 +1,6 @@
 namespace: powerdevops
 name: powerha_aix
-version: 1.0.0
+version: 1.0.1
 readme: README.md
 
 authors:
@@ -17,7 +17,7 @@ tags: [power, aix, powerha, cluster]
 dependencies: {}
 
 repository: http://github.com/power-devops/powerha_aix
-documentation: http://www.power-devops.com
+documentation: https://power-devops.github.io/powerha_aix/
 homepage: http://www.power-devops.com
 issues: http://github.com/power-devops/powerha_aix/issues
 
