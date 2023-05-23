@@ -79,6 +79,26 @@ EXAMPLES = r'''
 
 RETURN = r'''
 # possible return values
+changed:
+    description: set to true if the resource was changed
+    type: bool
+    returned: always
+msg:
+    description: error and informational messages
+    type: str
+    returned: always
+rc:
+    description: return code of the last executed command
+    type: int
+    returned: always
+stdout:
+    description: standard output of the last executed command
+    type: str
+    returned: always
+stderr:
+    description: standard error of the last executed command
+    type: str
+    returned: always
 '''
 
 import os
@@ -165,7 +185,8 @@ def run_module():
 
     result = dict(
         changed=False,
-        message='No changes'
+        msg='No changes',
+        rc=0
     )
 
     module = AnsibleModule(
@@ -175,93 +196,95 @@ def run_module():
 
     # check if we can run clmgr
     if not os.path.exists(CLMGR):
-        result['message'] = 'IBM PowerHA is not installed or clmgr is not found'
-        module.fail_json(msg=result['message'], rc=1)
+        result['msg'] = 'IBM PowerHA is not installed or clmgr is not found'
+        result['rc'] = 1
+        module.fail_json(**result)
 
     if not is_executable(CLMGR):
-        result['message'] = 'clmgr can not be executed by the current user'
-        module.fail_json(msg=result['message'], rc=1)
+        result['msg'] = 'clmgr can not be executed by the current user'
+        result['rc'] = 1
+        module.fail_json(**result)
 
     # check state and possible attributes
     if module.params['state'] == 'present':
         state, result['rc'], result['stdout'], result['stderr'] = get_cluster_state(module)
         if state != 'absent':
-            result['message'] = 'cluster already exists'
+            result['msg'] = 'cluster already exists'
             module.exit_json(**result)
         if module.check_mode:
-            result['message'] = 'cluster will be created'
+            result['msg'] = 'cluster will be created'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = create_cluster(module)
         if result['rc'] != 0:
-            result['message'] = 'cluster creation failed. see stderr for any error messages'
-            module.fail_json(msg=result['message'], rc=result['rc'], result=result)
+            result['msg'] = 'cluster creation failed. see stderr for any error messages'
+            module.fail_json(**result)
         result['changed'] = True
         module.exit_json(**result)
     elif module.params['state'] == 'absent':
         state, result['rc'], result['stdout'], result['stderr'] = get_cluster_state(module)
         if state == 'absent':
-            result['message'] = 'cluster does not exist'
+            result['msg'] = 'cluster does not exist'
             result['rc'] = 0
             module.exit_json(**result)
         if module.check_mode:
-            result['message'] = 'cluster will be deleted'
+            result['msg'] = 'cluster will be deleted'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = delete_cluster(module)
         if result['rc'] != 0:
-            result['message'] = 'cluster deletion failed. see stderr for any error messages'
-            module.fail_json(msg=result['message'], rc=result['rc'], result=result)
+            result['msg'] = 'cluster deletion failed. see stderr for any error messages'
+            module.fail_json(**result)
         result['changed'] = True
         module.exit_json(**result)
     elif module.params['state'] == 'started':
         state, result['rc'], result['stdout'], result['stderr'] = get_cluster_state(module)
         if state == 'absent':
-            result['message'] = 'cluster does not exist'
-            module.fail_json(msg=result['message'], rc=result['rc'], result=result)
+            result['msg'] = 'cluster does not exist'
+            module.fail_json(**result)
         if state == 'stable':
-            result['message'] = 'cluster is already started'
+            result['msg'] = 'cluster is already started'
             module.exit_json(**result)
         if module.check_mode:
-            result['message'] = 'cluster will start'
+            result['msg'] = 'cluster will start'
             module.exit_json(**result)
         result['changed'] = True
         if state == 'not_configured':
             result['rc'], result['stdout'], result['stderr'] = sync_cluster(module)
             if result['rc'] != 0:
-                result['message'] = 'cluster sync is failed. see stderr for any error messages'
-                module.fail_json(msg=result['message'], rc=result['rc'], result=result)
+                result['msg'] = 'cluster sync is failed. see stderr for any error messages'
+                module.fail_json(**result)
         result['rc'], result['stdout'], result['stderr'] = start_cluster(module)
         if result['rc'] != 0:
-            result['message'] = 'cluster is not started. see stderr for any error messages'
-            module.fail_json(msg=result['message'], rc=result['rc'], result=result)
+            result['msg'] = 'cluster is not started. see stderr for any error messages'
+            module.fail_json(**result)
     elif module.params['state'] == 'stopped':
         state, result['rc'], result['stdout'], result['stderr'] = get_cluster_state(module)
         if state == 'absent':
-            result['message'] = 'cluster does not exist'
-            module.fail_json(msg=result['message'], rc=result['rc'], result=result)
+            result['msg'] = 'cluster does not exist'
+            module.fail_json(**result)
         if state == 'offline':
-            result['message'] = 'cluster is already stopped'
+            result['msg'] = 'cluster is already stopped'
             module.exit_json(**result)
         if module.check_mode:
-            result['message'] = 'cluster will start'
+            result['msg'] = 'cluster will start'
             module.exit_json(**result)
         result['changed'] = True
         result['rc'], result['stdout'], result['stderr'] = stop_cluster(module)
         if result['rc'] != 0:
-            result['message'] = 'cluster is not stopped. see stderr for any error messages'
-            module.fail_json(msg=result['message'], rc=result['rc'], result=result)
+            result['msg'] = 'cluster is not stopped. see stderr for any error messages'
+            module.fail_json(**result)
     elif module.params['state'] == 'synced':
         state, result['rc'], result['stdout'], result['stderr'] = get_cluster_state(module)
         if state == 'absent':
-            result['message'] = 'cluster does not exist'
-            module.fail_json(msg=result['message'], rc=result['rc'], result=result)
+            result['msg'] = 'cluster does not exist'
+            module.fail_json(**result)
         if module.check_mode:
-            result['message'] = 'cluster will sync'
+            result['msg'] = 'cluster will sync'
             module.exit_json(**result)
         result['changed'] = True
         result['rc'], result['stdout'], result['stderr'] = sync_cluster(module)
         if result['rc'] != 0:
-            result['message'] = 'cluster is not synced. see stderr for any error messages'
-            module.fail_json(msg=result['message'], rc=result['rc'], result=result)
+            result['msg'] = 'cluster is not synced. see stderr for any error messages'
+            module.fail_json(**result)
     module.exit_json(**result)
 
 

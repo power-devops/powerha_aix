@@ -67,6 +67,26 @@ EXAMPLES = r'''
 
 RETURN = r'''
 # possible return values
+changed:
+    description: set to true if the resource was changed
+    type: bool
+    returned: always
+msg:
+    description: error and informational messages
+    type: str
+    returned: always
+rc:
+    description: return code of the last executed command
+    type: int
+    returned: always
+stdout:
+    description: standard output of the last executed command
+    type: str
+    returned: always
+stderr:
+    description: standard error of the last executed command
+    type: str
+    returned: always
 '''
 
 import os
@@ -115,7 +135,8 @@ def run_module():
 
     result = dict(
         changed=False,
-        message='No changes'
+        msg='No changes',
+        rc=0
     )
 
     module = AnsibleModule(
@@ -125,42 +146,44 @@ def run_module():
 
     # check if we can run clmgr
     if not os.path.exists(CLMGR):
-        result['message'] = 'IBM PowerHA is not installed or clmgr is not found'
-        module.fail_json(msg=result['message'], rc=1)
+        result['msg'] = 'IBM PowerHA is not installed or clmgr is not found'
+        result['rc'] = 1
+        module.fail_json(**result)
 
     if not is_executable(CLMGR):
-        result['message'] = 'clmgr can not be executed by the current user'
-        module.fail_json(msg=result['message'], rc=1)
+        result['msg'] = 'clmgr can not be executed by the current user'
+        result['rc'] = 1
+        module.fail_json(**result)
 
     if module.params['state'] is None or module.params['state'] == 'present':
         state, result['rc'], result['stdout'], result['stderr'] = get_ac(module)
         if state == 'present':
-            result['message'] = 'application controller is already defined'
+            result['msg'] = 'application controller is already defined'
             module.exit_json(**result)
         result['changed'] = True
         if module.check_mode:
-            result['message'] = 'application controller will be defined'
+            result['msg'] = 'application controller will be defined'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = add_ac(module)
         if result['rc'] != 0:
-            result['message'] = 'adding application controller to the cluster failed. see stderr for any error messages'
-            module.fail_json(msg=result['message'], rc=result['rc'], result=result)
+            result['msg'] = 'adding application controller to the cluster failed. see stderr for any error messages'
+            module.fail_json(**result)
         result['message'] = 'application controller added to the cluster'
     elif module.params['state'] == 'absent':
         state, result['rc'], result['stdout'], result['stderr'] = get_ac(module)
         if state == 'absent':
-            result['message'] = 'application controller is not defined'
+            result['msg'] = 'application controller is not defined'
             result['rc'] = 0
             module.exit_json(**result)
         result['changed'] = True
         if module.check_mode:
-            result['message'] = 'application controller will be deleted'
+            result['msg'] = 'application controller will be deleted'
             module.exit_json(**result)
         result['rc'], result['stdout'], result['stderr'] = delete_ac(module)
         if result['rc'] != 0:
-            result['message'] = 'deleting application controller failed. see stderr for any error messages'
-            module.fail_json(msg=result['message'], rc=result['rc'], result=result)
-        result['message'] = 'application controller is deleted'
+            result['msg'] = 'deleting application controller failed. see stderr for any error messages'
+            module.fail_json(**result)
+        result['msg'] = 'application controller is deleted'
     module.exit_json(**result)
 
 
