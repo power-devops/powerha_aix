@@ -1,6 +1,9 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 # Copyright (c) 2023, eNFence GmbH (info@power-devops.com)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
@@ -22,22 +25,28 @@ options:
         description: path to the start script. the attribute is required if application controller is created.
         required: false
         type: path
+        aliases: [ startscript, start_script ]
     stop:
         description: path to the stop script. the attribute is required if application controller is created.
         required: false
         type: path
+        aliases: [ stopscript, stop_script ]
     mode:
         description: mode of starting scripts. background or foreground. by default background.
-        requried: false
+        required: false
         type: str
+        choices: [ foreground, background ]
+        default: background
+        aliases: [ startupmode, startup_mode ]
     state:
         description: the desired state of the resource - present or absent. If the resource is already defined, it will not be changed.
         default: present
         required: false
         type: str
+        choices: [ present, absent ]
 
 author:
-    - Andrey Klyachkin <info@power-devops.com>
+    - Andrey Klyachkin (@aklyachkin)
 '''
 
 EXAMPLES = r'''

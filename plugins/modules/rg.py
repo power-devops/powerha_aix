@@ -1,6 +1,9 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 # Copyright (c) 2023, eNFence GmbH (info@power-devops.com)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
@@ -22,38 +25,50 @@ options:
         description: list of the nodes where the resource group can be started. required if resource group is created.
         required: false
         type: list
+        elements: str
     startup:
         description: startup policy for the resource group. One of OHN, OFAN, OAAN, or OUDP.
         required: false
         type: str
+        choices: [ OHN, OFAN, OAAN, OUDP ]
+        aliases: [ start ]
     fallover:
         description: fallover policy for the resource group. One of FNPN, FUDNP, or BO.
-        requried: false
+        required: false
         type: str
+        choices: [ FNPN, FUDNP, BO ]
     fallback:
         description: fallback policy for the resource group. One of NFB, or FBHPN.
         required: false
         type: str
+        choices: [ NFB, FBHPN ]
     service:
         description: list of service labels for the resource group.
         required: false
         type: list
+        elements: str
+        aliases: [ service_ip, service_label ]
     application:
         description: list of application controllers for the resource group.
         required: false
         type: list
+        elements: str
+        aliases: [ app, applications ]
     volgrp:
         description: list of volume groups for the resource group.
         required: false
         type: list
+        elements: str
+        aliases: [ vg, volume_group ]
     state:
         description: the desired state of the resource - present, absent, started, stopped. If the resource is already defined, it will not be changed.
         default: present
         required: false
         type: str
+        choices: [ present, absent, started, stopped, online, offline ]
 
 author:
-    - Andrey Klyachkin <info@power-devops.com>
+    - Andrey Klyachkin (@aklyachkin)
 '''
 
 EXAMPLES = r'''

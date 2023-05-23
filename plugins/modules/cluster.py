@@ -1,6 +1,9 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 # Copyright (c) 2023, eNFence GmbH (info@power-devops.com)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
@@ -22,21 +25,25 @@ options:
         description: the desired state of the cluster - present, absent, started, stopped, synced
         required: true
         type: str
+        choices: [ present, absent, started, stopped, synced ]
     nodes:
         description: list of nodes to be in the cluster. used only when the cluster is created
         required: false
         type: list
+        elements: str
     repos:
         description: list of repository disks. used only when the cluster is created
         required: false
         type: list
+        elements: str
+        aliases: [ repo, repository, repositories ]
     fix:
         description: automatically fix errors during synchronization
         required: false
         type: bool
 
 author:
-    - Andrey Klyachkin <info@power-devops.com>
+    - Andrey Klyachkin (@aklyachkin)
 '''
 
 EXAMPLES = r'''
