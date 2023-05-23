@@ -34,7 +34,7 @@ Parameters
     path to the stop script. the attribute is required if application controller is created.
 
 
-  mode (optional, str, None)
+  mode (False, str, background)
     mode of starting scripts. background or foreground. by default background.
 
 
@@ -83,5 +83,5 @@ Status
 Authors
 ~~~~~~~
 
-- Andrey Klyachkin <info@power-devops.com>
+- Andrey Klyachkin (@aklyachkin)
 

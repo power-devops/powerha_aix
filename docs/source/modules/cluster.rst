@@ -98,5 +98,5 @@ Status
 Authors
 ~~~~~~~
 
-- Andrey Klyachkin <info@power-devops.com>
+- Andrey Klyachkin (@aklyachkin)
 

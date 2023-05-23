@@ -34,7 +34,7 @@ Parameters
     startup policy for the resource group. One of OHN, OFAN, OAAN, or OUDP.
 
 
-  fallover (optional, str, None)
+  fallover (False, str, None)
     fallover policy for the resource group. One of FNPN, FUDNP, or BO.
 
 
@@ -118,5 +118,5 @@ Status
 Authors
 ~~~~~~~
 
-- Andrey Klyachkin <info@power-devops.com>
+- Andrey Klyachkin (@aklyachkin)
 
