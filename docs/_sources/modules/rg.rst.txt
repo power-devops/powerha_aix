@@ -106,6 +106,30 @@ Examples
 
 
 
+Return Values
+-------------
+
+changed (always, bool, )
+  set to true if the resource was changed
+
+
+msg (always, str, )
+  error and informational messages
+
+
+rc (always, int, )
+  return code of the last executed command
+
+
+stdout (always, str, )
+  standard output of the last executed command
+
+
+stderr (always, str, )
+  standard error of the last executed command
+
+
+
 
 
 Status
