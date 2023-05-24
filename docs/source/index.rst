@@ -18,6 +18,14 @@ Licensed under
     https://opensource.org/licenses/GPL-3.0
 
 .. toctree::
+   :maxdepth: 2
+   :caption: Getting started
+   :hidden:
+
+   installation
+   examples
+
+.. toctree::
    :maxdepth: 3
    :caption: References
    :hidden:
