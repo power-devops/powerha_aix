@@ -31,3 +31,12 @@ Licensed under
    :hidden:
 
    modules
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Additional Information
+   :hidden:
+
+   contributing
+   code_of_conduct
+   changelog
