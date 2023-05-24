@@ -36,7 +36,7 @@ Interface
 
 * If you need to return some additional information to the user, use ``msg`` field.
 * If you call external utilities, provide ``stdout`` and ``stderr`` fields with the output from the utilities.
-* If there is was failure, ``rc`` field must be set to non-zero value.
+* If there was a failure, ``rc`` field must be set to non-zero value.
 * Module results have to be documented in ``RETURN`` docstring.
 * Module must have documentation and examples.
 
@@ -44,9 +44,11 @@ Coding Guidelines
 ^^^^^^^^^^^^^^^^^
 
 * Modules should
+
   * be idempotent (not being idempotent requires a solid reason),
   * return whether something has ``changed``,
   * support ``check mode``,
+
 * ``*_info`` modules never raise exceptions when resources cannot be found. When resources cannot be found, then a ``*_info`` module returns an empty list instead. 
 * ``EXAMPLES`` docstring in modules (and Ansible's own modules) consist of a list of tasks. They do not contain YAML directives end marker line (``---``) and do not define playbooks (e.g. ``hosts`` keyword). They shall be simple, e.g. do not do fancy loops, heavy use of variables or use Ansible directives for no apparent reason such as ignore_errors or register.
 * Use module option names which match attribute names used in PowerHA. You may use aliases if you want to provide shorter or more clear attribute names.

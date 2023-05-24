@@ -118,7 +118,7 @@
 <ul class="simple">
 <li><p>If you need to return some additional information to the user, use <code class="docutils literal notranslate"><span class="pre">msg</span></code> field.</p></li>
 <li><p>If you call external utilities, provide <code class="docutils literal notranslate"><span class="pre">stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">stderr</span></code> fields with the output from the utilities.</p></li>
-<li><p>If there is was failure, <code class="docutils literal notranslate"><span class="pre">rc</span></code> field must be set to non-zero value.</p></li>
+<li><p>If there was a failure, <code class="docutils literal notranslate"><span class="pre">rc</span></code> field must be set to non-zero value.</p></li>
 <li><p>Module results have to be documented in <code class="docutils literal notranslate"><span class="pre">RETURN</span></code> docstring.</p></li>
 <li><p>Module must have documentation and examples.</p></li>
 </ul>
@@ -126,10 +126,13 @@
 <section id="coding-guidelines">
 <h3>Coding Guidelines<a class="headerlink" href="#coding-guidelines" title="Permalink to this heading"></a></h3>
 <ul class="simple">
-<li><p>Modules should
-* be idempotent (not being idempotent requires a solid reason),
-* return whether something has <code class="docutils literal notranslate"><span class="pre">changed</span></code>,
-* support <code class="docutils literal notranslate"><span class="pre">check</span> <span class="pre">mode</span></code>,</p></li>
+<li><p>Modules should</p>
+<ul>
+<li><p>be idempotent (not being idempotent requires a solid reason),</p></li>
+<li><p>return whether something has <code class="docutils literal notranslate"><span class="pre">changed</span></code>,</p></li>
+<li><p>support <code class="docutils literal notranslate"><span class="pre">check</span> <span class="pre">mode</span></code>,</p></li>
+</ul>
+</li>
 <li><p><code class="docutils literal notranslate"><span class="pre">*_info</span></code> modules never raise exceptions when resources cannot be found. When resources cannot be found, then a <code class="docutils literal notranslate"><span class="pre">*_info</span></code> module returns an empty list instead.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">EXAMPLES</span></code> docstring in modules (and Ansible’s own modules) consist of a list of tasks. They do not contain YAML directives end marker line (<code class="docutils literal notranslate"><span class="pre">---</span></code>) and do not define playbooks (e.g. <code class="docutils literal notranslate"><span class="pre">hosts</span></code> keyword). They shall be simple, e.g. do not do fancy loops, heavy use of variables or use Ansible directives for no apparent reason such as ignore_errors or register.</p></li>
 <li><p>Use module option names which match attribute names used in PowerHA. You may use aliases if you want to provide shorter or more clear attribute names.</p></li>
