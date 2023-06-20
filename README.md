@@ -20,17 +20,17 @@ Documentation is available at https://power-devops.github.io/powerha_aix/.
 If you already installed the collection you can read the documentation using ansible-doc:
 
 ```
-ansible-doc -M ./collections/ansible_collections/powerdevops/powerha_aix/plugins/modules powerdevops.powerha_aix.cluster
+ansible-doc -M ./collections/ansible_collections/enfence/powerha_aix/plugins/modules powerdevops.powerha_aix.cluster
 ```
 
 ## Modules
 
 The following modules are available now:
 
-* powerdevops.powerha_aix.appcontroller
-* powerdevops.powerha_aix.cluster
-* powerdevops.powerha_aix.rg
-* powerdevops.powerha_aix.service_ip
+* enfence.powerha_aix.appcontroller
+* enfence.powerha_aix.cluster
+* enfence.powerha_aix.rg
+* enfence.powerha_aix.service_ip
 
 More will come in the future.
 
@@ -40,25 +40,25 @@ More will come in the future.
 
 Before using this collection, you need to install it with the Ansible Galaxy command-line tool:
 ```bash
-ansible-galaxy collection install powerdevops.powerha_aix
+ansible-galaxy collection install enfence.powerha_aix
 ```
 
 You can also include it in a `requirements.yml` file and install it with `ansible-galaxy collection install -r requirements.yml`, using the format:
 ```yaml
 ---
 collections:
-  - name: powerdevops.powerha_aix
+  - name: enfence.powerha_aix
 ```
 
 Note that if you install the collection from Ansible Galaxy, it will not be upgraded automatically when you upgrade the `ansible` package. To upgrade the collection to the latest available version, run the following command:
 ```bash
-ansible-galaxy collection install powerdevops.powerha_aix --upgrade
+ansible-galaxy collection install enfence.powerha_aix --upgrade
 ```
 
 You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version `1.0.0`:
 
 ```bash
-ansible-galaxy collection install powerdevops.powerha_aix:==1.0.0
+ansible-galaxy collection install enfence.powerha_aix:==1.0.0
 ```
 
 ### Examples

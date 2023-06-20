@@ -1,6 +1,11 @@
 Changes
 =======
 
+Version 1.1.0
+-------------
+Jun 20, 2023
+  * namespace changed due to requirements of Ansible certification process
+
 Version 1.0.2
 -------------
 May 24, 2023

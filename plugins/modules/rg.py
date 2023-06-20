@@ -74,7 +74,7 @@ author:
 EXAMPLES = r'''
 # create a new resource group
 - name: create a new resource group
-  powerdevops.powerha_aix.rg:
+  enfence.powerha_aix.rg:
     name: rg_oracle
     nodes:
       - node1
@@ -91,17 +91,17 @@ EXAMPLES = r'''
     state: present
 # bring resource group online
 - name: starting resource group
-  powerdevops.powerha_aix.rg:
+  enfence.powerha_aix.rg:
     name: rg_oracle
     state: started
 # bring resource group offline
 - name: stopping resource group
-  powerdevops.powerha_aix.rg:
+  enfence.powerha_aix.rg:
     name: rg_oracle
     state: stopped
 # delete an existing resource group
 - name: delete an existing resource group
-  powerdevops.powerha_aix.rg:
+  enfence.powerha_aix.rg:
     name: rg_oracle
     state: absent
 '''

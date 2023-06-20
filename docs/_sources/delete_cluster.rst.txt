@@ -8,10 +8,10 @@ Deleting IBM PowerHA Cluster using Ansible
      hosts: all
      tasks:
        - name: stop cluster
-         powerdevops.powerha_aix.cluster:
+         enfence.powerha_aix.cluster:
            name: cluster1
            state: stopped
        - name: delete cluster
-         powerdevops.powerha_aix.cluster:
+         enfence.powerha_aix.cluster:
            name: cluster1
            state: absent

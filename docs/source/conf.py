@@ -1,8 +1,4 @@
 ##############################################################################
-# © Copyright IBM Corporation 2020                                           #
-##############################################################################
-
-##############################################################################
 #                 Sphinx documentation Configuration                         #
 ##############################################################################
 # Configuration file for the Sphinx documentation builder, for more follow link:
@@ -20,7 +16,7 @@ copyright = '2023, eNFence'
 author = 'Andrey Klyachkin <info@power-devops.com>'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = '1.1.0'
 
 # Disable the Copyright footer for Read the docs at the bottom of the page
 # by setting property html_show_copyright = False

@@ -1,6 +1,6 @@
-namespace: powerdevops
+namespace: enfence
 name: powerha_aix
-version: 1.0.2
+version: 1.1.0
 readme: README.md
 
 authors:
@@ -18,7 +18,7 @@ dependencies: {}
 
 repository: http://github.com/power-devops/powerha_aix
 documentation: https://power-devops.github.io/powerha_aix/
-homepage: http://www.power-devops.com
+homepage: http://www.enfence.com
 issues: http://github.com/power-devops/powerha_aix/issues
 
 build_ignore: []

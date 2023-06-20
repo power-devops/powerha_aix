@@ -57,7 +57,7 @@ Examples
     
     # create a new application controller
     - name: create a new application controller
-      powerdevops.powerha_aix.appcontroller:
+      enfence.powerha_aix.appcontroller:
         name: ac_oracle
         start: /usr/local/bin/start_ora
         stop: /usr/local/bin/stop_ora
@@ -65,7 +65,7 @@ Examples
         state: present
     # delete an existing application controller
     - name: delete an existing application controller
-      powerdevops.powerha_aix.appcontroller:
+      enfence.powerha_aix.appcontroller:
         name: ac_oracle
         state: absent
 

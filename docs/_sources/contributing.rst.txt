@@ -28,7 +28,7 @@ We use ``main`` branch for development. If you want to submit a pull request, fo
 Naming
 ^^^^^^
 
-* This collection is named ``powerdevops.powerha_aix``. There is no need for further namespace prefixing.
+* This collection is named ``enfence.powerha_aix``. There is no need for further namespace prefixing.
 * Name new module according to PowerHA resources or similar, that every user of the collection can understand which type of PowerHA resource is configured using the module.
 
 Interface

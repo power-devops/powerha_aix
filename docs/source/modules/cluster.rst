@@ -57,7 +57,7 @@ Examples
     
     # create a new cluster if it doesn't exist
     - name: create a new cluster
-      powerdevops.powerha_aix.cluster:
+      enfence.powerha_aix.cluster:
         name: cluster1
         state: present
         nodes:
@@ -67,19 +67,19 @@ Examples
           - hdisk2
           - hdisk3
     - name: delete an existing cluster
-      powerdevops.powerha_aix.cluster:
+      enfence.powerha_aix.cluster:
         name: cluster1
         state: absent
     - name: start cluster
-      powerdevops.powerha_aix.cluster:
+      enfence.powerha_aix.cluster:
         name: cluster1
         state: started
     - name: stop cluster
-      powerdevops.powerha_aix.cluster:
+      enfence.powerha_aix.cluster:
         name: cluster1
         state: stopped
     - name: synchronize cluster
-      powerdevops.powerha_aix.cluster:
+      enfence.powerha_aix.cluster:
         name: cluster1
         fix: true
         state: synced

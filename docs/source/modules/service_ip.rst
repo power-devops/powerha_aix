@@ -53,12 +53,12 @@ Examples
     
     # create a new service ip label
     - name: create a new service ip label
-      powerdevops.powerha_aix.service_ip:
+      enfence.powerha_aix.service_ip:
         name: clusterip
         state: present
     # delete an existing service ip
     - name: delete an existing service ip label
-      powerdevops.powerha_aix.service_ip:
+      enfence.powerha_aix.service_ip:
         name: clusterip
         state: absent
 
