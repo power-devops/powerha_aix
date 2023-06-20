@@ -1,3 +1,2 @@
 *.tar.gz
-tests/output/.tmp/pylint/
-tests/output/bot/
+tests
