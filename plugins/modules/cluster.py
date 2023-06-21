@@ -262,7 +262,7 @@ def run_module():
             else:
                 result['msg'] = 'cluster will start'
             module.exit_json(**result)
-        if state == 'not_configured':
+        if state == 'not_configured' or state == 'unknown':
             # if cluster is not configured, we should force fixing all possible errors
             module.params['fix'] = True
             result['rc'], result['stdout'], result['stderr'] = sync_cluster(module)
