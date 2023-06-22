@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contributing to the collection &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Community Code of Conduct" href="code_of_conduct.html" />
+    <link rel="prev" title="service_ip – manage service_ip resource in PowerHA cluster" href="modules/service_ip.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            IBM PowerHA SystemMirror for AIX - Ansible Collection
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Information</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing to the collection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#development-guide-for-ibm-powerha-systemmirror-for-aix-ansible-collection">Development Guide for IBM PowerHA SystemMirror for AIX Ansible Collection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#branches">Branches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#naming">Naming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interface">Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#coding-guidelines">Coding Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Community Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IBM PowerHA SystemMirror for AIX - Ansible Collection</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Contributing to the collection</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/power-devops/powerha_aix/blob/main/docs/source/contributing.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="contributing-to-the-collection">
+<h1>Contributing to the collection<a class="headerlink" href="#contributing-to-the-collection" title="Permalink to this heading"></a></h1>
+<p>Thank you for your interest in our <strong>IBM PowerHA SystemMirror for AIX Ansible collection</strong> ☺️</p>
+<p>There are many ways in which you can participate in the project, for example:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/power-devops/powerha_aix/issues">Report and verify bugs and help with solving issues</a>.</p></li>
+<li><p><a class="reference external" href="https://github.com/power-devops/powerha_aix/pulls">Submit and review patches</a>.</p></li>
+</ul>
+<section id="development-guide-for-ibm-powerha-systemmirror-for-aix-ansible-collection">
+<h2>Development Guide for IBM PowerHA SystemMirror for AIX Ansible Collection<a class="headerlink" href="#development-guide-for-ibm-powerha-systemmirror-for-aix-ansible-collection" title="Permalink to this heading"></a></h2>
+<p><strong>IBM PowerHA SystemMirror for AIX Ansible collection</strong> is a set of Ansible modules for interacting with IBM PowerHA SystemMirror for AIX. In order to test your contributions you must have access to IBM AIX and have license to run IBM PowerHA on it.</p>
+<p>We use Github for the collection’s development. Patches are submitted as pull requests through <a class="reference external" href="https://github.com/power-devops/powerha_aix/pulls">Github</a>.</p>
+<section id="branches">
+<h3>Branches<a class="headerlink" href="#branches" title="Permalink to this heading"></a></h3>
+<p>We use <code class="docutils literal notranslate"><span class="pre">main</span></code> branch for development. If you want to submit a pull request, fork the repository, create a new branch and add your changes into your new branch.</p>
+</section>
+<section id="naming">
+<h3>Naming<a class="headerlink" href="#naming" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>This collection is named <code class="docutils literal notranslate"><span class="pre">enfence.powerha_aix</span></code>. There is no need for further namespace prefixing.</p></li>
+<li><p>Name new module according to PowerHA resources or similar, that every user of the collection can understand which type of PowerHA resource is configured using the module.</p></li>
+</ul>
+</section>
+<section id="interface">
+<h3>Interface<a class="headerlink" href="#interface" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>If you need to return some additional information to the user, use <code class="docutils literal notranslate"><span class="pre">msg</span></code> field.</p></li>
+<li><p>If you call external utilities, provide <code class="docutils literal notranslate"><span class="pre">stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">stderr</span></code> fields with the output from the utilities.</p></li>
+<li><p>If there was a failure, <code class="docutils literal notranslate"><span class="pre">rc</span></code> field must be set to non-zero value.</p></li>
+<li><p>Module results have to be documented in <code class="docutils literal notranslate"><span class="pre">RETURN</span></code> docstring.</p></li>
+<li><p>Module must have documentation and examples.</p></li>
+</ul>
+</section>
+<section id="coding-guidelines">
+<h3>Coding Guidelines<a class="headerlink" href="#coding-guidelines" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Modules should</p>
+<ul>
+<li><p>be idempotent (not being idempotent requires a solid reason),</p></li>
+<li><p>return whether something has <code class="docutils literal notranslate"><span class="pre">changed</span></code>,</p></li>
+<li><p>support <code class="docutils literal notranslate"><span class="pre">check</span> <span class="pre">mode</span></code>,</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">*_info</span></code> modules never raise exceptions when resources cannot be found. When resources cannot be found, then a <code class="docutils literal notranslate"><span class="pre">*_info</span></code> module returns an empty list instead.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EXAMPLES</span></code> docstring in modules (and Ansible’s own modules) consist of a list of tasks. They do not contain YAML directives end marker line (<code class="docutils literal notranslate"><span class="pre">---</span></code>) and do not define playbooks (e.g. <code class="docutils literal notranslate"><span class="pre">hosts</span></code> keyword). They shall be simple, e.g. do not do fancy loops, heavy use of variables or use Ansible directives for no apparent reason such as ignore_errors or register.</p></li>
+<li><p>Use module option names which match attribute names used in PowerHA. You may use aliases if you want to provide shorter or more clear attribute names.</p></li>
+</ul>
+</section>
+<section id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Modules have to be tested with ansible-test sanity checking.</p></li>
+<li><p>Before submitting patches, you must test your contributions on IBM AIX with PowerHA.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules/service_ip.html" class="btn btn-neutral float-left" title="service_ip – manage service_ip resource in PowerHA cluster" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="code_of_conduct.html" class="btn btn-neutral float-right" title="Community Code of Conduct" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, eNFence.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
