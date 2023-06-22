@@ -37,6 +37,18 @@ options:
         type: list
         elements: str
         aliases: [ repo, repository, repositories ]
+    type:
+        description: type of the cluster. used only when the cluster is created
+        required: false
+        type: str
+        choices: [ nsc, sc, lc ]
+        default: nsc
+    heartbeat:
+        description: hearbeat type for the cluster. used only when the cluster is created
+        required: false
+        type: str
+        choices: [ unicast, multicast ]
+        default: unicast
     fix:
         description: automatically fix errors during synchronization
         required: false
@@ -149,6 +161,11 @@ def create_cluster(module):
             opts = opts[:-1]
         except TypeError:
             opts = oldopts
+    # check type
+    if 'type' in module.params:
+        opts += ' TYPE=%s' % module.params['type']
+    if 'heartbeat' in module.params:
+        opts += ' HEARTBEAT_TYPE=%s' % module.params['heartbeat']
     cmd = "%s add cluster %s" % (CLMGR, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
@@ -186,7 +203,9 @@ def run_module():
         state=dict(type='str', required=True, choices=['present', 'absent', 'started', 'stopped', 'synced']),
         nodes=dict(type='list', required=False, elements='str'),
         repos=dict(type='list', required=False, elements='str', aliases=['repositories', 'repo', 'repository']),
-        fix=dict(type='bool', required=False)
+        fix=dict(type='bool', required=False),
+        type=dict(type='str', required=False, choices=['nsc', 'sc', 'lc'], default='nsc'),
+        heartbeat=dict(type='str', required=False, choices=['unicast', 'multicast'], default='unicast')
     )
 
     result = dict(
