@@ -1,0 +1,4 @@
+docs/objects.inv line-endings!skip
+docs/objects.inv no-smart-quotes!skip
+docs/code_of_conduct.html no-smart-quotes
+docs/contributing.html no-smart-quotes
