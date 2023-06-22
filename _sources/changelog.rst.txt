@@ -1,6 +1,12 @@
 Changes
 =======
 
+Version 1.1.1
+-------------
+Not published
+  * cleaned up source tree
+  * added heartbeat and type attributes to cluster
+
 Version 1.1.0
 -------------
 Jun 20, 2023
