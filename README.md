@@ -20,7 +20,7 @@ Documentation is available at https://power-devops.github.io/powerha_aix/.
 If you already installed the collection you can read the documentation using ansible-doc:
 
 ```
-ansible-doc -M ./collections/ansible_collections/enfence/powerha_aix/plugins/modules powerdevops.powerha_aix.cluster
+ansible-doc -M ./collections/ansible_collections/enfence/powerha_aix/plugins/modules enfence.powerha_aix.cluster
 ```
 
 ## Modules
