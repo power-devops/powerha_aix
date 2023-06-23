@@ -18,7 +18,7 @@ description: This module creates/deletes/changes service_ip resource in PowerHA 
 
 options:
     name:
-        description: name of the service ip label. the name must be resolvable by using /etc/hosts.
+        description: name of the service ip label. the name must be resolvable by using C(/etc/hosts).
         required: true
         type: str
     network:
@@ -30,8 +30,16 @@ options:
         description: netmask for the service ip.
         required: false
         type: str
+    site:
+        description:
+            - site of the service ip.
+            - added in 1.1.1
+        required: false
+        type: str
     state:
-        description: the desired state of the resource - present or absent. If the resource is already defined, it will not be changed.
+        description:
+            - the desired state of the resource - C(present) or C(absent).
+            - If the resource is already defined, it will not be changed.
         default: present
         required: false
         type: str
@@ -85,11 +93,18 @@ CLMGR = '/usr/es/sbin/cluster/utilities/clmgr'
 
 
 def get_cluster_ip(module):
+    ipopts = dict()
     cmd = "%s query service_ip %s" % (CLMGR, module.params['name'])
     module.debug('Starting command: %s' % cmd)
     rc, stdout, stderr = module.run_command(cmd)
     if rc != 0:
-        return 'absent', rc, stdout, stderr
+        return 'absent', rc, stdout, stderr, ipopts
+    for line in stdout.splitlines():
+        if '=' in line:
+            opt, value = line.split('=')
+            value = value.strip('"')
+            if value != "":
+                ipopts[opt] = value
     return 'present', rc, stdout, stderr
 
 
@@ -100,6 +115,8 @@ def add_cluster_ip(module):
         opts += " network=%s" % module.params['network']
     if 'netmask' in module.params and module.params['netmask'] != '':
         opts += " netmask=%s" % module.params['netmask']
+    if 'site' in module.params and module.params['site'] != '':
+        opts += " site=%s" % module.params['site']
     cmd = "%s %s" % (cmd, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
@@ -116,7 +133,8 @@ def run_module():
         name=dict(type='str', required=True),
         state=dict(type='str', required=False, choices=['present', 'absent'], default='present'),
         network=dict(type='str', required=False, default='net_ether_01'),
-        netmask=dict(type='str', required=False)
+        netmask=dict(type='str', required=False),
+        site=dict(type='str', required=False)
     )
 
     result = dict(

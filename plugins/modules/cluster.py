@@ -38,13 +38,17 @@ options:
         elements: str
         aliases: [ repo, repository, repositories ]
     type:
-        description: type of the cluster. used only when the cluster is created
+        description:
+            - type of the cluster. used only when the cluster is created
+            - added in 1.1.1
         required: false
         type: str
         choices: [ nsc, sc, lc ]
         default: nsc
     heartbeat:
-        description: hearbeat type for the cluster. used only when the cluster is created
+        description:
+            - hearbeat type for the cluster. used only when the cluster is created
+            - added in 1.1.1
         required: false
         type: str
         choices: [ unicast, multicast ]
