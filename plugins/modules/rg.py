@@ -70,6 +70,33 @@ options:
         required: false
         type: str
         choices: [ NFB, FBHPN ]
+    prio_policy:
+        description:
+            - node priority policy, if fallover set to FUDNP. One of C(default), C(mem), C(disk), C(cpu), C(least), C(most)
+            - C(default) - next node in the nodes list.
+            - C(mem) - node with most available memory.
+            - C(disk) - node with least disk activity.
+            - C(cpu) - node with most cpu cycles available.
+            - C(least) - node where the dynamic node priority script returns the lowest value.
+            - C(most) - node where the dynamic node priority script returns the highest value.
+            - added in 1.1.3
+        required: false
+        type: str
+        choices: [ default, mem, disk, cpu, least, most ]
+        aliases: [ node_priority_policy, priority_policy, priopolicy ]
+    prio_policy_script:
+        description:
+            - path to script to determine the C(prio_policy)
+            - added in 1.1.3
+        required: false
+        type: path
+        aliases: [ node_priority_policy_script, priority_policy_script ]
+    prio_policy_timeout:
+        description:
+            - added in 1.1.3
+        required: false
+        type: int
+        aliases: [ node_priority_policy_timeout, priority_policy_timeout ]
     service:
         description: list of service labels for the resource group.
         required: false
@@ -185,6 +212,9 @@ def add_rg(module):
     opts += add_string(module, 'fallover', 'fallover')
     opts += add_string(module, 'fallback', 'fallback')
     opts += add_string(module, 'sitepolicy', 'site_policy')
+    opts += add_string(module, 'prio_policy', 'node_priority_policy')
+    opts += add_string(module, 'prio_policy_script', 'node_priority_policy_script')
+    opts += add_string(module, 'prio_policy_timeout', 'node_priority_policy_timeout')
     opts += add_list(module, 'nodes', 'nodes')
     opts += add_list(module, 'secnodes', 'secondarynodes')
     opts += add_list(module, 'service', 'service_label')
@@ -223,6 +253,13 @@ def run_module():
         startup=dict(type='str', required=False, choices=['OHN', 'OFAN', 'OAAN', 'OUDP'], aliases=['start']),
         fallover=dict(type='str', required=False, choices=['FNPN', 'FUDNP', 'BO']),
         fallback=dict(type='str', required=False, choices=['NFB', 'FBHPN']),
+        prio_policy=dict(type='str', required=False,
+                         choices=['default', 'mem', 'cpu', 'disk', 'least', 'most'],
+                         aliases=['priority_policy', 'node_priority_policy', 'priopolicy']),
+        prio_policy_script=dict(type='path', required=False,
+                                aliases=['node_priority_policy_script', 'priority_policy_script']),
+        prio_policy_timeout=dict(type='int', required=False,
+                                 aliases=['node_priority_policy_timeout', 'priority_policy_timeout']),
         service=dict(type='list', required=False, elements='str', aliases=['service_ip', 'service_label']),
         application=dict(type='list', required=False, elements='str', aliases=['app', 'applications']),
         volgrp=dict(type='list', required=False, elements='str', aliases=['vg', 'volume_group'])

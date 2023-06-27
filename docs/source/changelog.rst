@@ -6,7 +6,7 @@ Version 1.1.3
 Unpublished
   * added more helpers
   * added monitors, cpumon, cpuproc and cpuintvl attributes to appcontroller
-  * added secnodes, sitepolicy attributes to rg
+  * added secnodes, sitepolicy, prio_policy, prio_policy_script, prio_policy_timeout attributes to rg
 
 Version 1.1.2
 -------------
