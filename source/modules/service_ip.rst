@@ -23,7 +23,7 @@ Parameters
 ----------
 
   name (True, str, None)
-    name of the service ip label. the name must be resolvable by using /etc/hosts.
+    name of the service ip label. the name must be resolvable by using ``/etc/hosts``.
 
 
   network (False, str, net_ether_01)
@@ -34,8 +34,16 @@ Parameters
     netmask for the service ip.
 
 
+  site (False, str, None)
+    site of the service ip.
+
+    added in 1.1.1
+
+
   state (False, str, present)
-    the desired state of the resource - present or absent. If the resource is already defined, it will not be changed.
+    the desired state of the resource - ``present`` or ``absent``.
+
+    If the resource is already defined, it will not be changed.
 
 
 

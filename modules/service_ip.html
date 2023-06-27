@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>service_ip – manage service_ip resource in PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.1.0 documentation</title>
+  <title>service_ip – manage service_ip resource in PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.1.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -117,14 +117,18 @@
 <section id="parameters">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <blockquote>
-<div><dl class="simple">
-<dt>name (True, str, None)</dt><dd><p>name of the service ip label. the name must be resolvable by using /etc/hosts.</p>
+<div><dl>
+<dt>name (True, str, None)</dt><dd><p>name of the service ip label. the name must be resolvable by using <code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code>.</p>
 </dd>
 <dt>network (False, str, net_ether_01)</dt><dd><p>name of the cluster network, where the service ip should be placed.</p>
 </dd>
 <dt>netmask (False, str, None)</dt><dd><p>netmask for the service ip.</p>
 </dd>
-<dt>state (False, str, present)</dt><dd><p>the desired state of the resource - present or absent. If the resource is already defined, it will not be changed.</p>
+<dt>site (False, str, None)</dt><dd><p>site of the service ip.</p>
+<p>added in 1.1.1</p>
+</dd>
+<dt>state (False, str, present)</dt><dd><p>the desired state of the resource - <code class="docutils literal notranslate"><span class="pre">present</span></code> or <code class="docutils literal notranslate"><span class="pre">absent</span></code>.</p>
+<p>If the resource is already defined, it will not be changed.</p>
 </dd>
 </dl>
 </div></blockquote>

@@ -41,9 +41,13 @@ Parameters
   type (False, str, nsc)
     type of the cluster. used only when the cluster is created
 
+    added in 1.1.1
+
 
   heartbeat (False, str, unicast)
     hearbeat type for the cluster. used only when the cluster is created
+
+    added in 1.1.1
 
 
   fix (False, bool, None)

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cluster – manage PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.1.0 documentation</title>
+  <title>cluster – manage PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.1.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -117,7 +117,7 @@
 <section id="parameters">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <blockquote>
-<div><dl class="simple">
+<div><dl>
 <dt>name (True, str, None)</dt><dd><p>name of the cluster.</p>
 </dd>
 <dt>state (True, str, None)</dt><dd><p>the desired state of the cluster - present, absent, started, stopped, synced</p>
@@ -127,8 +127,10 @@
 <dt>repos (False, list, None)</dt><dd><p>list of repository disks. used only when the cluster is created</p>
 </dd>
 <dt>type (False, str, nsc)</dt><dd><p>type of the cluster. used only when the cluster is created</p>
+<p>added in 1.1.1</p>
 </dd>
 <dt>heartbeat (False, str, unicast)</dt><dd><p>hearbeat type for the cluster. used only when the cluster is created</p>
+<p>added in 1.1.1</p>
 </dd>
 <dt>fix (False, bool, None)</dt><dd><p>automatically fix errors during synchronization</p>
 </dd>
