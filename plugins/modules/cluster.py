@@ -118,9 +118,8 @@ stderr:
 '''
 
 import os
-from ansible.module_utils.basic import AnsibleModule, is_executable
-
-CLMGR = '/usr/es/sbin/cluster/utilities/clmgr'
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import check_powerha, parse_clmgrq_output, CLMGR
 
 
 def get_cluster_state(module):
@@ -132,14 +131,9 @@ def get_cluster_state(module):
         return 'absent', rc, stdout, stderr, clusteropts
     # check for other states, like started or stopped
     state = 'present'
-    for line in stdout.splitlines():
-        if '=' in line:
-            opt, value = line.split('=')
-            value = value.strip('"')
-            if opt == 'STATE':
-                state = value.lower()
-            if value != "":
-                clusteropts[opt] = value
+    clusteropts = parse_clmgrq_output(stdout)
+    if 'STATE' in clusteropts and clusteropts['STATE'] != "":
+        state = clusteropts['STATE'].lower()
     return state, rc, stdout, stderr, clusteropts
 
 
@@ -224,14 +218,8 @@ def run_module():
     )
 
     # check if we can run clmgr
-    if not os.path.exists(CLMGR):
-        result['msg'] = 'IBM PowerHA is not installed or clmgr is not found'
-        result['rc'] = 1
-        module.fail_json(**result)
-
-    if not is_executable(CLMGR):
-        result['msg'] = 'clmgr can not be executed by the current user'
-        result['rc'] = 1
+    result = check_powerha(result)
+    if result['rc'] == 1:
         module.fail_json(**result)
 
     # check if we should change cluster's state

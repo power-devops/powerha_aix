@@ -3,9 +3,10 @@ Changes
 
 Version 1.1.1
 -------------
-Not published
+Jun 27, 2023
   * cleaned up source tree
   * added heartbeat and type attributes to cluster
+  * refactored code. some general functions moved to helpers library
 
 Version 1.1.0
 -------------

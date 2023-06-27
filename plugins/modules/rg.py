@@ -131,22 +131,22 @@ stderr:
 '''
 
 import os
-from ansible.module_utils.basic import AnsibleModule, is_executable
-
-CLMGR = '/usr/es/sbin/cluster/utilities/clmgr'
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import check_powerha, parse_clmgrq_output, CLMGR
 
 
 def get_rg(module):
+    rgopts = dict()
     cmd = "%s query resource_group %s" % (CLMGR, module.params['name'])
     module.debug('Starting command: %s' % cmd)
     rc, stdout, stderr = module.run_command(cmd)
     if rc != 0:
-        return 'absent', rc, stdout, stderr
+        return 'absent', rc, stdout, stderr, rgopts
     state = 'present'
-    for line in stdout.splitlines():
-        if line.startswith('STATE='):
-            state = line.split('=')[1].strip('"').lower()
-    return state, rc, stdout, stderr
+    rgopts = = parse_clmgrq_output(stdout)
+    if 'STATE' in rgopts and rgopts['STATE'] != "":
+        state = rgopts['STATE'].lower()
+    return state, rc, stdout, stderr, rgopts
 
 
 def add_rg(module):
@@ -242,14 +242,8 @@ def run_module():
     )
 
     # check if we can run clmgr
-    if not os.path.exists(CLMGR):
-        result['msg'] = 'IBM PowerHA is not installed or clmgr is not found'
-        result['rc'] = 1
-        module.fail_json(**result)
-
-    if not is_executable(CLMGR):
-        result['msg'] = 'clmgr can not be executed by the current user'
-        result['rc'] = 1
+    result = check_powerha(result)
+    if result['rc'] == 1:
         module.fail_json(**result)
 
     if module.params['state'] is None or module.params['state'] == 'present':
