@@ -130,7 +130,6 @@ stderr:
     returned: always
 '''
 
-import os
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import check_powerha, parse_clmgrq_output, CLMGR
 
@@ -143,7 +142,7 @@ def get_rg(module):
     if rc != 0:
         return 'absent', rc, stdout, stderr, rgopts
     state = 'present'
-    rgopts = = parse_clmgrq_output(stdout)
+    rgopts = parse_clmgrq_output(stdout)
     if 'STATE' in rgopts and rgopts['STATE'] != "":
         state = rgopts['STATE'].lower()
     return state, rc, stdout, stderr, rgopts

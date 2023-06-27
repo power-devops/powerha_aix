@@ -89,7 +89,6 @@ stderr:
     returned: always
 '''
 
-import os
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import check_powerha, parse_clmgrq_output, CLMGR
 
