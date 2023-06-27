@@ -12,7 +12,7 @@ description: IBM PowerHA SystemMirror 7.2.X cluster management
 license:
   - GPL-3.0-only
 
-tags: [power, aix, powerha, cluster, infrastructure, application, tools]
+tags: [power, aix, ibmpower, ibmaix, powerha, cluster, infrastructure, application, tools]
 
 dependencies: {}
 
