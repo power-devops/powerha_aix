@@ -1,6 +1,12 @@
 Changes
 =======
 
+Version 1.1.3
+-------------
+Unpublished
+  * added more helpers
+  * added monitors, cpumon, cpuproc and cpuintvl attributes to appcontroller
+
 Version 1.1.2
 -------------
 Jun 27, 2023

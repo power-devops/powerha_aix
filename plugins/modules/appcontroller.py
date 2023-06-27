@@ -38,6 +38,35 @@ options:
         choices: [ foreground, background ]
         default: background
         aliases: [ startupmode, startup_mode ]
+    monitors:
+        description: 
+            - application monitors.
+            - added in 1.1.3
+        required: false
+        type: list
+        elements: str
+        aliases: [ monitor ]
+    cpumon:
+        description: 
+            - enable or disable CPU monitoring. By default is disabled.
+            - added in 1.1.3
+        required: false
+        type: bool
+        aliases: [ 'cpu_usage_monitor', 'usage_monitor', 'cpu_monitor' ]
+    cpuproc:
+        description: 
+            - full path of the application binary to monitor.
+            - added in 1.1.3
+        required: false
+        type: path
+        aliases: [ 'cpu_usage_process', 'process_to_monitor_cpu_usage', 'cpu_usage_monitor_process', 'usage_process', 'cpu_process' ]
+    cpuintvl:
+        description: 
+            - interval in minutes to monitor cpu usage by the process. valid values are 1 to 120.
+            - added in 1.1.3
+        required: false
+        type: int
+        aliases: [ 'cpu_usage_interval', 'cpu_usage_monitor_interval', 'usage_interval', 'cpu_interval' ]
     state:
         description: the desired state of the resource - present or absent. If the resource is already defined, it will not be changed.
         default: present
@@ -90,7 +119,7 @@ stderr:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import check_powerha, parse_clmgrq_output, CLMGR
+from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import add_bool, add_list, add_string, check_powerha, parse_clmgrq_output, CLMGR
 
 
 def get_ac(module):
@@ -107,12 +136,13 @@ def get_ac(module):
 def add_ac(module):
     cmd = "%s add application_controller %s" % (CLMGR, module.params['name'])
     opts = ""
-    if 'start' in module.params and module.params['start'] != '':
-        opts += " startscript=%s" % module.params['start']
-    if 'stop' in module.params and module.params['stop'] != '':
-        opts += " stopscript=%s" % module.params['stop']
-    if 'mode' in module.params and module.params['mode'] != '':
-        opts += " startup_mode=%s" % module.params['mode']
+    opts += add_string(module, 'start', 'startscript')
+    opts += add_string(module, 'stop', 'stopscript')
+    opts += add_string(module, 'mode', 'startup_mode')
+    opts += add_list(module, 'monitors', 'monitors')
+    opts += add_bool(module, 'cpumon', 'cpu_usage_monitor')
+    opts += add_string(module, 'cpuproc', 'process_to_monitor_cpu_usage')
+    opts += add_string(module, 'cpuintvl', 'cpu_usage_monitor_interval')
     cmd = "%s %s" % (cmd, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
@@ -130,7 +160,13 @@ def run_module():
         state=dict(type='str', required=False, choices=['present', 'absent'], default='present'),
         start=dict(type='path', required=False, aliases=['startscript', 'start_script']),
         stop=dict(type='path', required=False, aliases=['stopscript', 'stop_script']),
-        mode=dict(type='str', required=False, choices=['foreground', 'background'], default='background', aliases=['startup_mode', 'startupmode'])
+        mode=dict(type='str', required=False, choices=['foreground', 'background'], default='background', aliases=['startup_mode', 'startupmode']),
+        monitors=dict(type='list', required=False, elements='str', aliases=['monitor']),
+        cpumon=dict(type='bool', required=False, aliases=['cpu_usage_monitor', 'usage_monitor', 'cpu_monitor']),
+        cpuproc=dict(type='path', required=False,
+                     aliases=['cpu_usage_process', 'process_to_monitor_cpu_usage', 'cpu_usage_monitor_process', 'usage_process', 'cpu_process']),
+        cpuintvl=dict(type='int', required=False,
+                      aliases=['cpu_usage_interval', 'cpu_usage_monitor_interval', 'usage_interval', 'cpu_interval'])
     )
 
     result = dict(
@@ -141,13 +177,21 @@ def run_module():
 
     module = AnsibleModule(
         argument_spec=module_args,
-        supports_check_mode=True
+        supports_check_mode=True,
+        mutually_exclusive=[('monitors', 'cpumon'), ('monitors', 'cpuproc'), ('monitors', 'cpuintvl')],
+        required_together=[('cpumon', 'cpuproc', 'cpuintvl')]
     )
 
     # check if we can run clmgr
     result = check_powerha(result)
     if result['rc'] == 1:
         module.fail_json(**result)
+
+    if module.params['cpuintvl'] is not None:
+        if module.params['cpuintvl'] < 1 or module.params['cpuintvl'] > 120:
+            result['msg'] = 'CPU usage monitoring interval can be between 1 and 120 minutes'
+            result['rc'] = 1
+            module.fail_json(**result)
 
     if module.params['state'] is None or module.params['state'] == 'present':
         state, result['rc'], result['stdout'], result['stderr'] = get_ac(module)

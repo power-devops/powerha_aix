@@ -37,3 +37,31 @@ def parse_clmgrq_output(stdout):
             if value != "":
                 opts[opt] = value
     return opts
+
+
+def add_string(module, option, clmgr_opt):
+    if option in module.params and module.params[option] != '':
+        return ' %s=%s' % (clmgr_opt, module.params[option])
+    return ''
+
+
+def add_bool(module, option, clmgr_opt):
+    if option in module.params and module.params[option] is not None:
+        if module.params[option]:
+            return ' %s=yes' % clmgr_opt
+        else:
+            return ' %s=no' % clmgr_opt
+    return ''
+
+
+def add_list(module, option, clmgr_opt):
+    if option in module.params and module.params[option] is not None:
+        try:
+            opts = ' %s=' % clmgr_opt
+            for o in module.params[option]:
+                opts += '%s,' % o
+            opts = opts[:-1]
+            return opts
+        except TypeError:
+            return ''
+    return ''
