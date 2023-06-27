@@ -87,7 +87,7 @@ stderr:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import check_powerha, parse_clmgrq_output, CLMGR
+from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import add_string, check_powerha, parse_clmgrq_output, CLMGR
 
 
 def get_cluster_ip(module):
@@ -104,12 +104,9 @@ def get_cluster_ip(module):
 def add_cluster_ip(module):
     cmd = "%s add service_ip %s" % (CLMGR, module.params['name'])
     opts = ""
-    if 'network' in module.params and module.params['network'] != '':
-        opts += " network=%s" % module.params['network']
-    if 'netmask' in module.params and module.params['netmask'] != '':
-        opts += " netmask=%s" % module.params['netmask']
-    if 'site' in module.params and module.params['site'] != '':
-        opts += " site=%s" % module.params['site']
+    opts += add_string(module, 'network', 'network')
+    opts += add_string(module, 'netmask', 'netmask')
+    opts += add_string(module, 'site', 'site')
     cmd = "%s %s" % (cmd, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)

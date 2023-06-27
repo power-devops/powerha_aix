@@ -131,7 +131,7 @@ stderr:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import check_powerha, parse_clmgrq_output, CLMGR
+from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import add_list, add_string, check_powerha, parse_clmgrq_output, CLMGR
 
 
 def get_rg(module):
@@ -151,48 +151,13 @@ def get_rg(module):
 def add_rg(module):
     cmd = "%s add resource_group %s" % (CLMGR, module.params['name'])
     opts = ""
-    if 'startup' in module.params and module.params['startup'] != '':
-        opts += " startup=%s" % module.params['startup']
-    if 'fallover' in module.params and module.params['fallover'] != '':
-        opts += " fallover=%s" % module.params['fallover']
-    if 'fallback' in module.params and module.params['fallback'] != '':
-        opts += " fallback=%s" % module.params['fallback']
-    if 'nodes' in module.params and module.params['nodes'] is not None:
-        oldopts = opts
-        try:
-            opts += ' nodes='
-            for node in module.params['nodes']:
-                opts += '%s,' % node
-            opts = opts[:-1]
-        except TypeError:
-            opts = oldopts
-    if 'service' in module.params and module.params['service'] is not None:
-        oldopts = opts
-        try:
-            opts += ' service_label='
-            for svc in module.params['service']:
-                opts += '%s,' % svc
-            opts = opts[:-1]
-        except TypeError:
-            opts = oldopts
-    if 'application' in module.params and module.params['application'] is not None:
-        oldopts = opts
-        try:
-            opts += ' applications='
-            for app in module.params['application']:
-                opts += '%s,' % app
-            opts = opts[:-1]
-        except TypeError:
-            opts = oldopts
-    if 'volgrp' in module.params and module.params['volgrp'] is not None:
-        oldopts = opts
-        try:
-            opts += ' volume_group='
-            for vg in module.params['volgrp']:
-                opts += '%s,' % vg
-            opts = opts[:-1]
-        except TypeError:
-            opts = oldopts
+    opts += add_string(module, 'startup', 'startup')
+    opts += add_string(module, 'fallover', 'fallover')
+    opts += add_string(module, 'fallback', 'fallback')
+    opts += add_list(module, 'nodes', 'nodes')
+    opts += add_list(module, 'service', 'service_label')
+    opts += add_list(module, 'application', 'applications')
+    opts += add_list(module, 'volgrp', 'volume_group')
     cmd = "%s %s" % (cmd, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)

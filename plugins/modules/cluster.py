@@ -118,7 +118,7 @@ stderr:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import check_powerha, parse_clmgrq_output, CLMGR
+from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import add_list, add_string, check_powerha, parse_clmgrq_output, CLMGR
 
 
 def get_cluster_state(module):
@@ -138,31 +138,10 @@ def get_cluster_state(module):
 
 def create_cluster(module):
     opts = module.params['name']
-    # check nodes
-    if 'nodes' in module.params:
-        oldopts = opts
-        try:
-            opts += ' NODES='
-            for node in module.params['nodes']:
-                opts += '%s,' % node
-            opts = opts[:-1]
-        except TypeError:
-            opts = oldopts
-    # check repos
-    if 'repos' in module.params:
-        oldopts = opts
-        try:
-            opts += ' REPOSITORIES='
-            for repo in module.params['repos']:
-                opts += '%s,' % repo
-            opts = opts[:-1]
-        except TypeError:
-            opts = oldopts
-    # check type
-    if 'type' in module.params:
-        opts += ' TYPE=%s' % module.params['type']
-    if 'heartbeat' in module.params:
-        opts += ' HEARTBEAT_TYPE=%s' % module.params['heartbeat']
+    opts += add_list(module, 'nodes', 'nodes')
+    opts += add_list(module, 'repos', 'repositories')
+    opts += add_string(module, 'type', 'type')
+    opts += add_string(module, 'heartbeat', 'heartbeat_type')
     cmd = "%s add cluster %s" % (CLMGR, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)

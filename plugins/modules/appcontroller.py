@@ -39,7 +39,7 @@ options:
         default: background
         aliases: [ startupmode, startup_mode ]
     monitors:
-        description: 
+        description:
             - application monitors.
             - added in 1.1.3
         required: false
@@ -47,21 +47,21 @@ options:
         elements: str
         aliases: [ monitor ]
     cpumon:
-        description: 
+        description:
             - enable or disable CPU monitoring. By default is disabled.
             - added in 1.1.3
         required: false
         type: bool
         aliases: [ 'cpu_usage_monitor', 'usage_monitor', 'cpu_monitor' ]
     cpuproc:
-        description: 
+        description:
             - full path of the application binary to monitor.
             - added in 1.1.3
         required: false
         type: path
         aliases: [ 'cpu_usage_process', 'process_to_monitor_cpu_usage', 'cpu_usage_monitor_process', 'usage_process', 'cpu_process' ]
     cpuintvl:
-        description: 
+        description:
             - interval in minutes to monitor cpu usage by the process. valid values are 1 to 120.
             - added in 1.1.3
         required: false
