@@ -1,6 +1,11 @@
 Changes
 =======
 
+Version 1.1.2
+-------------
+Jun 27, 2023
+  * version bump because of problems with galaxy
+
 Version 1.1.1
 -------------
 Jun 27, 2023
