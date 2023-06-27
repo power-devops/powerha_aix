@@ -6,6 +6,7 @@ Version 1.1.3
 Unpublished
   * added more helpers
   * added monitors, cpumon, cpuproc and cpuintvl attributes to appcontroller
+  * added secnodes, sitepolicy attributes to rg
 
 Version 1.1.2
 -------------

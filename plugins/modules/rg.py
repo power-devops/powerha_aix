@@ -26,19 +26,47 @@ options:
         required: false
         type: list
         elements: str
+    secnodes:
+        description:
+            - secondary nodes
+            - added in 1.1.3
+        required: false
+        type: list
+        elements: str
+        aliases: [ secondary_nodes, secondarynodes ]
+    sitepolicy:
+        description:
+            - site policy
+            - added in 1.1.3
+        required: false
+        type: str
+        choices: [ ignore, primary, either, both ]
+        aliases: [ site_policy ]
     startup:
-        description: startup policy for the resource group. One of OHN, OFAN, OAAN, or OUDP.
+        description:
+            - startup policy for the resource group. One of C(OHN), C(OFAN), C(OAAN), or C(OUDP).
+            - C(OHN) - Online Home Node (default).
+            - C(OFAN) - Online on First Available Node.
+            - C(OAAN) - Online on All Available Nodes (concurrent).
+            - C(OUDP) - Online Using Node Distribution Policy.
         required: false
         type: str
         choices: [ OHN, OFAN, OAAN, OUDP ]
         aliases: [ start ]
     fallover:
-        description: fallover policy for the resource group. One of FNPN, FUDNP, or BO.
+        description:
+            - fallover policy for the resource group. One of C(FNPN), C(FUDNP), or C(BO).
+            - C(FNPN) - Fallover to Next Priority Node (default).
+            - C(FUDNP) - Fallover Using Dynamic Node Priority.
+            - C(BO) - Bring Offline (On Error Node Only).
         required: false
         type: str
         choices: [ FNPN, FUDNP, BO ]
     fallback:
-        description: fallback policy for the resource group. One of NFB, or FBHPN.
+        description:
+            - fallback policy for the resource group. One of C(NFB), or C(FBHPN).
+            - C(NFB) - Never Fallback.
+            - C(FBHPN) - Fallback to Higher Priority Node (default).
         required: false
         type: str
         choices: [ NFB, FBHPN ]
@@ -61,7 +89,9 @@ options:
         elements: str
         aliases: [ vg, volume_group ]
     state:
-        description: the desired state of the resource - present, absent, started, stopped. If the resource is already defined, it will not be changed.
+        description:
+            - the desired state of the resource - C(present), C(absent), C(started), C(stopped).
+            - If the resource is already defined, it will not be changed.
         default: present
         required: false
         type: str
@@ -154,7 +184,9 @@ def add_rg(module):
     opts += add_string(module, 'startup', 'startup')
     opts += add_string(module, 'fallover', 'fallover')
     opts += add_string(module, 'fallback', 'fallback')
+    opts += add_string(module, 'sitepolicy', 'site_policy')
     opts += add_list(module, 'nodes', 'nodes')
+    opts += add_list(module, 'secnodes', 'secondarynodes')
     opts += add_list(module, 'service', 'service_label')
     opts += add_list(module, 'application', 'applications')
     opts += add_list(module, 'volgrp', 'volume_group')
@@ -186,6 +218,8 @@ def run_module():
         name=dict(type='str', required=True),
         state=dict(type='str', required=False, choices=['present', 'absent', 'started', 'stopped', 'online', 'offline'], default='present'),
         nodes=dict(type='list', required=False, elements='str'),
+        secnodes=dict(type='list', required=False, elements='str', aliases=['secondary_nodes', 'secondarynodes']),
+        sitepolicy=dict(type='str', required=False, choices=['ignore', 'primary', 'either', 'both'], aliases=['site_policy']),
         startup=dict(type='str', required=False, choices=['OHN', 'OFAN', 'OAAN', 'OUDP'], aliases=['start']),
         fallover=dict(type='str', required=False, choices=['FNPN', 'FUDNP', 'BO']),
         fallback=dict(type='str', required=False, choices=['NFB', 'FBHPN']),
