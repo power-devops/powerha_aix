@@ -282,7 +282,7 @@ def run_module():
         module.fail_json(**result)
 
     if module.params['state'] is None or module.params['state'] == 'present':
-        state, result['rc'], result['stdout'], result['stderr'] = get_rg(module)
+        state, result['rc'], result['stdout'], result['stderr'], opts = get_rg(module)
         if state != 'absent':
             result['msg'] = 'resource group is already defined'
             module.exit_json(**result)
@@ -296,7 +296,7 @@ def run_module():
             module.fail_json(**result)
         result['msg'] = 'resource group added to the cluster'
     elif module.params['state'] == 'absent':
-        state, result['rc'], result['stdout'], result['stderr'] = get_rg(module)
+        state, result['rc'], result['stdout'], result['stderr'], opts = get_rg(module)
         if state == 'absent':
             result['msg'] = 'resource group is not defined'
             result['rc'] = 0
@@ -311,7 +311,7 @@ def run_module():
             module.fail_json(**result)
         result['message'] = 'resource group is deleted'
     elif module.params['state'] == 'started' or module.params['state'] == 'online':
-        state, result['rc'], result['stdout'], result['stderr'] = get_rg(module)
+        state, result['rc'], result['stdout'], result['stderr'], opts = get_rg(module)
         if state == 'absent':
             result['msg'] = 'resource group is not defined'
             module.fail_json(**result)
@@ -329,7 +329,7 @@ def run_module():
             module.fail_json(**result)
         result['msg'] = 'resource group is started'
     elif module.params['state'] == 'stopped' or module.params['state'] == 'offline':
-        state, result['rc'], result['stdout'], result['stderr'] = get_rg(module)
+        state, result['rc'], result['stdout'], result['stderr'], opts = get_rg(module)
         if state == 'absent':
             result['msg'] = 'resource group is not defined'
             module.fail_json(**result)

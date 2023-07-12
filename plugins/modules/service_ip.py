@@ -144,7 +144,7 @@ def run_module():
         module.fail_json(**result)
 
     if module.params['state'] is None or module.params['state'] == 'present':
-        state, result['rc'], result['stdout'], result['stderr'] = get_cluster_ip(module)
+        state, result['rc'], result['stdout'], result['stderr'], opts = get_cluster_ip(module)
         if state == 'present':
             result['msg'] = 'servce ip is already defined'
             module.exit_json(**result)
@@ -158,7 +158,7 @@ def run_module():
             module.fail_json(**result)
         result['msg'] = 'service ip added to the cluster'
     elif module.params['state'] == 'absent':
-        state, result['rc'], result['stdout'], result['stderr'] = get_cluster_ip(module)
+        state, result['rc'], result['stdout'], result['stderr'], opts = get_cluster_ip(module)
         if state == 'absent':
             result['msg'] = 'servce ip is not defined'
             result['rc'] = 0

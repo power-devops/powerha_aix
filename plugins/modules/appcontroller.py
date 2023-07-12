@@ -194,7 +194,7 @@ def run_module():
             module.fail_json(**result)
 
     if module.params['state'] is None or module.params['state'] == 'present':
-        state, result['rc'], result['stdout'], result['stderr'] = get_ac(module)
+        state, result['rc'], result['stdout'], result['stderr'], opts = get_ac(module)
         if state == 'present':
             result['msg'] = 'application controller is already defined'
             module.exit_json(**result)
@@ -208,7 +208,7 @@ def run_module():
             module.fail_json(**result)
         result['message'] = 'application controller added to the cluster'
     elif module.params['state'] == 'absent':
-        state, result['rc'], result['stdout'], result['stderr'] = get_ac(module)
+        state, result['rc'], result['stdout'], result['stderr'], opts = get_ac(module)
         if state == 'absent':
             result['msg'] = 'application controller is not defined'
             result['rc'] = 0
