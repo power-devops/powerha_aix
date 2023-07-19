@@ -49,6 +49,8 @@ options:
             - file system type.
             - C(jfs2) and C(enhanced) are aliases.
             - C(jfs) and (standard) are aliases.
+            - C(compressed) is C(jfs) filesytem with compression enabled. I(fragment_size) must be 2048 or less.
+            - C(large) is large file enabled C(jfs) filesystem. I(fragment_size) must be 4096.
         required: false
         type: str
         choices: [ jfs2, enhanced, jfs, standard, compressed, large ]
@@ -80,27 +82,31 @@ options:
         type: str
         choices: [ "nodev", "nosuid", "nodev,nosuid" ]
     disk_accounting:
-        description: .
+        description: enables accounting on the file system.
         required: false
         type: bool
     block_size:
-        description: .
+        description: jfs2 block size in bytes.
         required: false
         type: int
         choices: [ 512, 1024, 2048, 4096 ]
         default: 4096
     fragment_size:
-        description: .
+        description:
+            - jfs fragment size in bytes.
+            - by default jfs uses I(4096) bytes fragments.
+            - the module sets C(fragment_size) to I(4096) by default if you specify C(type): I(large) and no C(fragment_size).
+            - the module sets C(fragment_size) to I(2048) by default if you specify C(type): I(compressed) and no C(fragment_size).
         required: false
         type: int
         choices: [ 512, 1024, 2048, 4096 ]
     bytes_per_inode:
-        description: .
+        description: number of bytes per i-node for jfs filesytem.
         required: false
         type: int
         choices: [ 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072 ]
     alloc_group_size:
-        description: .
+        description: allocation group size in megabytes for jfs filesytem.
         required: false
         type: int
         choices: [ 8, 16, 32, 64 ]
@@ -113,19 +119,19 @@ options:
         aliases: [ lv_for_log ]
         default: INLINE
     ea_format:
-        description: .
+        description: specifies the format is used to store jfs2 extended attributes.
         required: false
         type: str
         choices: [ v1, v2 ]
         aliases: [ eaformat, ext_attr_format ]
     quota:
-        description: .
+        description: type of quotas that can be enabled on jfs2 filesytem.
         required: false
         type: str
         choices: [ "no", all, user, group ]
         aliases: [ enable_quota_mgmt ]
     efs:
-        description: .
+        description: enable Encyrpted File System (EFS) on jfs2.
         required: false
         type: bool
 
@@ -134,6 +140,16 @@ author:
 '''
 
 EXAMPLES = r'''
+# create JFS2 filesytem on existing logical volume with INLINE jfs2log.
+- name: create /ora filesystem
+  enfence.powerha_aix.fs:
+    name: /ora
+    lv: lvora
+# delete an existing file system.
+- name: delete /ora file system
+  enfence.powerha_aix.fs:
+    name: /ora
+    state: absent
 '''
 
 RETURN = r'''
@@ -313,7 +329,7 @@ def run_module():
         module.fail_json(**result)
 
     if module.params['type'] == 'enhanced':
-        for opt in ('disk_accounting', 'fragment_size', 'bytes_per_inode', 'alloc_group_size'):
+        for opt in ('fragment_size', 'bytes_per_inode', 'alloc_group_size'):
             if module.params[opt] is not None:
                 result['msg'] = '%s cannot be used with jfs2 filesystems' % opt
                 module.fail_json(**result)
@@ -327,6 +343,20 @@ def run_module():
             if module.params[opt] is not None:
                 result['msg'] = '%s cannot be used with jfs filesystems' % opt
                 module.fail_json(**result)
+
+    if module.params['type'] == 'compressed':
+        if module.params['fragment_size'] is None:
+            module.params['fragment_size'] = 2048
+        elif module.params['fragment_size'] > 2048:
+            result['msg'] = 'fragment_size must be 2048 or less for compressed jfs filesystem'
+            module.fail_json(**result)
+
+    if module.params['type'] == 'large':
+        if module.params['fragment_size'] is None:
+            module.params['fragment_size'] = 4096
+        elif module.params['fragment_size'] != 4096:
+            result['msg'] = 'fragment_size must be 4096 for large file enabled jfs filesystem'
+            module.fail_json(**result)
 
     if module.params['state'] is None or module.params['state'] == 'present':
         state, result['rc'], result['stdout'], result['stderr'], opts = get_fs(module)
