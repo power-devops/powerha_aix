@@ -40,8 +40,14 @@ def parse_clmgrq_output(stdout):
 
 
 def add_string(module, option, clmgr_opt):
-    if option in module.params and module.params[option] != '':
+    if option in module.params and module.params[option] is not None and module.params[option] != '':
         return ' %s=%s' % (clmgr_opt, module.params[option])
+    return ''
+
+
+def add_int(module, option, clmgr_opt):
+    if option in module.params and module.params[option] is not None:
+        return ' %s=%d' % (clmgr_opt, module.params[option])
     return ''
 
 

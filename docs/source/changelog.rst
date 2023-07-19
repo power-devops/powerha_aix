@@ -1,9 +1,17 @@
 Changes
 =======
 
-Version 1.1.3
+Version 1.2.0
 -------------
 Unpublished
+  * added pv_info module
+  * added vg module
+  * added lv module
+  * added fs module
+
+Version 1.1.3
+-------------
+Unreleased
   * added more helpers
   * added monitors, cpumon, cpuproc and cpuintvl attributes to appcontroller
   * added secnodes, sitepolicy, prio_policy, prio_policy_script, prio_policy_timeout attributes to rg
