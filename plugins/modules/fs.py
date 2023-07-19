@@ -95,8 +95,8 @@ options:
         description:
             - jfs fragment size in bytes.
             - by default jfs uses I(4096) bytes fragments.
-            - the module sets C(fragment_size) to I(4096) by default if you specify C(type): I(large) and no C(fragment_size).
-            - the module sets C(fragment_size) to I(2048) by default if you specify C(type): I(compressed) and no C(fragment_size).
+            - "the module sets C(fragment_size) to I(4096) by default if you specify C(type): I(large) and no C(fragment_size)."
+            - "the module sets C(fragment_size) to I(2048) by default if you specify C(type): I(compressed) and no C(fragment_size)."
         required: false
         type: int
         choices: [ 512, 1024, 2048, 4096 ]
