@@ -27,9 +27,17 @@ options:
         required: false
         type: str
     netmask:
-        description: netmask for the service ip.
+        description:
+            - netmask for the service ip.
+            - prefix and netmask are mutually exclusive.
         required: false
         type: str
+    prefix:
+        description:
+            - bit prefix for the service ip.
+            - prefix and netmask are mutually exclusive.
+        required: false
+        type: int
     site:
         description:
             - site of the service ip.
@@ -87,7 +95,7 @@ stderr:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import add_string, check_powerha, parse_clmgrq_output, CLMGR
+from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import add_string, add_int, check_powerha, parse_clmgrq_output, CLMGR
 
 
 def get_cluster_ip(module):
@@ -107,6 +115,7 @@ def add_cluster_ip(module):
     opts += add_string(module, 'network', 'network')
     opts += add_string(module, 'netmask', 'netmask')
     opts += add_string(module, 'site', 'site')
+    opts += add_int(module, 'prefix', 'prefix')
     cmd = "%s %s" % (cmd, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
@@ -124,6 +133,7 @@ def run_module():
         state=dict(type='str', required=False, choices=['present', 'absent'], default='present'),
         network=dict(type='str', required=False, default='net_ether_01'),
         netmask=dict(type='str', required=False),
+        prefix=dict(type='int', required=False),
         site=dict(type='str', required=False)
     )
 
@@ -135,13 +145,19 @@ def run_module():
 
     module = AnsibleModule(
         argument_spec=module_args,
-        supports_check_mode=True
+        supports_check_mode=True,
+        mutually_exclusive=[('netmask', 'prefix')],
     )
 
     # check if we can run clmgr
     result = check_powerha(result)
     if result['rc'] == 1:
         module.fail_json(**result)
+
+    if module.params['prefix'] is not None:
+        if module.params['prefix'] < 1 or module.params['prefix'] > 128:
+            result['msg'] = 'prefix must be between 1 and 128'
+            module.fail_json(**result)
 
     if module.params['state'] is None or module.params['state'] == 'present':
         state, result['rc'], result['stdout'], result['stderr'], opts = get_cluster_ip(module)
