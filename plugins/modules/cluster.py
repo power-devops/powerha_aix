@@ -53,10 +53,117 @@ options:
         type: str
         choices: [ unicast, multicast ]
         default: unicast
+    clusterip:
+        description: cluster ip for heartbeating.
+        required: false
+        type: str
+        aliases: [ cluster_ip ]
     fix:
         description: automatically fix errors during synchronization
         required: false
         type: bool
+    fc_sync_interval:
+        description: .
+        required: false
+        type: int
+    rg_settling_time:
+        description: .
+        required: false
+        type: int
+    max_event_time:
+        description: .
+        required: false
+        type: int
+    max_rg_processing_time:
+        description: .
+        required: false
+        type: int
+    daily_verification:
+        description: .
+        required: false
+        type: bool
+    verification_node:
+        description: .
+        required: false
+        type: str
+    verification_debugging:
+        description: .
+        required: false
+        type: bool
+    heartbeat_frequency:
+        description: .
+        required: false
+        type: str
+    grace_period:
+        description: .
+        required: false
+        type: str
+    site_policy_failure_action:
+        description: .
+        required: false
+        type: str
+        choices: [ fallover, notify ]
+    site_policy_notify_method:
+        description: .
+        required: false
+        type: path
+    site_heartbeat_cycle:
+        description: .
+        required: false
+        type: str
+    site_grace_period:
+        description: .
+        required: false
+        type: str
+    temp_hostname:
+        description: .
+        required: false
+        type: str
+        choices: [ allow, disallow ]
+    lpm_policy:
+        description: .
+        required: false
+        type: str
+        choices: [ manage, unmanage ]
+    heartbeat_frequency_during_lpm:
+        description: .
+        required: false
+        type: int
+    network_failure_detection_time:
+        description: .
+        required: false
+        type: int
+    caa_auto_start_dr:
+        description: .
+        required: false
+        type: bool
+    caa_repos_mode:
+        description: .
+        required: false
+        type: str
+        choices: [ assert, event ]
+    caa_config_timeout:
+        description: .
+        required: false
+        type: int
+    lvm_preferred_read:
+        description: .
+        required: false
+        type: str
+        choices: [ roundrobin, favorcopy, siteaffinity ]
+    crit_daemon_restart_grace_period:
+        description: .
+        required: false
+        type: int
+    skip_event_processing_manage_node:
+        description: .
+        required: false
+        type: bool
+    caa_pvm_watchdog_timer:
+        description: .
+        required: false
+        type: str
+        choices: [ disable, dump_restart, hard_reset, hard_power_off ]
 
 author:
     - Andrey Klyachkin (@aklyachkin)
@@ -118,7 +225,8 @@ stderr:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import add_list, add_string, check_powerha, parse_clmgrq_output, CLMGR
+from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import (
+    add_list, add_string, add_int, add_bool, check_powerha, parse_clmgrq_output, CLMGR)
 
 
 def get_cluster_state(module):
@@ -142,6 +250,31 @@ def create_cluster(module):
     opts += add_list(module, 'repos', 'repositories')
     opts += add_string(module, 'type', 'type')
     opts += add_string(module, 'heartbeat', 'heartbeat_type')
+    opts += add_string(module, 'clusterip', 'cluster_ip')
+    opts += add_string(module, 'verification_node', 'verification_node')
+    opts += add_string(module, 'heartbeat_frequency', 'heartbeat_frequency')
+    opts += add_string(module, 'grace_period', 'grace_period')
+    opts += add_string(module, 'site_policy_failure_action', 'site_policy_failure_action')
+    opts += add_string(module, 'site_policy_notify_method', 'site_policy_notify_method')
+    opts += add_string(module, 'site_heartbeat_cycle', 'site_heartbeat_cycle')
+    opts += add_string(module, 'site_grace_period', 'site_grace_period')
+    opts += add_string(module, 'temp_hostname', 'temp_hostname')
+    opts += add_string(module, 'lpm_policy', 'lpm_policy')
+    opts += add_string(module, 'caa_repos_mode', 'caa_repos_mode')
+    opts += add_string(module, 'lvm_preferred_read', 'lvm_preferred_read')
+    opts += add_string(module, 'caa_pvm_watchdog_timer', 'caa_pvm_watchdog_timer')
+    opts += add_int(module, 'fc_sync_interval', 'fc_sync_interval')
+    opts += add_int(module, 'rg_settling_time', 'rg_settling_time')
+    opts += add_int(module, 'max_event_time', 'max_event_time')
+    opts += add_int(module, 'max_rg_processing_time', 'max_rg_processing_time')
+    opts += add_int(module, 'heartbeat_frequency_during_lpm', 'heartbeat_frequency_during_lpm')
+    opts += add_int(module, 'network_failure_detection_time', 'network_failure_detection_time')
+    opts += add_int(module, 'caa_config_timeout', 'caa_config_timeout')
+    opts += add_int(module, 'crit_daemon_restart_grace_period', 'crit_daemon_restart_grace_period')
+    opts += add_bool(module, 'daily_verification', 'daily_verification')
+    opts += add_bool(module, 'verification_debugging', 'verification_debugging')
+    opts += add_bool(module, 'caa_auto_start_dr', 'caa_auto_start_dr')
+    opts += add_bool(module, 'skip_event_processing_manage_node', 'skip_event_processing_manage_node')
     cmd = "%s add cluster %s" % (CLMGR, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
@@ -181,7 +314,32 @@ def run_module():
         repos=dict(type='list', required=False, elements='str', aliases=['repositories', 'repo', 'repository']),
         fix=dict(type='bool', required=False),
         type=dict(type='str', required=False, choices=['nsc', 'sc', 'lc'], default='nsc'),
-        heartbeat=dict(type='str', required=False, choices=['unicast', 'multicast'], default='unicast')
+        heartbeat=dict(type='str', required=False, choices=['unicast', 'multicast'], default='unicast'),
+        clusterip=dict(type='str', required=False, aliases=['cluster_ip']),
+        fc_sync_interval=dict(type='int', required=False),
+        rg_settling_time=dict(type='int', required=False),
+        max_event_time=dict(type='int', required=False),
+        max_rg_processing_time=dict(type='int', required=False),
+        daily_verification=dict(type='bool', required=False),
+        verification_node=dict(type='str', required=False),
+        verification_debugging=dict(type='bool', required=False),
+        heartbeat_frequency=dict(type='str', required=False),
+        grace_period=dict(type='str', required=False),
+        site_policy_failure_action=dict(type='str', choices=['fallover', 'notify'], required=False),
+        site_policy_notify_method=dict(type='path', required=False),
+        site_heartbeat_cycle=dict(type='str', required=False),
+        site_grace_period=dict(type='str', required=False),
+        temp_hostname=dict(type='str', choices=['allow', 'disallow'], required=False),
+        lpm_policy=dict(type='str', choices=['manage', 'unmanage'], required=False),
+        heartbeat_frequency_during_lpm=dict(type='int', required=False),
+        network_failure_detection_time=dict(type='int', required=False),
+        caa_auto_start_dr=dict(type='bool', required=False),
+        caa_repos_mode=dict(type='str', choices=['assert', 'event'], required=False),
+        caa_config_timeout=dict(type='int', required=False),
+        lvm_preferred_read=dict(type='str', choices=['roundrobin', 'favorcopy', 'siteaffinity'], required=False),
+        crit_daemon_restart_grace_period=dict(type='int', required=False),
+        skip_event_processing_manage_node=dict(type='bool', required=False),
+        caa_pvm_watchdog_timer=dict(type='str', choices=['disable', 'dump_restart', 'hard_reset', 'hard_power_off'], required=False)
     )
 
     result = dict(
@@ -192,7 +350,10 @@ def run_module():
 
     module = AnsibleModule(
         argument_spec=module_args,
-        supports_check_mode=True
+        supports_check_mode=True,
+        required_by={
+            'clusterip': 'heartbeat'
+        }
     )
 
     # check if we can run clmgr
