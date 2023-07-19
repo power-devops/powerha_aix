@@ -115,6 +115,75 @@ options:
         type: list
         elements: str
         aliases: [ vg, volume_group ]
+    tape:
+        description: .
+        required: false
+        type: list
+        elements: str
+        aliases: [ shared_tape, shared_tape_resources ]
+    forced_varyon:
+        description: .
+        required: false
+        type: bool
+    vg_auto_import:
+        description: .
+        required: false
+        type: bool
+    fs:
+        description: .
+        required: false
+        type: list
+        elements: str
+        aliases: [ filesystem, filesystems ]
+    disk:
+        description: .
+        required: false
+        type: list
+        elements: str
+        aliases: [ disks ]
+    fs_before_ipaddr:
+        description: .
+        required: false
+        type: bool
+    wpar:
+        description: .
+        required: false
+        type: str
+        aliases: [ wpar_name ]
+    export_nfs:
+        description: .
+        required: false
+        type: list
+        elements: str
+        aliases: [ export_fs, export_filesystem ]
+    export_nfs4:
+        description: .
+        required: false
+        type: list
+        elements: str
+        aliases: [ export_fs4, export_fs_v4, export_filesystem_v4 ]
+    stable_storage_path:
+        description: .
+        required: false
+        type: str
+    nfs_network:
+        description: .
+        required: false
+        type: str
+    mount_nfs:
+        description: .
+        required: false
+        type: list
+        elements: str
+        aliases: [ mount_fs, mount_filesystem ]
+    mirror_group:
+        description: .
+        required: false
+        type: str
+    fallback_at:
+        description: .
+        required: false
+        type: str
     state:
         description:
             - the desired state of the resource - C(present), C(absent), C(started), C(stopped).
@@ -188,7 +257,7 @@ stderr:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import add_list, add_string, check_powerha, parse_clmgrq_output, CLMGR
+from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import add_list, add_string, add_bool, check_powerha, parse_clmgrq_output, CLMGR
 
 
 def get_rg(module):
@@ -215,11 +284,25 @@ def add_rg(module):
     opts += add_string(module, 'prio_policy', 'node_priority_policy')
     opts += add_string(module, 'prio_policy_script', 'node_priority_policy_script')
     opts += add_string(module, 'prio_policy_timeout', 'node_priority_policy_timeout')
+    opts += add_string(module, 'wpar', 'wpar_name')
+    opts += add_string(module, 'stable_storage_path', 'stable_storage_path')
+    opts += add_string(module, 'nfs_network', 'nfs_network')
+    opts += add_string(module, 'mirror_group', 'mirror_group')
+    opts += add_string(module, 'fallback_at', 'fallback_at')
     opts += add_list(module, 'nodes', 'nodes')
     opts += add_list(module, 'secnodes', 'secondarynodes')
     opts += add_list(module, 'service', 'service_label')
     opts += add_list(module, 'application', 'applications')
     opts += add_list(module, 'volgrp', 'volume_group')
+    opts += add_list(module, 'tape', 'shared_tape_resources')
+    opts += add_list(module, 'fs', 'filesystem')
+    opts += add_list(module, 'disk', 'disk')
+    opts += add_list(module, 'export_nfs', 'export_filesystem')
+    opts += add_list(module, 'export_nfs4', 'export_filesystem_v4')
+    opts += add_list(module, 'mount_nfs', 'mount_filesystem')
+    opts += add_bool(module, 'forced_varyon', 'forced_varyon')
+    opts += add_bool(module, 'vg_auto_import', 'vg_auto_import')
+    opts += add_bool(module, 'fs_before_ipaddr', 'fs_before_ipaddr')
     cmd = "%s %s" % (cmd, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
@@ -262,7 +345,21 @@ def run_module():
                                  aliases=['node_priority_policy_timeout', 'priority_policy_timeout']),
         service=dict(type='list', required=False, elements='str', aliases=['service_ip', 'service_label']),
         application=dict(type='list', required=False, elements='str', aliases=['app', 'applications']),
-        volgrp=dict(type='list', required=False, elements='str', aliases=['vg', 'volume_group'])
+        volgrp=dict(type='list', required=False, elements='str', aliases=['vg', 'volume_group']),
+        tape=dict(type='list', required=False, elements='str', aliases=['shared_tape', 'shared_tape_resources']),
+        forced_varyon=dict(type='bool', required=False),
+        vg_auto_import=dict(type='bool', required=False),
+        fs=dict(type='list', required=False, elements='str', aliases=['filesystem', 'filesystems']),
+        disk=dict(type='list', required=False, elements='str', aliases=['disks']),
+        fs_before_ipaddr=dict(type='bool', required=False),
+        wpar=dict(type='str', required=False, aliases=['wpar_name']),
+        export_nfs=dict(type='list', required=False, elements='str', aliases=['export_fs', 'export_filesystem']),
+        export_nfs4=dict(type='list', required=False, elements='str', aliases=['export_fs4', 'export_fs_v4', 'export_filesystem_v4']),
+        stable_storage_path=dict(type='str', required=False),
+        nfs_network=dict(type='str', required=False),
+        mount_nfs=dict(type='list', required=False, elements='str', aliases=['mount_fs', 'mount_filesystem']),
+        mirror_group=dict(type='str', required=False),
+        fallback_at=dict(type='str', required=False)
     )
 
     result = dict(
