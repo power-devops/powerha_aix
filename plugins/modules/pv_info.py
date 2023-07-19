@@ -16,8 +16,8 @@ version_added: "1.2.0"
 
 description:
     - this module searches for physical volumes according to the supplied attributes.
-    - if the volumes are found, a dictionary with their names is returned.
-    - otherwise an empty dictionary is returned.
+    - if the volumes are found, a list with their names is returned.
+    - otherwise an empty list is returned.
     - physical volumes already assigned to volume groups or locked by LVM are not returned.
 
 options:
