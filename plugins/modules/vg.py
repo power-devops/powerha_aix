@@ -138,7 +138,7 @@ options:
         type: path
         aliases: [ notify_method, notifymethod ]
     preferred_read:
-        description: .
+        description: read preference to the copy of logical volumes.
         required: false
         type: str
         choices: [ roundrobin, favorcopy, siteaffinity ]

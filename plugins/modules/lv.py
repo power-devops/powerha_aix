@@ -188,6 +188,12 @@ author:
 '''
 
 EXAMPLES = r'''
+- name: create logical volume
+  enfence.powerha_aix.lv:
+    name: lvora
+    vg: vg01
+    size: 1
+    unit: gb
 '''
 
 RETURN = r'''
