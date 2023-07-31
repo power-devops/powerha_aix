@@ -3,7 +3,7 @@ Changes
 
 Version 1.2.0
 -------------
-Unpublished
+Jul 31, 2023
   * added pv_info module
   * added vg module
   * added lv module
