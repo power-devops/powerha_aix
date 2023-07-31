@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modules &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.1.2 documentation</title>
+  <title>Modules &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.2.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="appcontroller – manage application_controller resource in PowerHA cluster" href="modules/appcontroller.html" />
-    <link rel="prev" title="Deleting IBM PowerHA Cluster using Ansible" href="delete_cluster.html" /> 
+    <link rel="prev" title="Removing volume group from IBM PowerHA Cluster using Ansible" href="delete_vg.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,8 +53,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-reference">Module reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modules/appcontroller.html">appcontroller – manage application_controller resource in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/cluster.html">cluster – manage PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/fs.html">fs – manage file_system resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/lv.html">lv – manage logical volumes in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/pv_info.html">pv_info – find a suitable physical volume.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/rg.html">rg – manage resource groups in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/service_ip.html">service_ip – manage service_ip resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/vg.html">vg – manage volume_group resource in PowerHA cluster</a></li>
 </ul>
 </li>
 </ul>
@@ -103,8 +107,12 @@ parameters and their expected values.</p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules/appcontroller.html">appcontroller – manage application_controller resource in PowerHA cluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/cluster.html">cluster – manage PowerHA cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/fs.html">fs – manage file_system resource in PowerHA cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/lv.html">lv – manage logical volumes in PowerHA cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/pv_info.html">pv_info – find a suitable physical volume.</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/rg.html">rg – manage resource groups in PowerHA cluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/service_ip.html">service_ip – manage service_ip resource in PowerHA cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vg.html">vg – manage volume_group resource in PowerHA cluster</a></li>
 </ul>
 </div>
 </section>
@@ -114,7 +122,7 @@ parameters and their expected values.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="delete_cluster.html" class="btn btn-neutral float-left" title="Deleting IBM PowerHA Cluster using Ansible" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="delete_vg.html" class="btn btn-neutral float-left" title="Removing volume group from IBM PowerHA Cluster using Ansible" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="modules/appcontroller.html" class="btn btn-neutral float-right" title="appcontroller – manage application_controller resource in PowerHA cluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

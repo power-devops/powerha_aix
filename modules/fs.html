@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fs – manage file_system resource in PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="lv – manage logical volumes in PowerHA cluster" href="lv.html" />
+    <link rel="prev" title="cluster – manage PowerHA cluster" href="cluster.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            IBM PowerHA SystemMirror for AIX - Ansible Collection
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../modules.html#module-reference">Module reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="appcontroller.html">appcontroller – manage application_controller resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster.html">cluster – manage PowerHA cluster</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">fs – manage file_system resource in PowerHA cluster</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#return-values">Return Values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#status">Status</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lv.html">lv – manage logical volumes in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pv_info.html">pv_info – find a suitable physical volume.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rg.html">rg – manage resource groups in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="service_ip.html">service_ip – manage service_ip resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vg.html">vg – manage volume_group resource in PowerHA cluster</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to the collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_of_conduct.html">Community Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IBM PowerHA SystemMirror for AIX - Ansible Collection</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Modules</a></li>
+      <li class="breadcrumb-item active">fs – manage file_system resource in PowerHA cluster</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/power-devops/powerha_aix/blob/main/docs/source/modules/fs.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fs-manage-file-system-resource-in-powerha-cluster">
+<span id="fs-module"></span><h1>fs – manage file_system resource in PowerHA cluster<a class="headerlink" href="#fs-manage-file-system-resource-in-powerha-cluster" title="Permalink to this heading"></a></h1>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id2">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id3">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id4">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#status" id="id5">Status</a></p></li>
+</ul>
+</nav>
+<section id="synopsis">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<p>This module creates/deletes/changes file_system resource in PowerHA cluster.</p>
+<p>This module was added in 1.2.0.</p>
+</section>
+<section id="parameters">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<blockquote>
+<div><dl>
+<dt>name (True, str, None)</dt><dd><p>name (mount point) of the file system.</p>
+</dd>
+<dt>state (False, str, present)</dt><dd><p>the desired state of the file system - <code class="docutils literal notranslate"><span class="pre">present</span></code>, <code class="docutils literal notranslate"><span class="pre">absent</span></code>.</p>
+</dd>
+<dt>vg (False, str, None)</dt><dd><p>volume group where the file system must be created.</p>
+<p>required if <em>lv</em> is not specified and state is <code class="docutils literal notranslate"><span class="pre">present</span></code>.</p>
+</dd>
+<dt>lv (False, str, None)</dt><dd><p>logical volume where the file system must be created.</p>
+<p>required if <em>vg</em> is not specified and state is <code class="docutils literal notranslate"><span class="pre">present</span></code>.</p>
+</dd>
+<dt>type (False, str, jfs2)</dt><dd><p>file system type.</p>
+<p><code class="docutils literal notranslate"><span class="pre">jfs2</span></code> and <code class="docutils literal notranslate"><span class="pre">enhanced</span></code> are aliases.</p>
+<p><code class="docutils literal notranslate"><span class="pre">jfs</span></code> and (standard) are aliases.</p>
+<p><code class="docutils literal notranslate"><span class="pre">compressed</span></code> is <code class="docutils literal notranslate"><span class="pre">jfs</span></code> filesytem with compression enabled. <em>fragment_size</em> must be 2048 or less.</p>
+<p><code class="docutils literal notranslate"><span class="pre">large</span></code> is large file enabled <code class="docutils literal notranslate"><span class="pre">jfs</span></code> filesystem. <em>fragment_size</em> must be 4096.</p>
+</dd>
+<dt>size (False, int, None)</dt><dd><p>size of the future file system.</p>
+<p>required if the state is <code class="docutils literal notranslate"><span class="pre">present</span></code> and <em>lv</em> is not specified.</p>
+</dd>
+<dt>unit (False, str, None)</dt><dd><p>which unit is used to specify <em>size</em> of the filesystem.</p>
+<p>required if <em>size</em> is specified.</p>
+</dd>
+<dt>perm (False, str, None)</dt><dd><p>permissions on the file system.</p>
+</dd>
+<dt>options (False, str, None)</dt><dd><p>file system options.</p>
+</dd>
+<dt>disk_accounting (False, bool, None)</dt><dd><p>enables accounting on the file system.</p>
+</dd>
+<dt>block_size (False, int, 4096)</dt><dd><p>jfs2 block size in bytes.</p>
+</dd>
+<dt>fragment_size (False, int, None)</dt><dd><p>jfs fragment size in bytes.</p>
+<p>by default jfs uses <em>4096</em> bytes fragments.</p>
+<p>the module sets <code class="docutils literal notranslate"><span class="pre">fragment_size</span></code> to <em>4096</em> by default if you specify <code class="docutils literal notranslate"><span class="pre">type</span></code>: <em>large</em> and no <code class="docutils literal notranslate"><span class="pre">fragment_size</span></code>.</p>
+<p>the module sets <code class="docutils literal notranslate"><span class="pre">fragment_size</span></code> to <em>2048</em> by default if you specify <code class="docutils literal notranslate"><span class="pre">type</span></code>: <em>compressed</em> and no <code class="docutils literal notranslate"><span class="pre">fragment_size</span></code>.</p>
+</dd>
+<dt>bytes_per_inode (False, int, None)</dt><dd><p>number of bytes per i-node for jfs filesytem.</p>
+</dd>
+<dt>alloc_group_size (False, int, None)</dt><dd><p>allocation group size in megabytes for jfs filesytem.</p>
+</dd>
+<dt>log (False, str, INLINE)</dt><dd><p>logical volume for jfs/jfs2 log.</p>
+<p>use <code class="docutils literal notranslate"><span class="pre">INLINE</span></code> if you want to use jfs2 inline logs.</p>
+</dd>
+<dt>ea_format (False, str, None)</dt><dd><p>specifies the format is used to store jfs2 extended attributes.</p>
+</dd>
+<dt>quota (False, str, None)</dt><dd><p>type of quotas that can be enabled on jfs2 filesytem.</p>
+</dd>
+<dt>efs (False, bool, None)</dt><dd><p>enable Encyrpted File System (EFS) on jfs2.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="examples">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># create JFS2 filesytem on existing logical volume with INLINE jfs2log.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">create /ora filesystem</span>
+<span class="w">  </span><span class="nt">enfence.powerha_aix.fs</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ora</span>
+<span class="w">    </span><span class="nt">lv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lvora</span>
+<span class="c1"># delete an existing file system.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">delete /ora file system</span>
+<span class="w">  </span><span class="nt">enfence.powerha_aix.fs</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/ora</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">absent</span>
+</pre></div>
+</div>
+</section>
+<section id="return-values">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>changed (always, bool, )</dt><dd><p>set to true if the resource was changed</p>
+</dd>
+<dt>msg (always, str, )</dt><dd><p>error and informational messages</p>
+</dd>
+<dt>rc (always, int, )</dt><dd><p>return code of the last executed command</p>
+</dd>
+<dt>stdout (always, str, )</dt><dd><p>standard output of the last executed command</p>
+</dd>
+<dt>stderr (always, str, )</dt><dd><p>standard error of the last executed command</p>
+</dd>
+</dl>
+</section>
+<section id="status">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Status</a><a class="headerlink" href="#status" title="Permalink to this heading"></a></h2>
+<section id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Andrey Klyachkin (&#64;aklyachkin)</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cluster.html" class="btn btn-neutral float-left" title="cluster – manage PowerHA cluster" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lv.html" class="btn btn-neutral float-right" title="lv – manage logical volumes in PowerHA cluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, eNFence.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

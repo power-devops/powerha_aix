@@ -30,16 +30,74 @@ Parameters
     list of the nodes where the resource group can be started. required if resource group is created.
 
 
+  secnodes (False, list, None)
+    secondary nodes
+
+    added in 1.1.3
+
+
+  sitepolicy (False, str, None)
+    site policy
+
+    added in 1.1.3
+
+
   startup (False, str, None)
-    startup policy for the resource group. One of OHN, OFAN, OAAN, or OUDP.
+    startup policy for the resource group. One of \ :literal:`OHN`\ , \ :literal:`OFAN`\ , \ :literal:`OAAN`\ , or \ :literal:`OUDP`\ .
+
+    \ :literal:`OHN`\  - Online Home Node (default).
+
+    \ :literal:`OFAN`\  - Online on First Available Node.
+
+    \ :literal:`OAAN`\  - Online on All Available Nodes (concurrent).
+
+    \ :literal:`OUDP`\  - Online Using Node Distribution Policy.
 
 
   fallover (False, str, None)
-    fallover policy for the resource group. One of FNPN, FUDNP, or BO.
+    fallover policy for the resource group. One of \ :literal:`FNPN`\ , \ :literal:`FUDNP`\ , or \ :literal:`BO`\ .
+
+    \ :literal:`FNPN`\  - Fallover to Next Priority Node (default).
+
+    \ :literal:`FUDNP`\  - Fallover Using Dynamic Node Priority.
+
+    \ :literal:`BO`\  - Bring Offline (On Error Node Only).
 
 
   fallback (False, str, None)
-    fallback policy for the resource group. One of NFB, or FBHPN.
+    fallback policy for the resource group. One of \ :literal:`NFB`\ , or \ :literal:`FBHPN`\ .
+
+    \ :literal:`NFB`\  - Never Fallback.
+
+    \ :literal:`FBHPN`\  - Fallback to Higher Priority Node (default).
+
+
+  prio_policy (False, str, None)
+    node priority policy, if fallover set to FUDNP. One of \ :literal:`default`\ , \ :literal:`mem`\ , \ :literal:`disk`\ , \ :literal:`cpu`\ , \ :literal:`least`\ , \ :literal:`most`\ 
+
+    \ :literal:`default`\  - next node in the nodes list.
+
+    \ :literal:`mem`\  - node with most available memory.
+
+    \ :literal:`disk`\  - node with least disk activity.
+
+    \ :literal:`cpu`\  - node with most cpu cycles available.
+
+    \ :literal:`least`\  - node where the dynamic node priority script returns the lowest value.
+
+    \ :literal:`most`\  - node where the dynamic node priority script returns the highest value.
+
+    added in 1.1.3
+
+
+  prio_policy_script (False, path, None)
+    path to script to determine the \ :literal:`prio\_policy`\ 
+
+    added in 1.1.3
+
+
+  prio_policy_timeout (False, int, None)
+    added in 1.1.3
 
 
   service (False, list, None)
@@ -54,8 +112,66 @@ Parameters
     list of volume groups for the resource group.
 
 
+  tape (False, list, None)
+    .
+
+
+  forced_varyon (False, bool, None)
+    .
+
+
+  vg_auto_import (False, bool, None)
+    .
+
+
+  fs (False, list, None)
+    .
+
+
+  disk (False, list, None)
+    .
+
+
+  fs_before_ipaddr (False, bool, None)
+    .
+
+
+  wpar (False, str, None)
+    .
+
+
+  export_nfs (False, list, None)
+    .
+
+
+  export_nfs4 (False, list, None)
+    .
+
+
+  stable_storage_path (False, str, None)
+    .
+
+
+  nfs_network (False, str, None)
+    .
+
+
+  mount_nfs (False, list, None)
+    .
+
+
+  mirror_group (False, str, None)
+    .
+
+
+  fallback_at (False, str, None)
+    .
+
+
   state (False, str, present)
-    the desired state of the resource - present, absent, started, stopped. If the resource is already defined, it will not be changed.
+    the desired state of the resource - \ :literal:`present`\ , \ :literal:`absent`\ , \ :literal:`started`\ , \ :literal:`stopped`\ .
+
+    If the resource is already defined, it will not be changed.
 
 
 

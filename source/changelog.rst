@@ -1,6 +1,21 @@
 Changes
 =======
 
+Version 1.2.0
+-------------
+Jul 31, 2023
+  * added pv_info module
+  * added vg module
+  * added lv module
+  * added fs module
+
+Version 1.1.3
+-------------
+Unreleased
+  * added more helpers
+  * added monitors, cpumon, cpuproc and cpuintvl attributes to appcontroller
+  * added secnodes, sitepolicy, prio_policy, prio_policy_script, prio_policy_timeout attributes to rg
+
 Version 1.1.2
 -------------
 Jun 27, 2023

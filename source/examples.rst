@@ -17,3 +17,5 @@ Additional documentation:
 
    create_cluster
    delete_cluster
+   create_vg
+   delete_vg

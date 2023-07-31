@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>rg – manage resource groups in PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.1.2 documentation</title>
+  <title>rg – manage resource groups in PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.2.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="service_ip – manage service_ip resource in PowerHA cluster" href="service_ip.html" />
-    <link rel="prev" title="cluster – manage PowerHA cluster" href="cluster.html" /> 
+    <link rel="prev" title="pv_info – find a suitable physical volume." href="pv_info.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,6 +53,9 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../modules.html#module-reference">Module reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="appcontroller.html">appcontroller – manage application_controller resource in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster.html">cluster – manage PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fs.html">fs – manage file_system resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lv.html">lv – manage logical volumes in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pv_info.html">pv_info – find a suitable physical volume.</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">rg – manage resource groups in PowerHA cluster</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
@@ -62,6 +65,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="service_ip.html">service_ip – manage service_ip resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vg.html">vg – manage volume_group resource in PowerHA cluster</a></li>
 </ul>
 </li>
 </ul>
@@ -117,16 +121,45 @@
 <section id="parameters">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <blockquote>
-<div><dl class="simple">
+<div><dl>
 <dt>name (True, str, None)</dt><dd><p>name of the resource group.</p>
 </dd>
 <dt>nodes (False, list, None)</dt><dd><p>list of the nodes where the resource group can be started. required if resource group is created.</p>
 </dd>
-<dt>startup (False, str, None)</dt><dd><p>startup policy for the resource group. One of OHN, OFAN, OAAN, or OUDP.</p>
+<dt>secnodes (False, list, None)</dt><dd><p>secondary nodes</p>
+<p>added in 1.1.3</p>
 </dd>
-<dt>fallover (False, str, None)</dt><dd><p>fallover policy for the resource group. One of FNPN, FUDNP, or BO.</p>
+<dt>sitepolicy (False, str, None)</dt><dd><p>site policy</p>
+<p>added in 1.1.3</p>
 </dd>
-<dt>fallback (False, str, None)</dt><dd><p>fallback policy for the resource group. One of NFB, or FBHPN.</p>
+<dt>startup (False, str, None)</dt><dd><p>startup policy for the resource group. One of <code class="docutils literal notranslate"><span class="pre">OHN</span></code>, <code class="docutils literal notranslate"><span class="pre">OFAN</span></code>, <code class="docutils literal notranslate"><span class="pre">OAAN</span></code>, or <code class="docutils literal notranslate"><span class="pre">OUDP</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">OHN</span></code> - Online Home Node (default).</p>
+<p><code class="docutils literal notranslate"><span class="pre">OFAN</span></code> - Online on First Available Node.</p>
+<p><code class="docutils literal notranslate"><span class="pre">OAAN</span></code> - Online on All Available Nodes (concurrent).</p>
+<p><code class="docutils literal notranslate"><span class="pre">OUDP</span></code> - Online Using Node Distribution Policy.</p>
+</dd>
+<dt>fallover (False, str, None)</dt><dd><p>fallover policy for the resource group. One of <code class="docutils literal notranslate"><span class="pre">FNPN</span></code>, <code class="docutils literal notranslate"><span class="pre">FUDNP</span></code>, or <code class="docutils literal notranslate"><span class="pre">BO</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">FNPN</span></code> - Fallover to Next Priority Node (default).</p>
+<p><code class="docutils literal notranslate"><span class="pre">FUDNP</span></code> - Fallover Using Dynamic Node Priority.</p>
+<p><code class="docutils literal notranslate"><span class="pre">BO</span></code> - Bring Offline (On Error Node Only).</p>
+</dd>
+<dt>fallback (False, str, None)</dt><dd><p>fallback policy for the resource group. One of <code class="docutils literal notranslate"><span class="pre">NFB</span></code>, or <code class="docutils literal notranslate"><span class="pre">FBHPN</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">NFB</span></code> - Never Fallback.</p>
+<p><code class="docutils literal notranslate"><span class="pre">FBHPN</span></code> - Fallback to Higher Priority Node (default).</p>
+</dd>
+<dt>prio_policy (False, str, None)</dt><dd><p>node priority policy, if fallover set to FUDNP. One of <code class="docutils literal notranslate"><span class="pre">default</span></code>, <code class="docutils literal notranslate"><span class="pre">mem</span></code>, <code class="docutils literal notranslate"><span class="pre">disk</span></code>, <code class="docutils literal notranslate"><span class="pre">cpu</span></code>, <code class="docutils literal notranslate"><span class="pre">least</span></code>, <code class="docutils literal notranslate"><span class="pre">most</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">default</span></code> - next node in the nodes list.</p>
+<p><code class="docutils literal notranslate"><span class="pre">mem</span></code> - node with most available memory.</p>
+<p><code class="docutils literal notranslate"><span class="pre">disk</span></code> - node with least disk activity.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cpu</span></code> - node with most cpu cycles available.</p>
+<p><code class="docutils literal notranslate"><span class="pre">least</span></code> - node where the dynamic node priority script returns the lowest value.</p>
+<p><code class="docutils literal notranslate"><span class="pre">most</span></code> - node where the dynamic node priority script returns the highest value.</p>
+<p>added in 1.1.3</p>
+</dd>
+<dt>prio_policy_script (False, path, None)</dt><dd><p>path to script to determine the <code class="docutils literal notranslate"><span class="pre">prio_policy</span></code></p>
+<p>added in 1.1.3</p>
+</dd>
+<dt>prio_policy_timeout (False, int, None)</dt><dd><p>added in 1.1.3</p>
 </dd>
 <dt>service (False, list, None)</dt><dd><p>list of service labels for the resource group.</p>
 </dd>
@@ -134,7 +167,36 @@
 </dd>
 <dt>volgrp (False, list, None)</dt><dd><p>list of volume groups for the resource group.</p>
 </dd>
-<dt>state (False, str, present)</dt><dd><p>the desired state of the resource - present, absent, started, stopped. If the resource is already defined, it will not be changed.</p>
+<dt>tape (False, list, None)</dt><dd><p>.</p>
+</dd>
+<dt>forced_varyon (False, bool, None)</dt><dd><p>.</p>
+</dd>
+<dt>vg_auto_import (False, bool, None)</dt><dd><p>.</p>
+</dd>
+<dt>fs (False, list, None)</dt><dd><p>.</p>
+</dd>
+<dt>disk (False, list, None)</dt><dd><p>.</p>
+</dd>
+<dt>fs_before_ipaddr (False, bool, None)</dt><dd><p>.</p>
+</dd>
+<dt>wpar (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>export_nfs (False, list, None)</dt><dd><p>.</p>
+</dd>
+<dt>export_nfs4 (False, list, None)</dt><dd><p>.</p>
+</dd>
+<dt>stable_storage_path (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>nfs_network (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>mount_nfs (False, list, None)</dt><dd><p>.</p>
+</dd>
+<dt>mirror_group (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>fallback_at (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>state (False, str, present)</dt><dd><p>the desired state of the resource - <code class="docutils literal notranslate"><span class="pre">present</span></code>, <code class="docutils literal notranslate"><span class="pre">absent</span></code>, <code class="docutils literal notranslate"><span class="pre">started</span></code>, <code class="docutils literal notranslate"><span class="pre">stopped</span></code>.</p>
+<p>If the resource is already defined, it will not be changed.</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -206,7 +268,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cluster.html" class="btn btn-neutral float-left" title="cluster – manage PowerHA cluster" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pv_info.html" class="btn btn-neutral float-left" title="pv_info – find a suitable physical volume." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="service_ip.html" class="btn btn-neutral float-right" title="service_ip – manage service_ip resource in PowerHA cluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

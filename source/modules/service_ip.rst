@@ -1,8 +1,8 @@
 .. _service_ip_module:
 
 
-service_ip -- manage service_ip resource in PowerHA cluster
-===========================================================
+service_ip -- manage service\_ip resource in PowerHA cluster
+============================================================
 
 .. contents::
    :local:
@@ -12,7 +12,7 @@ service_ip -- manage service_ip resource in PowerHA cluster
 Synopsis
 --------
 
-This module creates/deletes/changes service_ip resource in PowerHA cluster.
+This module creates/deletes/changes service\_ip resource in PowerHA cluster.
 
 
 
@@ -23,7 +23,7 @@ Parameters
 ----------
 
   name (True, str, None)
-    name of the service ip label. the name must be resolvable by using ``/etc/hosts``.
+    name of the service ip label. the name must be resolvable by using \ :literal:`/etc/hosts`\ .
 
 
   network (False, str, net_ether_01)
@@ -33,6 +33,14 @@ Parameters
   netmask (False, str, None)
     netmask for the service ip.
 
+    prefix and netmask are mutually exclusive.
+
+
+  prefix (False, int, None)
+    bit prefix for the service ip.
+
+    prefix and netmask are mutually exclusive.
+
 
   site (False, str, None)
     site of the service ip.
@@ -41,7 +49,7 @@ Parameters
 
 
   state (False, str, present)
-    the desired state of the resource - ``present`` or ``absent``.
+    the desired state of the resource - \ :literal:`present`\  or \ :literal:`absent`\ .
 
     If the resource is already defined, it will not be changed.
 

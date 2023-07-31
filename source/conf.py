@@ -16,7 +16,7 @@ copyright = '2023, eNFence'
 author = 'Andrey Klyachkin <info@power-devops.com>'
 
 # The full version, including alpha/beta/rc tags
-release = '1.1.2'
+release = '1.2.0'
 
 # Disable the Copyright footer for Read the docs at the bottom of the page
 # by setting property html_show_copyright = False

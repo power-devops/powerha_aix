@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>appcontroller – manage application_controller resource in PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.1.2 documentation</title>
+  <title>appcontroller – manage application_controller resource in PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.2.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -60,8 +60,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="cluster.html">cluster – manage PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fs.html">fs – manage file_system resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lv.html">lv – manage logical volumes in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pv_info.html">pv_info – find a suitable physical volume.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rg.html">rg – manage resource groups in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="service_ip.html">service_ip – manage service_ip resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vg.html">vg – manage volume_group resource in PowerHA cluster</a></li>
 </ul>
 </li>
 </ul>
@@ -117,7 +121,7 @@
 <section id="parameters">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <blockquote>
-<div><dl class="simple">
+<div><dl>
 <dt>name (True, str, None)</dt><dd><p>name of the application controller.</p>
 </dd>
 <dt>start (False, path, None)</dt><dd><p>path to the start script. the attribute is required if application controller is created.</p>
@@ -125,6 +129,18 @@
 <dt>stop (False, path, None)</dt><dd><p>path to the stop script. the attribute is required if application controller is created.</p>
 </dd>
 <dt>mode (False, str, background)</dt><dd><p>mode of starting scripts. background or foreground. by default background.</p>
+</dd>
+<dt>monitors (False, list, None)</dt><dd><p>application monitors.</p>
+<p>added in 1.1.3</p>
+</dd>
+<dt>cpumon (False, bool, None)</dt><dd><p>enable or disable CPU monitoring. By default is disabled.</p>
+<p>added in 1.1.3</p>
+</dd>
+<dt>cpuproc (False, path, None)</dt><dd><p>full path of the application binary to monitor.</p>
+<p>added in 1.1.3</p>
+</dd>
+<dt>cpuintvl (False, int, None)</dt><dd><p>interval in minutes to monitor cpu usage by the process. valid values are 1 to 120.</p>
+<p>added in 1.1.3</p>
 </dd>
 <dt>state (False, str, present)</dt><dd><p>the desired state of the resource - present or absent. If the resource is already defined, it will not be changed.</p>
 </dd>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cluster – manage PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.1.2 documentation</title>
+  <title>cluster – manage PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.2.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="rg – manage resource groups in PowerHA cluster" href="rg.html" />
+    <link rel="next" title="fs – manage file_system resource in PowerHA cluster" href="fs.html" />
     <link rel="prev" title="appcontroller – manage application_controller resource in PowerHA cluster" href="appcontroller.html" /> 
 </head>
 
@@ -60,8 +60,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#status">Status</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="fs.html">fs – manage file_system resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lv.html">lv – manage logical volumes in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pv_info.html">pv_info – find a suitable physical volume.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rg.html">rg – manage resource groups in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="service_ip.html">service_ip – manage service_ip resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vg.html">vg – manage volume_group resource in PowerHA cluster</a></li>
 </ul>
 </li>
 </ul>
@@ -132,7 +136,57 @@
 <dt>heartbeat (False, str, unicast)</dt><dd><p>hearbeat type for the cluster. used only when the cluster is created</p>
 <p>added in 1.1.1</p>
 </dd>
+<dt>clusterip (False, str, None)</dt><dd><p>cluster ip for heartbeating.</p>
+</dd>
 <dt>fix (False, bool, None)</dt><dd><p>automatically fix errors during synchronization</p>
+</dd>
+<dt>fc_sync_interval (False, int, None)</dt><dd><p>.</p>
+</dd>
+<dt>rg_settling_time (False, int, None)</dt><dd><p>.</p>
+</dd>
+<dt>max_event_time (False, int, None)</dt><dd><p>.</p>
+</dd>
+<dt>max_rg_processing_time (False, int, None)</dt><dd><p>.</p>
+</dd>
+<dt>daily_verification (False, bool, None)</dt><dd><p>.</p>
+</dd>
+<dt>verification_node (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>verification_debugging (False, bool, None)</dt><dd><p>.</p>
+</dd>
+<dt>heartbeat_frequency (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>grace_period (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>site_policy_failure_action (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>site_policy_notify_method (False, path, None)</dt><dd><p>.</p>
+</dd>
+<dt>site_heartbeat_cycle (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>site_grace_period (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>temp_hostname (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>lpm_policy (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>heartbeat_frequency_during_lpm (False, int, None)</dt><dd><p>.</p>
+</dd>
+<dt>network_failure_detection_time (False, int, None)</dt><dd><p>.</p>
+</dd>
+<dt>caa_auto_start_dr (False, bool, None)</dt><dd><p>.</p>
+</dd>
+<dt>caa_repos_mode (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>caa_config_timeout (False, int, None)</dt><dd><p>.</p>
+</dd>
+<dt>lvm_preferred_read (False, str, None)</dt><dd><p>.</p>
+</dd>
+<dt>crit_daemon_restart_grace_period (False, int, None)</dt><dd><p>.</p>
+</dd>
+<dt>skip_event_processing_manage_node (False, bool, None)</dt><dd><p>.</p>
+</dd>
+<dt>caa_pvm_watchdog_timer (False, str, None)</dt><dd><p>.</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -201,7 +255,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="appcontroller.html" class="btn btn-neutral float-left" title="appcontroller – manage application_controller resource in PowerHA cluster" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="rg.html" class="btn btn-neutral float-right" title="rg – manage resource groups in PowerHA cluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="fs.html" class="btn btn-neutral float-right" title="fs – manage file_system resource in PowerHA cluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

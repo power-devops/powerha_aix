@@ -1,8 +1,8 @@
 .. _appcontroller_module:
 
 
-appcontroller -- manage application_controller resource in PowerHA cluster
-==========================================================================
+appcontroller -- manage application\_controller resource in PowerHA cluster
+===========================================================================
 
 .. contents::
    :local:
@@ -12,7 +12,7 @@ appcontroller -- manage application_controller resource in PowerHA cluster
 Synopsis
 --------
 
-This module creates or deletes application_controller resource in PowerHA cluster.
+This module creates or deletes application\_controller resource in PowerHA cluster.
 
 
 
@@ -36,6 +36,30 @@ Parameters
 
   mode (False, str, background)
     mode of starting scripts. background or foreground. by default background.
+
+
+  monitors (False, list, None)
+    application monitors.
+
+    added in 1.1.3
+
+
+  cpumon (False, bool, None)
+    enable or disable CPU monitoring. By default is disabled.
+
+    added in 1.1.3
+
+
+  cpuproc (False, path, None)
+    full path of the application binary to monitor.
+
+    added in 1.1.3
+
+
+  cpuintvl (False, int, None)
+    interval in minutes to monitor cpu usage by the process. valid values are 1 to 120.
+
+    added in 1.1.3
 
 
   state (False, str, present)

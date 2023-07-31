@@ -28,4 +28,4 @@ You can also install a specific version of the collection, for example, if you n
 
 .. code-block:: sh
 
-   $ ansible-galaxy collection install enfence.powerha_aix:==1.0.0
+   $ ansible-galaxy collection install enfence.powerha_aix:==1.2.0
