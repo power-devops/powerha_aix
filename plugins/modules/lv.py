@@ -264,7 +264,7 @@ def get_lv(module):
     # ERROR: "lv01" does not appear to exist!
     if "ERROR:" in stderr:
         return 'absent', 1, stdout, stderr, lvopts
-    vgopts = parse_clmgrq_output(stdout)
+    lvopts = parse_clmgrq_output(stdout)
     return 'present', rc, stdout, stderr, lvopts
 
 
