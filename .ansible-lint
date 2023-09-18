@@ -1,0 +1,7 @@
+offline: true
+
+skip_list:
+  - galaxy[no-changelog]
+
+kinds:
+  - playbook: "examples/*.yml"

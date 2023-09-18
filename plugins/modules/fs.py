@@ -178,7 +178,7 @@ stderr:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import (
-    add_string, add_list, add_int, add_bool, check_powerha, parse_clmgrq_output, CLMGR)
+    add_string, add_int, add_bool, check_powerha, parse_clmgrq_output, CLMGR)
 import math
 
 

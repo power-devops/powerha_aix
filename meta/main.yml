@@ -6,13 +6,10 @@ galaxy_info:
 
   license: GNU General Public License v3.0
 
-  min_ansible_version: 2.9
+  min_ansible_version: 2.13.0
 
   platforms:
     - name: AIX
-      versions:
-        - 7.2
-        - 7.3
 
   galaxy_tags:
     - power

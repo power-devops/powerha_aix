@@ -1,7 +1,7 @@
 # IBM PowerHA SystemMirror for AIX Ansible collection
 
-This collection enable PowerHA cluster management through Ansible on IBM AIX.
-It is tested with IBM PowerHA 7.2.7 but should work with any PowerHA starting 7.2.1.
+This collection enables PowerHA cluster management through Ansible on IBM AIX.
+It is tested with IBM PowerHA 7.2.6 and 7.2.7 but should work with any PowerHA starting 7.2.1.
 
 ## Prerequisites
 
@@ -12,6 +12,13 @@ It is tested with IBM PowerHA 7.2.7 but should work with any PowerHA starting 7.
   - bos.cluster.rte
   - bos.clvm
   - rsct.basic.rte
+
+## Supported versions
+
+We support all AIX and PowerHA versions which are officially supported by IBM. 
+
+- [AIX lifecycle support information](https://www.ibm.com/support/pages/aix-support-lifecycle-information).
+- [PowerHA lifecycle support information](https://www.ibm.com/support/pages/powerha-systemmirror-support-lifecycle-information).
 
 ## Documentation
 
@@ -29,8 +36,12 @@ The following modules are available now:
 
 * enfence.powerha_aix.appcontroller
 * enfence.powerha_aix.cluster
+* enfence.powerha_aix.fs
+* enfence.powerha_aix.lv
+* enfence.powerha_aix.pv_info
 * enfence.powerha_aix.rg
 * enfence.powerha_aix.service_ip
+* enfence.powerha_aix.vg
 
 More will come in the future.
 
@@ -67,7 +78,12 @@ Look at examples directory for playbook examples using the collection.
 
 ## Certification
 
-This collection is NOT certified by Red Hat. But yes, we plan to do it one day.
+This collection is certified by Red Hat. It means you can download the collection from Ansible Automation Hub and it is fully
+supported for Red Hat's Ansible Automation Platform customers.
+
+## Changes
+
+Summary of changes is available in [Changelog](https://github.com/power-devops/powerha_aix/blob/main/docs/source/changelog.rst).
 
 ## Code of Conduct
 
