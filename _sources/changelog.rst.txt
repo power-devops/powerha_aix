@@ -1,6 +1,11 @@
 Changes
 =======
 
+Version 1.2.1
+-------------
+unpublished
+  * "galaxyfication" of the code by ansible-lint
+
 Version 1.2.0
 -------------
 Jul 31, 2023
