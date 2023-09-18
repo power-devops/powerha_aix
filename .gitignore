@@ -3,3 +3,13 @@
 tests
 cache
 plugins/modules/__pycache__
+docs/.buildinfo
+docs/.doctrees
+docs/_sources
+docs/_static
+docs/modules
+docs/*.html
+docs/*.js
+docs/objects.inv
+docs/source/modules/*.rst
+docs/source/CHANGELOG.rst

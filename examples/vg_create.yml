@@ -3,11 +3,11 @@
   hosts: node1
   gather_facts: false
   vars:
-    - ldev: 25B6
-    - vg: vg01
-    - lv: lvora
-    - mountpoint: /ora
-    - rg: rg_ora
+    ldev: 25B6
+    vg: vg01
+    lv: lvora
+    mountpoint: /ora
+    rg: rg_ora
   tasks:
     - name: Find disk for vg
       enfence.powerha_aix.pv_info:

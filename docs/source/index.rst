@@ -39,4 +39,4 @@ Licensed under
 
    contributing
    code_of_conduct
-   changelog
+   CHANGELOG

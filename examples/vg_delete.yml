@@ -3,10 +3,10 @@
   hosts: node1
   gather_facts: false
   vars:
-    - vg: vg01
-    - lv: lvora
-    - mountpoint: /ora
-    - rg: rg_ora
+    vg: vg01
+    lv: lvora
+    mountpoint: /ora
+    rg: rg_ora
   tasks:
     - name: Remove shared volume group from resource group
       enfence.powerha_aix.vg:
