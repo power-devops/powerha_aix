@@ -5,6 +5,7 @@ collection:
 
 test:
 	ansible-test sanity
+	ansible-lint
 
 doc:
 	ln CHANGELOG.rst docs/source/CHANGELOG.rst
