@@ -13,9 +13,9 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=4c8675c2"></script>
+        <script src="_static/documentation_options.js?v=6efca38a"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -93,7 +93,7 @@
            <div itemprop="articleBody">
              
   <section id="contributing-to-the-collection">
-<h1>Contributing to the collection<a class="headerlink" href="#contributing-to-the-collection" title="Permalink to this heading"></a></h1>
+<h1>Contributing to the collection<a class="headerlink" href="#contributing-to-the-collection" title="Link to this heading"></a></h1>
 <p>Thank you for your interest in our <strong>IBM PowerHA SystemMirror for AIX Ansible collection</strong> ☺️</p>
 <p>There are many ways in which you can participate in the project, for example:</p>
 <ul class="simple">
@@ -101,22 +101,22 @@
 <li><p><a class="reference external" href="https://github.com/power-devops/powerha_aix/pulls">Submit and review patches</a>.</p></li>
 </ul>
 <section id="development-guide-for-ibm-powerha-systemmirror-for-aix-ansible-collection">
-<h2>Development Guide for IBM PowerHA SystemMirror for AIX Ansible Collection<a class="headerlink" href="#development-guide-for-ibm-powerha-systemmirror-for-aix-ansible-collection" title="Permalink to this heading"></a></h2>
+<h2>Development Guide for IBM PowerHA SystemMirror for AIX Ansible Collection<a class="headerlink" href="#development-guide-for-ibm-powerha-systemmirror-for-aix-ansible-collection" title="Link to this heading"></a></h2>
 <p><strong>IBM PowerHA SystemMirror for AIX Ansible collection</strong> is a set of Ansible modules for interacting with IBM PowerHA SystemMirror for AIX. In order to test your contributions you must have access to IBM AIX and have license to run IBM PowerHA on it.</p>
 <p>We use Github for the collection’s development. Patches are submitted as pull requests through <a class="reference external" href="https://github.com/power-devops/powerha_aix/pulls">Github</a>.</p>
 <section id="branches">
-<h3>Branches<a class="headerlink" href="#branches" title="Permalink to this heading"></a></h3>
+<h3>Branches<a class="headerlink" href="#branches" title="Link to this heading"></a></h3>
 <p>We use <code class="docutils literal notranslate"><span class="pre">main</span></code> branch for development. If you want to submit a pull request, fork the repository, create a new branch and add your changes into your new branch.</p>
 </section>
 <section id="naming">
-<h3>Naming<a class="headerlink" href="#naming" title="Permalink to this heading"></a></h3>
+<h3>Naming<a class="headerlink" href="#naming" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>This collection is named <code class="docutils literal notranslate"><span class="pre">enfence.powerha_aix</span></code>. There is no need for further namespace prefixing.</p></li>
 <li><p>Name new module according to PowerHA resources or similar, that every user of the collection can understand which type of PowerHA resource is configured using the module.</p></li>
 </ul>
 </section>
 <section id="interface">
-<h3>Interface<a class="headerlink" href="#interface" title="Permalink to this heading"></a></h3>
+<h3>Interface<a class="headerlink" href="#interface" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>If you need to return some additional information to the user, use <code class="docutils literal notranslate"><span class="pre">msg</span></code> field.</p></li>
 <li><p>If you call external utilities, provide <code class="docutils literal notranslate"><span class="pre">stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">stderr</span></code> fields with the output from the utilities.</p></li>
@@ -126,7 +126,7 @@
 </ul>
 </section>
 <section id="coding-guidelines">
-<h3>Coding Guidelines<a class="headerlink" href="#coding-guidelines" title="Permalink to this heading"></a></h3>
+<h3>Coding Guidelines<a class="headerlink" href="#coding-guidelines" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Modules should</p>
 <ul>
@@ -141,7 +141,7 @@
 </ul>
 </section>
 <section id="testing">
-<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this heading"></a></h3>
+<h3>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Modules have to be tested with ansible-test sanity checking.</p></li>
 <li><p>Before submitting patches, you must test your contributions on IBM AIX with PowerHA.</p></li>
