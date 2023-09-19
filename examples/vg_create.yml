@@ -7,7 +7,10 @@
     vg: vg01
     lv: lvora
     mountpoint: /ora
-    rg: rg_ora
+    rg: rg_oracle
+    nodes:
+      - aix101
+      - aix102
   tasks:
     - name: Find disk for vg
       enfence.powerha_aix.pv_info:
@@ -20,9 +23,7 @@
     - name: Create a shared volume group
       enfence.powerha_aix.vg:
         name: "{{ vg }}"
-        nodes:
-          - node1
-          - node2
+        nodes: "{{ nodes }}"
         rg: "{{ rg }}"
         volumes: "{{ pv.pv }}"
     - name: Sync cluster config
@@ -34,7 +35,7 @@
       enfence.powerha_aix.lv:
         name: "{{ lv }}"
         vg: "{{ vg }}"
-        size: 10
+        size: 9
         unit: gb
     - name: Create file system
       enfence.powerha_aix.fs:

@@ -8,7 +8,7 @@ test:
 	ansible-lint
 
 doc:
-	ln CHANGELOG.rst docs/source/CHANGELOG.rst
+	ln -f CHANGELOG.rst docs/source/CHANGELOG.rst
 	ansible-doc-extractor docs/source/modules plugins/modules/*.py
 	sphinx-build -b html docs/source docs
 	touch docs/.nojekyll

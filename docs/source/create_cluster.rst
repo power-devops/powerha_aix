@@ -4,55 +4,57 @@ Creating IBM PowerHA Cluster using Ansible
 .. code-block:: yaml
 
    ---
-   - name: test playbook - create cluster
+   - name: Create cluster
      hosts: all
+     vars:
+       nodes:
+         - aix101
+         - aix102
+       nodes_ip:
+         - 10.11.12.21
+         - 10.11.12.22
      tasks:
-       - name: create /etc/cluster/rhosts
+       - name: Create /etc/cluster/rhosts
          ansible.builtin.copy:
-           content: "10.11.12.21\n10.11.12.22\n"
+           content: "{{ nodes_ip | join('\n') }}\n"
            dest: /etc/cluster/rhosts
            owner: root
            group: system
-           mode: 0600
-         register: rh_result
-       - name: start clcomd
-         ansible.builtin.shell:
-           cmd: startsrc -s clcomd
-         when: rh_result.changed
-       - name: wait two sec...
-         ansible.builtin.pause:
-           seconds: 5
-         when: rh_result.changed
-       - name: create a cluster
+           mode: "0600"
+         notify:
+           - Restart clcomd
+       - name: Flush handlers
+         ansible.builtin.meta: flush_handlers
+       - name: Create a cluster
          enfence.powerha_aix.cluster:
            name: cluster1
            state: present
            repos:
              - hdisk1
-           nodes:
-             - node1
-             - node2
-       - name: start cluster
+           nodes: "{{ nodes }}"
+         when: inventory_hostname in groups['node1']
+       - name: Start cluster
          enfence.powerha_aix.cluster:
            name: cluster1
            state: started
-       - name: add service label
+         when: inventory_hostname in groups['node1']
+       - name: Add service label
          enfence.powerha_aix.service_ip:
            name: oracle
-         register: sl_added
-       - name: add application controller
+         when: inventory_hostname in groups['node1']
+         notify: "Synchronize cluster"
+       - name: Add application controller
          enfence.powerha_aix.appcontroller:
            name: ac_oracle
            start: /usr/local/bin/start_ora
            stop: /usr/local/bin/stop_ora
            mode: foreground
-         register: ac_added
-       - name: add resource group
+         when: inventory_hostname in groups['node1']
+         notify: "Synchronize cluster"
+       - name: Add resource group
          enfence.powerha_aix.rg:
            name: rg_oracle
-           nodes:
-             - node1
-             - node2
+           nodes: "{{ nodes }}"
            startup: OHN
            fallover: FNPN
            fallback: NFB
@@ -61,15 +63,37 @@ Creating IBM PowerHA Cluster using Ansible
            volgrp:
              - vg01
              - vg02
-             - vg03
-         register: rg_added
-       - name: sync cluster config
+         when: inventory_hostname in groups['node1']
+         notify: "Synchronize cluster"
+       - name: Flush handlers
+         ansible.builtin.meta: flush_handlers
+         when: inventory_hostname in groups['node1']
+       - name: Bring rg_oracle online
+         enfence.powerha_aix.rg:
+           name: rg_oracle
+           state: started
+         when: inventory_hostname in groups['node1']
+   
+     handlers:
+       - name: Stop clcomd # noqa: no-changed-when
+         ansible.builtin.command:
+           cmd: stopsrc -s clcomd
+         ignore_errors: true # noqa: ignore-errors
+         listen: "Restart clcomd"
+   
+       - name: Wait 5 seconds...
+         ansible.builtin.pause:
+           seconds: 5
+         listen: "Restart clcomd"
+   
+       - name: Start clcomd # noqa: no-changed-when
+         ansible.builtin.command:
+           cmd: startsrc -s clcomd
+         listen: "Restart clcomd"
+   
+       - name: Synchronize cluster
          enfence.powerha_aix.cluster:
            name: cluster1
            fix: true
            state: synced
-         when: sl_added.changed or ac_added.changed or rg_added.changed
-       - name: bring rg_oracle online
-         enfence.powerha_aix.rg:
-           name: rg_oracle
-           state: started
+   

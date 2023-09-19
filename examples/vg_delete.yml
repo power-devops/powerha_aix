@@ -6,7 +6,7 @@
     vg: vg01
     lv: lvora
     mountpoint: /ora
-    rg: rg_ora
+    rg: rg_oracle
   tasks:
     - name: Remove shared volume group from resource group
       enfence.powerha_aix.vg:
