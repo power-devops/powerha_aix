@@ -3,7 +3,7 @@ Changes
 
 Version 1.2.1
 -------------
-unpublished
+Sep 19, 2023
   * "galaxyfication" of the code by ansible-lint
   * examples and documentation are updated
 
