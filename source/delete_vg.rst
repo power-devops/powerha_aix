@@ -4,29 +4,30 @@ Removing volume group from IBM PowerHA Cluster using Ansible
 .. code-block:: yaml
 
    ---
-   - name: test playbook - remove volume group
+   - name: Remove volume group
      hosts: node1
      gather_facts: false
      vars:
-       - vg: vg01
-       - lv: lvora
-       - mountpoint: /ora
-       - rg: rg_ora
+       vg: vg01
+       lv: lvora
+       mountpoint: /ora
+       rg: rg_oracle
      tasks:
-       - name: remove shared volume group from resource group
+       - name: Remove shared volume group from resource group
          enfence.powerha_aix.vg:
            name: "{{ vg }}"
            rg: "{{ rg }}"
            state: rgremove
-       - name: sync cluster config
+       - name: Sync cluster config
          enfence.powerha_aix.cluster:
            name: cluster1
            fix: true
-       - name: delete file system
+           state: synced
+       - name: Delete file system
          enfence.powerha_aix.fs:
            name: "{{ mountpoint }}"
            state: absent
-       - name: delete shared volume group
+       - name: Delete shared volume group
          enfence.powerha_aix.vg:
            name: "{{ vg }}"
            state: absent

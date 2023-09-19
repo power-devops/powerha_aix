@@ -5,6 +5,7 @@ Version 1.2.1
 -------------
 unpublished
   * "galaxyfication" of the code by ansible-lint
+  * examples and documentation are updated
 
 Version 1.2.0
 -------------
