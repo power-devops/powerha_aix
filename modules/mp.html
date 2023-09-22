@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pv_info – find a suitable physical volume. &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.2.0 documentation</title>
+  <title>mp – manage mirror_pool resource in PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.2.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="rg – manage resource groups in PowerHA cluster" href="rg.html" />
-    <link rel="prev" title="mp – manage mirror_pool resource in PowerHA cluster" href="mp.html" /> 
+    <link rel="next" title="pv_info – find a suitable physical volume." href="pv_info.html" />
+    <link rel="prev" title="lv – manage logical volumes in PowerHA cluster" href="lv.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -55,8 +55,7 @@
 <li class="toctree-l3"><a class="reference internal" href="cluster.html">cluster – manage PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fs.html">fs – manage file_system resource in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lv.html">lv – manage logical volumes in PowerHA cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mp.html">mp – manage mirror_pool resource in PowerHA cluster</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">pv_info – find a suitable physical volume.</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">mp – manage mirror_pool resource in PowerHA cluster</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
@@ -64,6 +63,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#status">Status</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="pv_info.html">pv_info – find a suitable physical volume.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rg.html">rg – manage resource groups in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="service_ip.html">service_ip – manage service_ip resource in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vg.html">vg – manage volume_group resource in PowerHA cluster</a></li>
@@ -94,9 +94,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../modules.html">Modules</a></li>
-      <li class="breadcrumb-item active">pv_info – find a suitable physical volume.</li>
+      <li class="breadcrumb-item active">mp – manage mirror_pool resource in PowerHA cluster</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/power-devops/powerha_aix/blob/main/docs/source/modules/pv_info.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/power-devops/powerha_aix/blob/main/docs/source/modules/mp.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -104,8 +104,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pv-info-find-a-suitable-physical-volume">
-<span id="pv-info-module"></span><h1>pv_info – find a suitable physical volume.<a class="headerlink" href="#pv-info-find-a-suitable-physical-volume" title="Link to this heading"></a></h1>
+  <section id="mp-manage-mirror-pool-resource-in-powerha-cluster">
+<span id="mp-module"></span><h1>mp – manage mirror_pool resource in PowerHA cluster<a class="headerlink" href="#mp-manage-mirror-pool-resource-in-powerha-cluster" title="Link to this heading"></a></h1>
 <nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
@@ -117,53 +117,64 @@
 </nav>
 <section id="synopsis">
 <h2><a class="toc-backref" href="#id1" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Link to this heading"></a></h2>
-<p>this module searches for physical volumes according to the supplied attributes.</p>
-<p>if the volumes are found, a list with their names is returned.</p>
-<p>otherwise an empty list is returned.</p>
-<p>physical volumes already assigned to volume groups or locked by LVM are not returned.</p>
+<p>This module creates/deletes/changes mirror_pool resource in PowerHA cluster.</p>
 </section>
 <section id="parameters">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
 <blockquote>
 <div><dl>
-<dt>name (False, str, None)</dt><dd><p>name to find a suitable physical volumes.</p>
-<p>it can be a regular expresion.</p>
+<dt>name (True, str, None)</dt><dd><p>name of the mirror pool.</p>
 </dd>
-<dt>pvid (False, str, None)</dt><dd><p>PVID of the physical volume to return.</p>
+<dt>state (False, str, present)</dt><dd><p>the desired state of the mirror pool - <code class="docutils literal notranslate"><span class="pre">present</span></code>, <code class="docutils literal notranslate"><span class="pre">absent</span></code>.</p>
 </dd>
-<dt>uuid (False, str, None)</dt><dd><p>UUID of the physical volumes to return.</p>
+<dt>volume_group (False, str, None)</dt><dd><p>name of the volume group.</p>
+<p>required if the state is <code class="docutils literal notranslate"><span class="pre">present</span></code> and no <code class="docutils literal notranslate"><span class="pre">volumes</span></code> are specified.</p>
 </dd>
-<dt>ldev (False, str, None)</dt><dd><p>LDEV or LUN ID of the physical volumes to return.</p>
-<p>it can be a regular expresion.</p>
+<dt>volumes (False, list, None)</dt><dd><p>list of disks to be in the mirror pool.</p>
+<p>required if the state is <code class="docutils literal notranslate"><span class="pre">present</span></code> and no <code class="docutils literal notranslate"><span class="pre">volume_group</span></code> is specified.</p>
+</dd>
+<dt>mode (False, str, sync)</dt><dd><p>mode of mirroring - synchronous or asynchronous.</p>
+</dd>
+<dt>async_cache_lv (False, str, None)</dt><dd><p>logical volume to cache data if <code class="docutils literal notranslate"><span class="pre">mode</span></code> is <em>async</em>.</p>
+<p>required if <code class="docutils literal notranslate"><span class="pre">mode</span></code> is <em>async</em>.</p>
+</dd>
+<dt>async_cache_hw_mark (False, int, None)</dt><dd><p>specifies the I/O-cache high watermark.</p>
+<p>the value is the percent of I/O cache size.</p>
+<p>the default value is 100%.</p>
 </dd>
 </dl>
 </div></blockquote>
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id3" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># get a list of disks with LDEV 60050768019081D398000000000010D4</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">get hdisk for LDEV 60050768019081D398000000000010D4</span>
-<span class="w">  </span><span class="nt">enfence.powerha_aix.pv_info</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">ldev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60050768019081D398000000000010D4</span>
-<span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hdisk</span>
-<span class="c1"># get a list of free disks, not assigned to volume groups</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">get a list of free disks</span>
-<span class="w">  </span><span class="nt">enfence.powerha_aix.pv_info</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;hdisk*&quot;</span>
-<span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">free_hdisk</span>
-<span class="c1"># print the found hdisks</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">print hdisk</span>
-<span class="w">  </span><span class="nt">ansible.builtin.debug</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">var</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">free_hdisk.pv</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># create mirror pools for vg01</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mirror pool mp1</span>
+<span class="w">  </span><span class="nt">enfence.powerha_aix.mp</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mp1</span>
+<span class="w">    </span><span class="nt">vg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vg01</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hdisk1</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hdisk2</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mirror pool mp2</span>
+<span class="w">  </span><span class="nt">enfence.powerha_aix.mp</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mp2</span>
+<span class="w">    </span><span class="nt">vg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vg02</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hdisk3</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hdisk4</span>
+<span class="c1"># delete mirror pool mp1 from volume group vg01</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">delete mirror pool mp1</span>
+<span class="w">  </span><span class="nt">enfence.powerha_aix.mp</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mp1</span>
+<span class="w">    </span><span class="nt">vg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vg01</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">absent</span>
 </pre></div>
 </div>
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id4" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Link to this heading"></a></h2>
 <dl class="simple">
-<dt>pv (always, list, )</dt><dd><p>a list of found physical volumes</p>
-</dd>
-<dt>changed (always, bool, )</dt><dd><p>always False</p>
+<dt>changed (always, bool, )</dt><dd><p>set to true if the resource was changed</p>
 </dd>
 <dt>msg (always, str, )</dt><dd><p>error and informational messages</p>
 </dd>
@@ -190,8 +201,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="mp.html" class="btn btn-neutral float-left" title="mp – manage mirror_pool resource in PowerHA cluster" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="rg.html" class="btn btn-neutral float-right" title="rg – manage resource groups in PowerHA cluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="lv.html" class="btn btn-neutral float-left" title="lv – manage logical volumes in PowerHA cluster" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pv_info.html" class="btn btn-neutral float-right" title="pv_info – find a suitable physical volume." accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
