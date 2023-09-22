@@ -1,6 +1,11 @@
 Changes
 =======
 
+Version 1.3.0
+-------------
+unpublished
+  * Added mp module
+
 Version 1.2.1
 -------------
 Sep 19, 2023
