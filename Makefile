@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-collection: clean
+collection: clean test
 	ansible-galaxy collection build
 
 test:
@@ -14,4 +14,4 @@ doc:
 	touch docs/.nojekyll
 
 clean:
-	rm -rf docs/*.html docs/*.js docs/source/CHANGELOG.rst docs/source/modules/*.rst docs/objects.inv docs/modules docs/_static docs/_sources docs/.doctrees docs/.buildinfo plugins/modules/__pycache__ cache tests *.tar.gz
+	rm -rf docs/*.html docs/*.js docs/source/CHANGELOG.rst docs/source/modules/*.rst docs/objects.inv docs/modules docs/_static docs/_sources docs/.doctrees docs/.buildinfo plugins/modules/__pycache__ cache tests *.tar.gz *.swp
