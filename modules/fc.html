@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lv – manage logical volumes in PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.2.0 documentation</title>
+  <title>fc – manage file_collection resource in PowerHA cluster &mdash; IBM PowerHA SystemMirror for AIX - Ansible Collection 1.2.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="mp – manage mirror_pool resource in PowerHA cluster" href="mp.html" />
-    <link rel="prev" title="fs – manage file_system resource in PowerHA cluster" href="fs.html" /> 
+    <link rel="next" title="fs – manage file_system resource in PowerHA cluster" href="fs.html" />
+    <link rel="prev" title="cluster – manage PowerHA cluster" href="cluster.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,9 +53,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../modules.html#module-reference">Module reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="appcontroller.html">appcontroller – manage application_controller resource in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cluster.html">cluster – manage PowerHA cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fc.html">fc – manage file_collection resource in PowerHA cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fs.html">fs – manage file_system resource in PowerHA cluster</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">lv – manage logical volumes in PowerHA cluster</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">fc – manage file_collection resource in PowerHA cluster</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
@@ -63,6 +61,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#status">Status</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="fs.html">fs – manage file_system resource in PowerHA cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lv.html">lv – manage logical volumes in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mp.html">mp – manage mirror_pool resource in PowerHA cluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pv_info.html">pv_info – find a suitable physical volume.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rg.html">rg – manage resource groups in PowerHA cluster</a></li>
@@ -95,9 +95,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../modules.html">Modules</a></li>
-      <li class="breadcrumb-item active">lv – manage logical volumes in PowerHA cluster</li>
+      <li class="breadcrumb-item active">fc – manage file_collection resource in PowerHA cluster</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/power-devops/powerha_aix/blob/main/docs/source/modules/lv.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/power-devops/powerha_aix/blob/main/docs/source/modules/fc.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -105,8 +105,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="lv-manage-logical-volumes-in-powerha-cluster">
-<span id="lv-module"></span><h1>lv – manage logical volumes in PowerHA cluster<a class="headerlink" href="#lv-manage-logical-volumes-in-powerha-cluster" title="Link to this heading"></a></h1>
+  <section id="fc-manage-file-collection-resource-in-powerha-cluster">
+<span id="fc-module"></span><h1>fc – manage file_collection resource in PowerHA cluster<a class="headerlink" href="#fc-manage-file-collection-resource-in-powerha-cluster" title="Link to this heading"></a></h1>
 <nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
@@ -118,90 +118,51 @@
 </nav>
 <section id="synopsis">
 <h2><a class="toc-backref" href="#id1" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Link to this heading"></a></h2>
-<p>This module creates/deletes/changes logical_volume resource in PowerHA cluster.</p>
+<p>This module creates/deletes/changes file_collection resource in PowerHA cluster.</p>
 </section>
 <section id="parameters">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
 <blockquote>
 <div><dl>
-<dt>name (True, str, None)</dt><dd><p>name of the logical volume.</p>
+<dt>name (True, str, None)</dt><dd><p>name of the file collection.</p>
 </dd>
-<dt>state (False, str, present)</dt><dd><p>the desired state of the logical volume - <code class="docutils literal notranslate"><span class="pre">present</span></code>, <code class="docutils literal notranslate"><span class="pre">absent</span></code>.</p>
+<dt>state (False, str, present)</dt><dd><p>the desired state of the file collection - <code class="docutils literal notranslate"><span class="pre">present</span></code>, <code class="docutils literal notranslate"><span class="pre">absent</span></code>.</p>
 </dd>
-<dt>vg (True, str, None)</dt><dd><p>name of the volume group where the logical volume resides.</p>
+<dt>files (False, list, None)</dt><dd><p>list of files to be synchronized between cluster nodes.</p>
 </dd>
-<dt>size (False, int, None)</dt><dd><p>size of the logical volume. required if state is <code class="docutils literal notranslate"><span class="pre">present</span></code>.</p>
+<dt>description (False, str, None)</dt><dd><p>description of the file collection.</p>
 </dd>
-<dt>unit (False, str, pp)</dt><dd><p>unit for the size of the logical volume.</p>
-<p>the size will be rounded according to physical partition size in the volume group.</p>
+<dt>sync_with_cluster (False, bool, None)</dt><dd><p>if <em>true</em>, the file collection will be automatically synchronized during cluster synchronization.</p>
 </dd>
-<dt>volumes (False, list, None)</dt><dd><p>physical volumes where the logical volume should reside.</p>
-</dd>
-<dt>type (False, str, jfs2)</dt><dd><p>type of the logical volumes.</p>
-</dd>
-<dt>position (False, str, None)</dt><dd><p>position of the logical volume on the physical volume.</p>
-</dd>
-<dt>pv_range (False, str, None)</dt><dd><p>how to place the logical volume on physical volumes.</p>
-</dd>
-<dt>max_pv (False, int, None)</dt><dd><p>maximum number of physical volumes to use for the logical volume.</p>
-</dd>
-<dt>copies (False, int, None)</dt><dd><p>number of copies of the logical volume.</p>
-</dd>
-<dt>write_consistency (False, str, None)</dt><dd><p>mode of write consistency.</p>
-</dd>
-<dt>sep_pvs (False, str, None)</dt><dd><p>Strict allocation policy.</p>
-</dd>
-<dt>relocate (False, bool, None)</dt><dd><p>Reorganization relocation flag.</p>
-</dd>
-<dt>label (False, str, None)</dt><dd><p>logical volume label.</p>
-</dd>
-<dt>max_lp (False, int, None)</dt><dd><p>maximum number of logical partitions in the logical volume.</p>
-</dd>
-<dt>bb_relocate (False, bool, None)</dt><dd><p>Bad-block relocation policy.</p>
-</dd>
-<dt>sched_policy (False, str, None)</dt><dd><p>Scheduling policy when more than one logical partition is written.</p>
-</dd>
-<dt>verify_writes (False, bool, None)</dt><dd><p>Sets the write-verify state for the logical volume.</p>
-</dd>
-<dt>alloc_map (False, path, None)</dt><dd><p>Specifies the exact physical partitions to allocate.</p>
-</dd>
-<dt>stripe_size (False, str, None)</dt><dd><p>Specifies the number of bytes per strip.</p>
-</dd>
-<dt>serialize_io (False, bool, None)</dt><dd><p>Turns on/off serialization of overlapping I/Os.</p>
-</dd>
-<dt>first_block_available (False, bool, None)</dt><dd><p>The logical volume control block does not occupy the first block of the logical volume.</p>
-</dd>
-<dt>mp1 (False, str, None)</dt><dd><p>Specify a mirror pool for first copy.</p>
-</dd>
-<dt>mp2 (False, str, None)</dt><dd><p>Specify a mirror pool for second copy.</p>
-</dd>
-<dt>mp3 (False, str, None)</dt><dd><p>Specify a mirror pool for third copy.</p>
-</dd>
-<dt>group (False, str, None)</dt><dd><p>Specifies group ID for the logical volume special file.</p>
-</dd>
-<dt>permissions (False, str, None)</dt><dd><p>Specifies permissions (file modes) for the logical volume special file.</p>
-</dd>
-<dt>node (False, str, None)</dt><dd><p>Reference node.</p>
-</dd>
-<dt>encryption (False, bool, None)</dt><dd><p>Enables the data encryption option in the logical volume.</p>
-</dd>
-<dt>auth_method (False, str, None)</dt><dd><p>N/A.</p>
-</dd>
-<dt>method_details (False, str, None)</dt><dd><p>N/A.</p>
-</dd>
-<dt>auth_method_name (False, str, None)</dt><dd><p>N/A.</p>
+<dt>sync_when_changed (False, bool, None)</dt><dd><p>if <em>true</em>, the file collection will be checked for changes automatically by the cluster.</p>
+<p>if the cluster detects changes on the files in the collection, they will be automatically propagated to other nodes.</p>
 </dd>
 </dl>
 </div></blockquote>
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id3" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">create logical volume</span>
-<span class="w">  </span><span class="nt">enfence.powerha_aix.lv</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lvora</span>
-<span class="w">    </span><span class="nt">vg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vg01</span>
-<span class="w">    </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">    </span><span class="nt">unit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gb</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="c1"># create file collection</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file collection profiles</span>
+<span class="w">  </span><span class="nt">enfence.powerha_aix.fc</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">profiles</span>
+<span class="w">    </span><span class="nt">sync_when_changed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">sync_with_cluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">files</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/sapadm/.profile</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/sapadm/.login</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/sapadm/.sapenv.sh</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/home/sapadm/.dbenv.sh</span>
+<span class="c1"># manually synchronize collection</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">synchronize profiles fc</span>
+<span class="w">  </span><span class="nt">enfence.powerha_aix.fc</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">profiles</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">synced</span>
+<span class="c1"># delete file collection</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">delete file collection profiles</span>
+<span class="w">  </span><span class="nt">enfence.powerha_aix.fc</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">profiles</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">absent</span>
 </pre></div>
 </div>
 </section>
@@ -235,8 +196,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="fs.html" class="btn btn-neutral float-left" title="fs – manage file_system resource in PowerHA cluster" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="mp.html" class="btn btn-neutral float-right" title="mp – manage mirror_pool resource in PowerHA cluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cluster.html" class="btn btn-neutral float-left" title="cluster – manage PowerHA cluster" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fs.html" class="btn btn-neutral float-right" title="fs – manage file_system resource in PowerHA cluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

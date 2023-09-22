@@ -4,7 +4,8 @@ Changes
 Version 1.3.0
 -------------
 unpublished
-  * Added mp module
+  * added mp module (mirror_pool)
+  * added fc module (file_collection)
 
 Version 1.2.1
 -------------
