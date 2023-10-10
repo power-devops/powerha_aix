@@ -70,20 +70,11 @@
       when: inventory_hostname in groups['node1']
 
   handlers:
-    - name: Stop clcomd # noqa: no-changed-when
-      ansible.builtin.command:
-        cmd: stopsrc -s clcomd
-      ignore_errors: true # noqa: ignore-errors
-      listen: "Restart clcomd"
-
-    - name: Wait 5 seconds...
-      ansible.builtin.pause:
-        seconds: 5
-      listen: "Restart clcomd"
-
-    - name: Start clcomd # noqa: no-changed-when
-      ansible.builtin.command:
-        cmd: startsrc -s clcomd
+    - name: "Restart clcomd"
+      ansible.builtin.service:
+        name: clcomd
+        state: restarted
+        sleep: 5
       listen: "Restart clcomd"
 
     - name: Synchronize cluster
