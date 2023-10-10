@@ -163,20 +163,11 @@
 <span class="w">      </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inventory_hostname in groups[&#39;node1&#39;]</span>
 
 <span class="w">  </span><span class="nt">handlers</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Stop clcomd</span><span class="w"> </span><span class="c1"># noqa: no-changed-when</span>
-<span class="w">      </span><span class="nt">ansible.builtin.command</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stopsrc -s clcomd</span>
-<span class="w">      </span><span class="nt">ignore_errors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"> </span><span class="c1"># noqa: ignore-errors</span>
-<span class="w">      </span><span class="nt">listen</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Restart</span><span class="nv"> </span><span class="s">clcomd&quot;</span>
-
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Wait 5 seconds...</span>
-<span class="w">      </span><span class="nt">ansible.builtin.pause</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
-<span class="w">      </span><span class="nt">listen</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Restart</span><span class="nv"> </span><span class="s">clcomd&quot;</span>
-
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Start clcomd</span><span class="w"> </span><span class="c1"># noqa: no-changed-when</span>
-<span class="w">      </span><span class="nt">ansible.builtin.command</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">startsrc -s clcomd</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Restart clcomd</span>
+<span class="w">      </span><span class="nt">ansible.builtin.service</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clcomd</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restarted</span>
+<span class="w">        </span><span class="nt">sleep</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 <span class="w">      </span><span class="nt">listen</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Restart</span><span class="nv"> </span><span class="s">clcomd&quot;</span>
 
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Synchronize cluster</span>
