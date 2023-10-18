@@ -1,0 +1,6 @@
+---
+- name: Restart clcomd
+  ansible.builtin.service:
+    name: clcomd
+    sleep: 5
+    state: restarted

@@ -1,0 +1,22 @@
+galaxy_info:
+  author: Andrey Klyachkin <info@power-devops.com>
+  description: Prepare AIX for PowerHA cluster configuration
+  company: eNFence
+
+  license: GNU General Public License v3.0
+
+  min_ansible_version: 2.13.0
+
+  platforms:
+    - name: AIX
+
+  galaxy_tags:
+    - power
+    - aix
+    - ibmpower
+    - ibmaix
+    - powerha
+    - cluster
+    - infrastructure
+
+dependencies: []

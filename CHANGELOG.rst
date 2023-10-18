@@ -8,6 +8,7 @@ unpublished
   * added fc module (file_collection)
   * added ha_facts module
   * changes in cluster_create example (thanks @neikei)
+  * added cluster_prepare role
 
 Version 1.2.1
 -------------

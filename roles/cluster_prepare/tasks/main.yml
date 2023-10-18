@@ -1,0 +1,56 @@
+---
+- name: Install AIX prerequisites
+  ibm.power_aix.installp:
+    extend_fs: true
+    commit: true
+    device: "{{ aix_source }}"
+    install_list: "{{ aix_filesets }}"
+    dependencies: true
+    agree_licenses: true
+- name: Install PowerHA filesets
+  ibm.power_aix.installp:
+    extend_fs: true
+    commit: true
+    device: "{{ powerha_source }}"
+    install_list: "{{ powerha_filesets }}"
+    dependencies: true
+    agree_licenses: true
+- name: Add nodes in /etc/hosts
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "{{ item.ip }} {{ item.name }}"
+  loop: "{{ nodes | community.general.lists_mergeby(service, 'name') }}"
+  loop_control:
+    label: "{{ item.name }}"
+- name: Add nodes in /etc/cluster/rhosts
+  ansible.builtin.copy:
+    content: "{{ nodes | community.general.lists_mergeby(service, 'name') | map(attribute='ip') | join('\n') }}\n"
+    dest: /etc/cluster/rhosts
+    owner: root
+    group: system
+    mode: "0600"
+  notify: Restart clcomd
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+- name: Ensure directory exists for start script
+  ansible.builtin.file:
+    path: "{{ app.start | dirname }}"
+    recurse: true
+- name: Create start script
+  ansible.builtin.copy:
+    src: start_app.sh
+    dest: "{{ app.start }}"
+    owner: root
+    group: system
+    mode: "0755"
+- name: Ensure directory exists for stop script
+  ansible.builtin.file:
+    path: "{{ app.stop | dirname }}"
+    recurse: true
+- name: Create stop script
+  ansible.builtin.copy:
+    src: stop_app.sh
+    dest: "{{ app.stop }}"
+    owner: root
+    group: system
+    mode: "0755"

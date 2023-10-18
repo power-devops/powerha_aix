@@ -50,6 +50,12 @@ The following modules are available now:
 
 More will come in the future.
 
+## Roles
+
+The following roles are available now:
+
+* cluster_prepare (Prepare AIX to configure PowerHA cluster)
+
 ## Using the collection
 
 ### Installing the Collection from Ansible Galaxy
