@@ -31,6 +31,7 @@ Licensed under
    :hidden:
 
    modules
+   roles
 
 .. toctree::
    :maxdepth: 2
