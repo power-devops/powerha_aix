@@ -47,7 +47,7 @@ aix32
 
 ### app variable
 
-```yaml
+```
 app:
   name: "ac_ora" 		# name of the application controller
   start: "start_app.sh" 	# script to start the application
@@ -56,7 +56,7 @@ app:
 
 ### rg variable
 
-```yaml
+```
 rg:
   name: "rg_oracle"		# name of the resource group
   startup: "OHN"		# startup policy of the resource group
@@ -68,13 +68,15 @@ rg:
 
 ```yaml
 ---
-- name: Prepare AIX to configure PowerHA cluster
+- name: Create dual-node PowerHA cluster
   hosts: all
   become: true
   gather_facts: false
 
   roles:
-    - role: cluster_prepare
+    - role: cluster_create
+      caarepo_luns:
+        - "60050X6801Z081D3Y8000000000002D5"
       nodes:
         - { name: "node1", ip: "10.0.0.11" }
         - { name: "node2", ip: "10.0.0.12" }
