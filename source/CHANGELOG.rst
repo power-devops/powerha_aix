@@ -6,6 +6,7 @@ Version 1.3.0
 unpublished
   * added mp module (mirror_pool)
   * added fc module (file_collection)
+  * added ha_facts module
   * changes in cluster_create example (thanks @neikei)
 
 Version 1.2.1
