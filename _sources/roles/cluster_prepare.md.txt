@@ -31,7 +31,7 @@ The role is part of [PowerHA SystemMirror for AIX collection](https://power-devo
 
 ### app variable
 
-```yaml
+```
 app:
   name: "ac_ora" 		# name of the application controller
   start: "start_app.sh" 	# script to start the application

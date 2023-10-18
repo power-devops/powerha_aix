@@ -181,20 +181,20 @@
 </table>
 <section id="app-variable">
 <h3>app variable<a class="headerlink" href="#app-variable" title="Link to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">app</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ac_ora&quot;</span><span class="w"> </span><span class="err">		</span><span class="c1"># name of the application controller</span>
-<span class="w">  </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;start_app.sh&quot;</span><span class="w"> </span><span class="err">	</span><span class="c1"># script to start the application</span>
-<span class="w">  </span><span class="nt">stop</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;stop_app.sh&quot;</span><span class="err">		</span><span class="c1"># script to stop the application</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">app</span><span class="p">:</span>
+  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;ac_ora&quot;</span> 		<span class="c1"># name of the application controller</span>
+  <span class="n">start</span><span class="p">:</span> <span class="s2">&quot;start_app.sh&quot;</span> 	<span class="c1"># script to start the application</span>
+  <span class="n">stop</span><span class="p">:</span> <span class="s2">&quot;stop_app.sh&quot;</span>		<span class="c1"># script to stop the application</span>
 </pre></div>
 </div>
 </section>
 <section id="rg-variable">
 <h3>rg variable<a class="headerlink" href="#rg-variable" title="Link to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">rg</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;rg_oracle&quot;</span><span class="err">		</span><span class="c1"># name of the resource group</span>
-<span class="w">  </span><span class="nt">startup</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;OHN&quot;</span><span class="err">		</span><span class="c1"># startup policy of the resource group</span>
-<span class="w">  </span><span class="nt">fallover</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FNPN&quot;</span><span class="err">		</span><span class="c1"># fallover policy of the resource group</span>
-<span class="w">  </span><span class="nt">fallback</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NFB&quot;</span><span class="err">		</span><span class="c1"># fallback policy of the resource group</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rg</span><span class="p">:</span>
+  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;rg_oracle&quot;</span>		<span class="c1"># name of the resource group</span>
+  <span class="n">startup</span><span class="p">:</span> <span class="s2">&quot;OHN&quot;</span>		<span class="c1"># startup policy of the resource group</span>
+  <span class="n">fallover</span><span class="p">:</span> <span class="s2">&quot;FNPN&quot;</span>		<span class="c1"># fallover policy of the resource group</span>
+  <span class="n">fallback</span><span class="p">:</span> <span class="s2">&quot;NFB&quot;</span>		<span class="c1"># fallback policy of the resource group</span>
 </pre></div>
 </div>
 </section>
@@ -202,13 +202,15 @@
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prepare AIX to configure PowerHA cluster</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create dual-node PowerHA cluster</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">all</span>
 <span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
 <span class="w">  </span><span class="nt">roles</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster_prepare</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster_create</span>
+<span class="w">      </span><span class="nt">caarepo_luns</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;60050X6801Z081D3Y8000000000002D5&quot;</span>
 <span class="w">      </span><span class="nt">nodes</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node1&quot;</span><span class="p p-Indicator">,</span><span class="nt"> ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.0.0.11&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node2&quot;</span><span class="p p-Indicator">,</span><span class="nt"> ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.0.0.12&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
