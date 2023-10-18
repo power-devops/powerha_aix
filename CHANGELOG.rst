@@ -3,7 +3,7 @@ Changes
 
 Version 1.3.0
 -------------
-unpublished
+Oct 18, 2023
   * added mp module (mirror_pool)
   * added fc module (file_collection)
   * added ha_facts module
