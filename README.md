@@ -55,6 +55,7 @@ More will come in the future.
 The following roles are available now:
 
 * cluster_prepare (Prepare AIX to configure PowerHA cluster)
+* cluster_create (Create simple dual-node PowerHA cluster on AIX)
 
 ## Using the collection
 

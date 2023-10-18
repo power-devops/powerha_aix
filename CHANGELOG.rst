@@ -9,6 +9,7 @@ unpublished
   * added ha_facts module
   * changes in cluster_create example (thanks @neikei)
   * added cluster_prepare role
+  * added cluster_create role
 
 Version 1.2.1
 -------------
