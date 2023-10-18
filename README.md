@@ -36,14 +36,17 @@ ansible-doc -M ./collections/ansible_collections/enfence/powerha_aix/plugins/mod
 
 The following modules are available now:
 
-* enfence.powerha_aix.appcontroller
-* enfence.powerha_aix.cluster
-* enfence.powerha_aix.fs
-* enfence.powerha_aix.lv
-* enfence.powerha_aix.pv_info
-* enfence.powerha_aix.rg
-* enfence.powerha_aix.service_ip
-* enfence.powerha_aix.vg
+* enfence.powerha_aix.appcontroller (Application Controller)
+* enfence.powerha_aix.cluster (Cluster)
+* enfence.powerha_aix.fc (File Collection)
+* enfence.powerha_aix.fs (File System)
+* enfence.powerha_aix.ha_facts (Information about current cluster configuration)
+* enfence.powerha_aix.lv (Logical Volume)
+* enfence.powerha_aix.mp (Mirror Pool)
+* enfence.powerha_aix.pv_info (Information about Physical Volumes)
+* enfence.powerha_aix.rg (Resource Group)
+* enfence.powerha_aix.service_ip (Service IP)
+* enfence.powerha_aix.vg (Volume Group)
 
 More will come in the future.
 
