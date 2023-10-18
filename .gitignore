@@ -8,8 +8,10 @@ docs/.doctrees
 docs/_sources
 docs/_static
 docs/modules
+docs/roles
 docs/*.html
 docs/*.js
 docs/objects.inv
 docs/source/modules/*.rst
+docs/source/roles/*.md
 docs/source/CHANGELOG.rst
