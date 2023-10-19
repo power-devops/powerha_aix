@@ -1,6 +1,11 @@
 Changes
 =======
 
+Version 1.3.1
+-------------
+under development
+  * added options to start and stop cluster
+
 Version 1.3.0
 -------------
 Oct 18, 2023

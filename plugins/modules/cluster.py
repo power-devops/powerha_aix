@@ -163,7 +163,41 @@ options:
         description: .
         required: false
         type: str
-        choices: [ disable, dump_restart, hard_reset, hard_power_off ]
+        choices: [disable, dump_restart, hard_reset, hard_power_off ]
+    when:
+        description:
+            - Taking the cluster online or offline, should be it done only I(now), at I(restart) or I(both) - now and at restart.
+            - Can be used only if C(state) I(started) or I(stopped).
+        required: false
+        type: str
+        choices: [ now, restart, both ]
+    manage:
+        description:
+            - What to do with resource groups if the cluser is going online or offline.
+            - Can be used only if C(state) I(started) or I(stopped).
+            - If C(state) is I(started) the following values are possible - I(auto), I(manual), I(delayed).
+            - If C(state) is I(stopped) the following values are possible - I(offline), I(move), I(unmanage).
+        required: false
+        type: str
+        choices: [ auto, manual, delayed, offline, move, unmanage ]
+    broadcast:
+        description:
+            - Broadcast information about changing cluster state to all logged in users.
+            - Can be used only if C(state) I(started) or I(stopped).
+        required: false
+        type: bool
+    timeout:
+        description:
+            - Number of seconds to wait till the operation completes.
+            - Can be used only if C(state) I(started) or I(stopped).
+        required: false
+        type: int
+    caa:
+        description:
+            - Should CAA be started prior to the cluster start or stopped after cluster stop.
+            - Can be used only if C(state) I(started) or I(stopped).
+        required: false
+        type: bool
 
 author:
     - Andrey Klyachkin (@aklyachkin)
@@ -198,6 +232,11 @@ EXAMPLES = r'''
     name: cluster1
     fix: true
     state: synced
+- name: bring cluster apps in unmanaged state
+  enfence.powerha_aix.cluster:
+    name: cluster1
+    state: stopped
+    manage: unmanage
 '''
 
 RETURN = r'''
@@ -287,13 +326,24 @@ def delete_cluster(module):
 
 
 def start_cluster(module):
-    cmd = "%s online cluster when=now manage=auto broadcast=false clinfo=false force=true fix=yes start_caa=yes" % CLMGR
+    opts = ''
+    opts += add_string(module, 'when', 'when')
+    opts += add_string(module, 'manage', 'manage')
+    opts += add_bool(module, 'caa', 'start_caa')
+    opts += add_bool(module, 'broadcast', 'broadcast')
+    opts += add_bool(module, 'fix', 'fix')
+    cmd = "%s online cluster clinfo=false force=true %s" % (CLMGR, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
 
 
 def stop_cluster(module):
-    cmd = "%s offline cluster when=now manage=offline broadcast=false stop_caa=no" % CLMGR
+    opts = ''
+    opts += add_string(module, 'when', 'when')
+    opts += add_string(module, 'manage', 'manage')
+    opts += add_bool(module, 'caa', 'stop_caa')
+    opts += add_bool(module, 'broadcast', 'broadcast')
+    cmd = "%s offline cluster %s" % (CLMGR, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
 
@@ -339,7 +389,12 @@ def run_module():
         lvm_preferred_read=dict(type='str', choices=['roundrobin', 'favorcopy', 'siteaffinity'], required=False),
         crit_daemon_restart_grace_period=dict(type='int', required=False),
         skip_event_processing_manage_node=dict(type='bool', required=False),
-        caa_pvm_watchdog_timer=dict(type='str', choices=['disable', 'dump_restart', 'hard_reset', 'hard_power_off'], required=False)
+        caa_pvm_watchdog_timer=dict(type='str', choices=['disable', 'dump_restart', 'hard_reset', 'hard_power_off'], required=False),
+        when=dict(type='str', choices=['now', 'restart', 'both'], required=False),
+        manage=dict(type='str', choices=['offline', 'move', 'unmanage', 'auto', 'manual', 'delayed'], required=False),
+        broadcast=dict(type='bool', required=False),
+        timeout=dict(type='int', required=False),
+        caa=dict(type='bool', required=False)
     )
 
     result = dict(
