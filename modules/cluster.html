@@ -192,6 +192,23 @@
 </dd>
 <dt>caa_pvm_watchdog_timer (False, str, None)</dt><dd><p>.</p>
 </dd>
+<dt>when (False, str, None)</dt><dd><p>Taking the cluster online or offline, should be it done only <em>now</em>, at <em>restart</em> or <em>both</em> - now and at restart.</p>
+<p>Can be used only if <code class="docutils literal notranslate"><span class="pre">state</span></code> <em>started</em> or <em>stopped</em>.</p>
+</dd>
+<dt>manage (False, str, None)</dt><dd><p>What to do with resource groups if the cluser is going online or offline.</p>
+<p>Can be used only if <code class="docutils literal notranslate"><span class="pre">state</span></code> <em>started</em> or <em>stopped</em>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">state</span></code> is <em>started</em> the following values are possible - <em>auto</em>, <em>manual</em>, <em>delayed</em>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">state</span></code> is <em>stopped</em> the following values are possible - <em>offline</em>, <em>move</em>, <em>unmanage</em>.</p>
+</dd>
+<dt>broadcast (False, bool, None)</dt><dd><p>Broadcast information about changing cluster state to all logged in users.</p>
+<p>Can be used only if <code class="docutils literal notranslate"><span class="pre">state</span></code> <em>started</em> or <em>stopped</em>.</p>
+</dd>
+<dt>timeout (False, int, None)</dt><dd><p>Number of seconds to wait till the operation completes.</p>
+<p>Can be used only if <code class="docutils literal notranslate"><span class="pre">state</span></code> <em>started</em> or <em>stopped</em>.</p>
+</dd>
+<dt>caa (False, bool, None)</dt><dd><p>Should CAA be started prior to the cluster start or stopped after cluster stop.</p>
+<p>Can be used only if <code class="docutils literal notranslate"><span class="pre">state</span></code> <em>started</em> or <em>stopped</em>.</p>
+</dd>
 </dl>
 </div></blockquote>
 </section>
@@ -225,6 +242,11 @@
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
 <span class="w">    </span><span class="nt">fix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">synced</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bring cluster apps in unmanaged state</span>
+<span class="w">  </span><span class="nt">enfence.powerha_aix.cluster</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stopped</span>
+<span class="w">    </span><span class="nt">manage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unmanage</span>
 </pre></div>
 </div>
 </section>

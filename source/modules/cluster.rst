@@ -154,6 +154,40 @@ Parameters
     .
 
 
+  when (False, str, None)
+    Taking the cluster online or offline, should be it done only \ :emphasis:`now`\ , at \ :emphasis:`restart`\  or \ :emphasis:`both`\  - now and at restart.
+
+    Can be used only if \ :literal:`state`\  \ :emphasis:`started`\  or \ :emphasis:`stopped`\ .
+
+
+  manage (False, str, None)
+    What to do with resource groups if the cluser is going online or offline.
+
+    Can be used only if \ :literal:`state`\  \ :emphasis:`started`\  or \ :emphasis:`stopped`\ .
+
+    If \ :literal:`state`\  is \ :emphasis:`started`\  the following values are possible - \ :emphasis:`auto`\ , \ :emphasis:`manual`\ , \ :emphasis:`delayed`\ .
+
+    If \ :literal:`state`\  is \ :emphasis:`stopped`\  the following values are possible - \ :emphasis:`offline`\ , \ :emphasis:`move`\ , \ :emphasis:`unmanage`\ .
+
+
+  broadcast (False, bool, None)
+    Broadcast information about changing cluster state to all logged in users.
+
+    Can be used only if \ :literal:`state`\  \ :emphasis:`started`\  or \ :emphasis:`stopped`\ .
+
+
+  timeout (False, int, None)
+    Number of seconds to wait till the operation completes.
+
+    Can be used only if \ :literal:`state`\  \ :emphasis:`started`\  or \ :emphasis:`stopped`\ .
+
+
+  caa (False, bool, None)
+    Should CAA be started prior to the cluster start or stopped after cluster stop.
+
+    Can be used only if \ :literal:`state`\  \ :emphasis:`started`\  or \ :emphasis:`stopped`\ .
+
+
 
 
 
@@ -195,6 +229,11 @@ Examples
         name: cluster1
         fix: true
         state: synced
+    - name: bring cluster apps in unmanaged state
+      enfence.powerha_aix.cluster:
+        name: cluster1
+        state: stopped
+        manage: unmanage
 
 
 
