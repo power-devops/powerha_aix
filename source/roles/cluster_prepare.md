@@ -25,7 +25,7 @@ The role is part of [PowerHA SystemMirror for AIX collection](https://power-devo
 | powerha_filesets | str | cluster.es.server cluster.es.client | PowerHA filesets to install. |
 | aix_source | path | /usr/sys/inst.images | Path to AIX installation filesets. |
 | aix_filesets | str | bos.ahafs bos.cluster.rte bos.clvm rsct.basic.rte | AIX filesets to install. |
-| nodes | array of dict | [] | Cluster nodes. Each time must have two fields: `name` for node's name and `ip` for IP address of the node. |
+| nodes | array of dict | [] | Cluster nodes. Each item must have two fields: `name` for node's name and `ip` for IP address of the node. |
 | service | array of dict | [] | Service IP labels. Each item must have two fields: `name` for the service label and `ip`for IP address of the service label. |
 | app | dict | see below | Application controller resource in PowerHA clsuter. |
 

@@ -40,7 +40,7 @@ aix32
 | ---- | ---- | ------- | ----------- |
 | cluster_name | str | cluster1 | Name of PowerHA cluster. |
 | caarepo_luns | array of str | [00000000000000000000000000000000] | LDEV to create CAA repository. |
-| nodes | array of dict | [] | Cluster nodes. Each time must have two fields: `name` for node's name and `ip` for IP address of the node. |
+| nodes | array of dict | [] | Cluster nodes. Each item must have two fields: `name` for node's name and `ip` for IP address of the node. |
 | service | array of dict | [] | Service IP labels. Each item must have two fields: `name` for the service label and `ip`for IP address of the service label. |
 | app | dict | see below | Application controller resource in PowerHA clsuter. |
 | rg | dict | see below | Resource group resource in PowerHA cluster. |
