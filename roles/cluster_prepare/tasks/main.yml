@@ -1,30 +1,49 @@
 ---
+- name: Check if fileset is installed
+  ansible.builtin.command:
+    cmd: "lslpp -L {{ item }}"
+  changed_when: false
+  ignore_errors: true
+  register: aix_lpp_check
+  loop: "{{ cluster_prepare_aix_filesets }}"
+- name: Create list of filesets to install
+  ansible.builtin.set_fact:
+    aix_lpp_install: "{{ aix_lpp_install | default([]) + [item.item] }}"
+  loop: "{{ aix_lpp_check.results }}"
+  loop_control:
+    label: "{{ item.item }}"
+  when:
+    - aix_lpp_check.results is defined
+    - item.rc != 0
 - name: Install AIX prerequisites
   ibm.power_aix.installp:
     extend_fs: true
     commit: true
-    device: "{{ aix_source }}"
-    install_list: "{{ aix_filesets }}"
+    device: "{{ cluster_prepare_aix_source }}"
+    install_list: "{{ aix_lpp_install }}"
     dependencies: true
     agree_licenses: true
+  when:
+    - aix_lpp_install is defined
+    - aix_lpp_install | length > 0
 - name: Install PowerHA filesets
   ibm.power_aix.installp:
     extend_fs: true
     commit: true
-    device: "{{ powerha_source }}"
-    install_list: "{{ powerha_filesets }}"
+    device: "{{ cluster_prepare_powerha_source }}"
+    install_list: "{{ cluster_prepare_powerha_filesets }}"
     dependencies: true
     agree_licenses: true
 - name: Add nodes in /etc/hosts
   ansible.builtin.lineinfile:
     path: /etc/hosts
     line: "{{ item.ip }} {{ item.name }}"
-  loop: "{{ nodes | community.general.lists_mergeby(service, 'name') }}"
+  loop: "{{ cluster_prepare_nodes | community.general.lists_mergeby(cluster_prepare_service, 'name') }}"
   loop_control:
     label: "{{ item.name }}"
 - name: Add nodes in /etc/cluster/rhosts
   ansible.builtin.copy:
-    content: "{{ nodes | community.general.lists_mergeby(service, 'name') | map(attribute='ip') | join('\n') }}\n"
+    content: "{{ cluster_prepare_nodes | community.general.lists_mergeby(cluster_prepare_service, 'name') | map(attribute='ip') | join('\n') }}\n"
     dest: /etc/cluster/rhosts
     owner: root
     group: system
@@ -34,23 +53,23 @@
   ansible.builtin.meta: flush_handlers
 - name: Ensure directory exists for start script
   ansible.builtin.file:
-    path: "{{ app.start | dirname }}"
+    path: "{{ cluster_prepare_app.start | dirname }}"
     recurse: true
 - name: Create start script
   ansible.builtin.copy:
     src: start_app.sh
-    dest: "{{ app.start }}"
+    dest: "{{ cluster_prepare_app.start }}"
     owner: root
     group: system
     mode: "0755"
 - name: Ensure directory exists for stop script
   ansible.builtin.file:
-    path: "{{ app.stop | dirname }}"
+    path: "{{ cluster_prepare_app.stop | dirname }}"
     recurse: true
 - name: Create stop script
   ansible.builtin.copy:
     src: stop_app.sh
-    dest: "{{ app.stop }}"
+    dest: "{{ cluster_prepare_app.stop }}"
     owner: root
     group: system
     mode: "0755"

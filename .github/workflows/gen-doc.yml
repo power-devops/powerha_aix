@@ -17,29 +17,29 @@ jobs:
 
     name: generate documenation source files
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v3
-      
-    - name: setup python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-        
-    - name: install document generation requirements
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install ansible-core==${{ matrix.ansible-version }}.*
-        python -m pip install ansible-doc-extractor
-        python -m pip install sphinx
-        python -m pip install sphinx_rtd_theme
-        python -m pip install --upgrade myst-parser
-        
-    - name: run document generator script
-      run: |
-        make doc
+      - name: checkout repository
+        uses: actions/checkout@v3
 
-    - name: publish documentation to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        folder: docs
-        branch: gh-pages
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: install document generation requirements
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ansible-core==${{ matrix.ansible-version }}.*
+          python -m pip install ansible-doc-extractor
+          python -m pip install sphinx
+          python -m pip install sphinx_rtd_theme
+          python -m pip install --upgrade myst-parser
+
+      - name: run document generator script
+        run: |
+          make doc
+
+      - name: publish documentation to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs
+          branch: gh-pages

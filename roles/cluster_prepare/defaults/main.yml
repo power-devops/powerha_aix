@@ -1,33 +1,39 @@
-# powerha_source: (path) directory where PowerHA filesets can be found
-powerha_source: /phainst/installp/ppc
+# cluster_prepare_powerha_source: (path) directory where PowerHA filesets can be found
+cluster_prepare_powerha_source: /phainst/installp/ppc
 
-# powerha_filesets: (str) PowerHA filesets to install
-powerha_filesets: "cluster.es.server cluster.es.client"
+# cluster_prepare_powerha_filesets: (list of str) PowerHA filesets to install
+cluster_prepare_powerha_filesets:
+  - cluster.es.server
+  - cluster.es.client"
 
-# aix_source: (path) directory with AIX filesets
-aix_source: /usr/sys/inst.images
+# cluster_prepare_aix_source: (path) directory with AIX filesets
+cluster_prepare_aix_source: /usr/sys/inst.images
 
-# aix_filesets: (str) AIX base filesets to install prior PowerHA installation
-aix_filesets: "bos.ahafs bos.cluster.rte bos.clvm rsct.basic.rte"
+# cluster_prepare_aix_filesets: (list of str) AIX base filesets to install prior PowerHA installation
+cluster_prepare_aix_filesets:
+  - bos.ahafs
+  - bos.cluster.rte
+  - bos.clvm.enh
+  - rsct.basic.rte
 
-# nodes: (array of dict) nodes of the cluster
+# cluster_prepare_nodes: (array of dict) nodes of the cluster
 # each item has two fields:
 # - name: name of the node
 # - ip: IP address of the node
-nodes: []
+cluster_prepare_nodes: []
 
 # service: (array of dict) service ip labels
 # each item has two fields:
 # - name: name of the node
 # - ip: IP address of the node
-service: []
+cluster_prepare_service: []
 
 # app: (dict) application controller resource
 # Fields:
 # - name: (str) name of the application controller. not used in this role
 # - start: (str) path to the script to start the application
 # - stop: (str) path to the script to stop the application
-app:
+cluster_prepare_app:
   name: "ac_ora"
   start: "start_app.sh"
   stop: "stop_app.sh"

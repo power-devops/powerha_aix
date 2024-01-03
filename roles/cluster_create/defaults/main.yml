@@ -1,27 +1,27 @@
-# cluster_name: (str) Name of PowerHA cluster
-cluster_name: cluster1
+# cluster_create_cluster_name: (str) Name of PowerHA cluster
+cluster_create_cluster_name: cluster1
 
-# caarepo_luns: (array of str) LDEVs to use for CAA repository.
-caarepo_luns:
+# cluster_create_caarepo_luns: (array of str) LDEVs to use for CAA repository.
+cluster_create_caarepo_luns:
   - "00000000000000000000000000000000"
 
-# nodes: (array of dict) Cluster nodes.
-nodes:
+# cluster_create_nodes: (array of dict) Cluster nodes.
+cluster_create_nodes:
   - { name: "node1", ip: "10.0.0.1" }
   - { name: "node2", ip: "10.0.0.2" }
 
-# service: (array of dict) Service labels.
-service:
+# cluster_create_service: (array of dict) Service labels.
+cluster_create_service:
   - { name: "oracle", ip: "127.0.0.1" }
 
-# app: (dict) Application controller definition.
-app:
+# cluster_create_app: (dict) Application controller definition.
+cluster_create_app:
   name: ac_oracle
   start: /usr/local/bin/oracle_start.sh
   stop: /usr/local/bin/oracle_stop.sh
 
-# rg: (dict) Resource group definition.
-rg:
+# cluster_create_rg: (dict) Resource group definition.
+cluster_create_rg:
   name: rg_oracle
   startup: OHN
   fallover: FNPN

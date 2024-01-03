@@ -208,8 +208,8 @@ EXAMPLES = r'''
     startup: OHN
     fallover: FNPN
     fallback: NFB
-    service: [ 'serviceip' ]
-    application: [ 'ac_ora' ]
+    service: ['serviceip']
+    application: ['ac_ora']
     volgrp:
       - vg01
       - vg02

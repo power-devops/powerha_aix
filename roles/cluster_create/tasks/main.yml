@@ -6,7 +6,7 @@
 - name: Find CAA repo disks
   enfence.powerha_aix.pv_info:
     ldev: "{{ item }}"
-  loop: "{{ caarepo_luns }}"
+  loop: "{{ cluster_create_caarepo_luns }}"
   register: caa_luns_rc
 - name: Set CAA repo variable
   ansible.builtin.set_fact:
@@ -41,14 +41,14 @@
   loop: "{{ caa_luns }}"
 - name: Create a cluster
   enfence.powerha_aix.cluster:
-    name: "{{ cluster_name }}"
+    name: "{{ cluster_create_cluster_name }}"
     state: present
     repos: "{{ caa_luns }}"
     nodes: "{{ nodes | map(attribute='name') }}"
   when: inventory_hostname in groups['node1']
 - name: Start cluster
   enfence.powerha_aix.cluster:
-    name: "{{ cluster_name }}"
+    name: "{{ cluster_create_cluster_name }}"
     state: started
   when: inventory_hostname in groups['node1']
 - name: Get cluster network name
@@ -61,29 +61,29 @@
   enfence.powerha_aix.service_ip:
     name: "{{ item.name }}"
     network: "{{ pha_net.stdout }}"
-  loop: "{{ service }}"
+  loop: "{{ cluster_create_service }}"
   loop_control:
     label: "{{ item.name }}"
   notify: "Synchronize cluster"
   when: inventory_hostname in groups['node1']
 - name: Add application controller
   enfence.powerha_aix.appcontroller:
-    name: "{{ app.name }}"
-    start: "{{ app.start }}"
-    stop: "{{ app.stop }}"
+    name: "{{ cluster_create_app.name }}"
+    start: "{{ cluster_create_app.start }}"
+    stop: "{{ cluster_create_app.stop }}"
     mode: foreground
   notify: "Synchronize cluster"
   when: inventory_hostname in groups['node1']
 - name: Add resource group
   enfence.powerha_aix.rg:
-    name: "{{ rg.name }}"
-    nodes: "{{ nodes | map(attribute='name') }}"
-    startup: "{{ rg.startup }}"
-    fallover: "{{ rg.fallover }}"
-    fallback: "{{ rg.fallback }}"
-    service: "{{ service | map(attribute='name') }}"
+    name: "{{ cluster_create_rg.name }}"
+    nodes: "{{ cluster_create_nodes | map(attribute='name') }}"
+    startup: "{{ cluster_create_rg.startup }}"
+    fallover: "{{ cluster_create_rg.fallover }}"
+    fallback: "{{ cluster_create_rg.fallback }}"
+    service: "{{ cluster_create_service | map(attribute='name') }}"
     application:
-      - "{{ app.name }}"
+      - "{{ cluster_create_app.name }}"
   notify: "Synchronize cluster"
   when: inventory_hostname in groups['node1']
 - name: Flush handlers
@@ -91,6 +91,6 @@
   when: inventory_hostname in groups['node1']
 - name: Bring resource group online
   enfence.powerha_aix.rg:
-    name: "{{ rg.name }}"
+    name: "{{ cluster_create_rg.name }}"
     state: started
   when: inventory_hostname in groups['node1']

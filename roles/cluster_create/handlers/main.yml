@@ -1,6 +1,6 @@
 ---
 - name: Synchronize cluster
   enfence.powerha_aix.cluster:
-    name: "{{ cluster_name }}"
+    name: "{{ cluster_create_cluster_name }}"
     fix: true
     state: synced
