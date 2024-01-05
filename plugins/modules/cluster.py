@@ -268,6 +268,17 @@ from ansible_collections.enfence.powerha_aix.plugins.module_utils.helpers import
     add_list, add_string, add_int, add_bool, check_powerha, parse_clmgrq_output, CLMGR)
 
 
+def is_caa_started(module):
+    rc, stdout, stderr = module.run_command("lscluster -i")
+    if rc == 0:
+        return True
+    return False
+
+
+def start_caa(module):
+    rc, stdout, stderr = module.run_command("/usr/sbin/clctrl -start -a")
+
+
 def get_cluster_state(module):
     clusteropts = dict()
     cmd = "%s query cluster %s" % (CLMGR, module.params['name'])
@@ -349,6 +360,9 @@ def stop_cluster(module):
 
 
 def sync_cluster(module):
+    if not is_caa_started(module):
+        # CAA is not started, we can't sync
+        start_caa(module)
     cmd = "%s sync cluster" % CLMGR
     if 'fix' in module.params and module.params['fix']:
         cmd = "%s force=yes fix=yes" % cmd
