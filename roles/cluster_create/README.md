@@ -3,6 +3,7 @@
 ## Description
 
 This role creates a simple dual-node PowerHA cluster with one resource group on IBM AIX.
+It doesn't configure any volume groups into the resource group.
 
 The role is part of [PowerHA SystemMirror for AIX collection](https://power-devops.github.io/powerha_aix).
 
@@ -38,31 +39,45 @@ aix32
 
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| cluster_name | str | cluster1 | Name of PowerHA cluster. |
-| caarepo_luns | array of str | [00000000000000000000000000000000] | LDEV to create CAA repository. |
-| nodes | array of dict | [] | Cluster nodes. Each item must have two fields: `name` for node's name and `ip` for IP address of the node. |
-| service | array of dict | [] | Service IP labels. Each item must have two fields: `name` for the service label and `ip`for IP address of the service label. |
-| app | dict | see below | Application controller resource in PowerHA clsuter. |
-| rg | dict | see below | Resource group resource in PowerHA cluster. |
+| cluster_create_cluster_name | str | cluster1 | Name of PowerHA cluster. |
+| cluster_create_caarepo_luns | array of str | [00000000000000000000000000000000] | Disks to create CAA repository. |
+| cluster_create_caa_disk | str | ldev | Method of finding CAA repository disks. See below for more information. |
+| cluster_create_nodes | array of dict | [] | Cluster nodes. Each item must have two fields: `name` for node's name and `ip` for IP address of the node. |
+| cluster_create_service | array of dict | [] | Service IP labels. Each item must have two fields: `name` for the service label and `ip`for IP address of the service label. |
+| cluster_create_app | dict | see below | Application controller resource in PowerHA clsuter. |
+| cluster_create_rg | dict | see below | Resource group resource in PowerHA cluster. |
 
-### app variable
+### cluster_create_app variable
 
 ```
-app:
+cluster_create_app:
   name: "ac_ora" 		# name of the application controller
   start: "start_app.sh" 	# script to start the application
   stop: "stop_app.sh"		# script to stop the application
 ```
 
-### rg variable
+### cluster_create_rg variable
 
 ```
-rg:
+cluster_create_rg:
   name: "rg_oracle"		# name of the resource group
   startup: "OHN"		# startup policy of the resource group
   fallover: "FNPN"		# fallover policy of the resource group
   fallback: "NFB"		# fallback policy of the resource group
 ```
+
+### cluster_create_caa_disk
+
+The variable defines which method is used to find the disks for CAA repository. Depending on the value of `cluster_create_caa_disk`, the role analyzes the values in variable `cluster_create_caarepo_luns`.
+
+It can be set to the following values:
+
+| Value | Meaning |
+| ----- | ------- |
+| ldev | Variable `cluster_create_caarepo_luns` contains list of LDEVs. |
+| disk | Variable `cluster_create_caarepo_luns` contains list of disk names. |
+| pvid | Variable `cluster_create_caarepo_luns` contains list of PVIDs. |
+| uuid | Variable `cluster_create_caarepo_luns` contains list of UUIDs. |
 
 ## Example
 
@@ -74,13 +89,13 @@ rg:
   gather_facts: false
 
   roles:
-    - role: cluster_create
-      caarepo_luns:
+    - role: enfence.powerha_aix.cluster_create
+      cluster_create_caarepo_luns:
         - "60050X6801Z081D3Y8000000000002D5"
-      nodes:
+      cluster_create_nodes:
         - { name: "node1", ip: "10.0.0.11" }
         - { name: "node2", ip: "10.0.0.12" }
-      service:
+      cluster_create_service:
         - { name: "cluster", ip: "10.0.0.10" }
 ```
 

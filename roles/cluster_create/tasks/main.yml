@@ -3,14 +3,50 @@
   ansible.builtin.command:
     cmd: cfgmgr
   changed_when: false
-- name: Find CAA repo disks
-  enfence.powerha_aix.pv_info:
-    ldev: "{{ item }}"
-  loop: "{{ cluster_create_caarepo_luns }}"
-  register: caa_luns_rc
-- name: Set CAA repo variable
-  ansible.builtin.set_fact:
-    caa_luns: "{{ caa_luns_rc.results | map(attribute='pv') | flatten }}"
+- name: Find CAA repo disks using LDEV numbers
+  when: cluster_create_caa_disk == "ldev"
+  block:
+    - name: Find CAA repo disk
+      enfence.powerha_aix.pv_info:
+        ldev: "{{ item }}"
+      loop: "{{ cluster_create_caarepo_luns }}"
+      register: caa_luns_rc
+    - name: Set CAA repo variable
+      ansible.builtin.set_fact:
+        caa_luns: "{{ caa_luns_rc.results | map(attribute='pv') | flatten }}"
+- name: Find CAA repo disks using disk names
+  when: cluster_create_caa_disk == "disk"
+  block:
+    - name: Find CAA repo disk
+      enfence.powerha_aix.pv_info:
+        name: "{{ item }}"
+      loop: "{{ cluster_create_caarepo_luns }}"
+      register: caa_luns_rc
+    - name: Set CAA repo variable
+      ansible.builtin.set_fact:
+        caa_luns: "{{ caa_luns_rc.results | map(attribute='pv') | flatten }}"
+- name: Find CAA repo disks using PVIDs
+  when: cluster_create_caa_disk == "pvid"
+  block:
+    - name: Find CAA repo disk
+      enfence.powerha_aix.pv_info:
+        pvid: "{{ item }}"
+      loop: "{{ cluster_create_caarepo_luns }}"
+      register: caa_luns_rc
+    - name: Set CAA repo variable
+      ansible.builtin.set_fact:
+        caa_luns: "{{ caa_luns_rc.results | map(attribute='pv') | flatten }}"
+- name: Find CAA repo disks using UUIDs
+  when: cluster_create_caa_disk == "uuid"
+  block:
+    - name: Find CAA repo disk
+      enfence.powerha_aix.pv_info:
+        uuid: "{{ item }}"
+      loop: "{{ cluster_create_caarepo_luns }}"
+      register: caa_luns_rc
+    - name: Set CAA repo variable
+      ansible.builtin.set_fact:
+        caa_luns: "{{ caa_luns_rc.results | map(attribute='pv') | flatten }}"
 - name: Stop if no CAA repo disk is found
   ansible.builtin.meta: end_host
   when: caa_luns | length == 0

@@ -5,6 +5,14 @@ cluster_create_cluster_name: cluster1
 cluster_create_caarepo_luns:
   - "00000000000000000000000000000000"
 
+# cluster_create_caa_disk: (str) method of finding disks for CAA repository.
+# Can be one of the following:
+# - ldev - the variable cluster_create_caarepo_luns contains LDEVs
+# - name - the variable cluster_create_caarepo_luns contains disk names (hdisk)
+# - pvid - the variable cluster_create_caarepo_luns contains PVIDs
+# - uuid - the variable cluster_create_caarepo_luns contains UUIDs
+cluster_create_caa_disk: "ldev"
+
 # cluster_create_nodes: (array of dict) Cluster nodes.
 cluster_create_nodes:
   - { name: "node1", ip: "10.0.0.1" }
