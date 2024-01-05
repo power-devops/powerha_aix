@@ -4,7 +4,7 @@ cluster_prepare_powerha_source: /phainst/installp/ppc
 # cluster_prepare_powerha_filesets: (list of str) PowerHA filesets to install
 cluster_prepare_powerha_filesets:
   - cluster.es.server
-  - cluster.es.client"
+  - cluster.es.client
 
 # cluster_prepare_aix_source: (path) directory with AIX filesets
 cluster_prepare_aix_source: /usr/sys/inst.images
