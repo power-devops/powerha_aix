@@ -106,10 +106,19 @@ def get_lspv_output(stdout):
             pv['pvid'] = s[1]
         if s[2] != 'None':
             pv['vg'] = s[2]
-        if len(s) == 6:
+        if len(s) == 7:
             pv['state'] = s[3]
-            pv['udid'] = s[4]
-            pv['uuid'] = s[5]
+            pv['udid'] = "%s %s" % (s[4], s[5])
+            pv['uuid'] = s[6]
+        elif len(s) == 6:
+            if s[4].endswith('AIXvscsi'):
+                # udid contains spaces
+                pv['udid'] = "%s %s" % (s[3], s[4])
+                pv['uuid'] = s[5]
+            else:
+                pv['state'] = s[3]
+                pv['udid'] = s[4]
+                pv['uuid'] = s[5]
         else:
             pv['udid'] = s[3]
             pv['uuid'] = s[4]
