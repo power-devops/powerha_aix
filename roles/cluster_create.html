@@ -106,7 +106,8 @@
 <h1>Role: cluster_create<a class="headerlink" href="#role-cluster-create" title="Link to this heading"></a></h1>
 <section id="description">
 <h2>Description<a class="headerlink" href="#description" title="Link to this heading"></a></h2>
-<p>This role creates a simple dual-node PowerHA cluster with one resource group on IBM AIX.</p>
+<p>This role creates a simple dual-node PowerHA cluster with one resource group on IBM AIX.
+It doesn’t configure any volume groups into the resource group.</p>
 <p>The role is part of <a class="reference external" href="https://power-devops.github.io/powerha_aix">PowerHA SystemMirror for AIX collection</a>.</p>
 </section>
 <section id="prerequisites">
@@ -149,56 +150,87 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>cluster_name</p></td>
+<tr class="row-even"><td><p>cluster_create_cluster_name</p></td>
 <td><p>str</p></td>
 <td><p>cluster1</p></td>
 <td><p>Name of PowerHA cluster.</p></td>
 </tr>
-<tr class="row-odd"><td><p>caarepo_luns</p></td>
+<tr class="row-odd"><td><p>cluster_create_caarepo_luns</p></td>
 <td><p>array of str</p></td>
 <td><p>[00000000000000000000000000000000]</p></td>
-<td><p>LDEV to create CAA repository.</p></td>
+<td><p>Disks to create CAA repository.</p></td>
 </tr>
-<tr class="row-even"><td><p>nodes</p></td>
+<tr class="row-even"><td><p>cluster_create_caa_disk</p></td>
+<td><p>str</p></td>
+<td><p>ldev</p></td>
+<td><p>Method of finding CAA repository disks. See below for more information.</p></td>
+</tr>
+<tr class="row-odd"><td><p>cluster_create_nodes</p></td>
 <td><p>array of dict</p></td>
 <td><p>[]</p></td>
 <td><p>Cluster nodes. Each item must have two fields: <code class="docutils literal notranslate"><span class="pre">name</span></code> for node’s name and <code class="docutils literal notranslate"><span class="pre">ip</span></code> for IP address of the node.</p></td>
 </tr>
-<tr class="row-odd"><td><p>service</p></td>
+<tr class="row-even"><td><p>cluster_create_service</p></td>
 <td><p>array of dict</p></td>
 <td><p>[]</p></td>
 <td><p>Service IP labels. Each item must have two fields: <code class="docutils literal notranslate"><span class="pre">name</span></code> for the service label and <code class="docutils literal notranslate"><span class="pre">ip</span></code>for IP address of the service label.</p></td>
 </tr>
-<tr class="row-even"><td><p>app</p></td>
+<tr class="row-odd"><td><p>cluster_create_app</p></td>
 <td><p>dict</p></td>
 <td><p>see below</p></td>
 <td><p>Application controller resource in PowerHA clsuter.</p></td>
 </tr>
-<tr class="row-odd"><td><p>rg</p></td>
+<tr class="row-even"><td><p>cluster_create_rg</p></td>
 <td><p>dict</p></td>
 <td><p>see below</p></td>
 <td><p>Resource group resource in PowerHA cluster.</p></td>
 </tr>
 </tbody>
 </table>
-<section id="app-variable">
-<h3>app variable<a class="headerlink" href="#app-variable" title="Link to this heading"></a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">app</span><span class="p">:</span>
+<section id="cluster-create-app-variable">
+<h3>cluster_create_app variable<a class="headerlink" href="#cluster-create-app-variable" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cluster_create_app</span><span class="p">:</span>
   <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;ac_ora&quot;</span> 		<span class="c1"># name of the application controller</span>
   <span class="n">start</span><span class="p">:</span> <span class="s2">&quot;start_app.sh&quot;</span> 	<span class="c1"># script to start the application</span>
   <span class="n">stop</span><span class="p">:</span> <span class="s2">&quot;stop_app.sh&quot;</span>		<span class="c1"># script to stop the application</span>
 </pre></div>
 </div>
 </section>
-<section id="rg-variable">
-<h3>rg variable<a class="headerlink" href="#rg-variable" title="Link to this heading"></a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rg</span><span class="p">:</span>
+<section id="cluster-create-rg-variable">
+<h3>cluster_create_rg variable<a class="headerlink" href="#cluster-create-rg-variable" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cluster_create_rg</span><span class="p">:</span>
   <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;rg_oracle&quot;</span>		<span class="c1"># name of the resource group</span>
   <span class="n">startup</span><span class="p">:</span> <span class="s2">&quot;OHN&quot;</span>		<span class="c1"># startup policy of the resource group</span>
   <span class="n">fallover</span><span class="p">:</span> <span class="s2">&quot;FNPN&quot;</span>		<span class="c1"># fallover policy of the resource group</span>
   <span class="n">fallback</span><span class="p">:</span> <span class="s2">&quot;NFB&quot;</span>		<span class="c1"># fallback policy of the resource group</span>
 </pre></div>
 </div>
+</section>
+<section id="cluster-create-caa-disk">
+<h3>cluster_create_caa_disk<a class="headerlink" href="#cluster-create-caa-disk" title="Link to this heading"></a></h3>
+<p>The variable defines which method is used to find the disks for CAA repository. Depending on the value of <code class="docutils literal notranslate"><span class="pre">cluster_create_caa_disk</span></code>, the role analyzes the values in variable <code class="docutils literal notranslate"><span class="pre">cluster_create_caarepo_luns</span></code>.</p>
+<p>It can be set to the following values:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Value</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ldev</p></td>
+<td><p>Variable <code class="docutils literal notranslate"><span class="pre">cluster_create_caarepo_luns</span></code> contains list of LDEVs.</p></td>
+</tr>
+<tr class="row-odd"><td><p>disk</p></td>
+<td><p>Variable <code class="docutils literal notranslate"><span class="pre">cluster_create_caarepo_luns</span></code> contains list of disk names.</p></td>
+</tr>
+<tr class="row-even"><td><p>pvid</p></td>
+<td><p>Variable <code class="docutils literal notranslate"><span class="pre">cluster_create_caarepo_luns</span></code> contains list of PVIDs.</p></td>
+</tr>
+<tr class="row-odd"><td><p>uuid</p></td>
+<td><p>Variable <code class="docutils literal notranslate"><span class="pre">cluster_create_caarepo_luns</span></code> contains list of UUIDs.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <section id="example">
@@ -210,13 +242,13 @@
 <span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
 <span class="w">  </span><span class="nt">roles</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster_create</span>
-<span class="w">      </span><span class="nt">caarepo_luns</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enfence.powerha_aix.cluster_create</span>
+<span class="w">      </span><span class="nt">cluster_create_caarepo_luns</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;60050X6801Z081D3Y8000000000002D5&quot;</span>
-<span class="w">      </span><span class="nt">nodes</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">cluster_create_nodes</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node1&quot;</span><span class="p p-Indicator">,</span><span class="nt"> ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.0.0.11&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node2&quot;</span><span class="p p-Indicator">,</span><span class="nt"> ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.0.0.12&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
-<span class="w">      </span><span class="nt">service</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">cluster_create_service</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;cluster&quot;</span><span class="p p-Indicator">,</span><span class="nt"> ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.0.0.10&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
 </pre></div>
 </div>
