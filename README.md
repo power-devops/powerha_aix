@@ -88,6 +88,8 @@ ansible-galaxy collection install enfence.powerha_aix:==1.3.0
 
 Look at examples directory for playbook examples using the collection.
 
+Youtube [video](https://youtu.be/H5JvMAWcBTs) deploying a simple PowerHA dual-node cluster using the collection.
+
 ## Certification
 
 This collection is certified by Red Hat. It means you can download the collection from Ansible Automation Hub and it is fully
