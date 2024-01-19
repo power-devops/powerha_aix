@@ -3,7 +3,7 @@ Changes
 
 Version 1.3.1
 -------------
-under development
+Jan 19, 2023
   * added options to start and stop cluster
   * added checks if AIX prerequisites are installed in cluster_prepare role
   * linting of roles
