@@ -7,6 +7,9 @@ under development
   * added options to start and stop cluster
   * added checks if AIX prerequisites are installed in cluster_prepare role
   * linting of roles
+  * pv_info: sometimes UDIDs contain spaces
+  * added different methods of finding CAA disk in cluster_create role
+  * changed variable names in roles cluster_create and cluster_prepare
 
 Version 1.3.0
 -------------
