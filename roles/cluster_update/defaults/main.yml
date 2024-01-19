@@ -1,0 +1,39 @@
+# cluster_update_type: (str) where to find PowerHA updates
+# - copy: locally on Ansible controller node
+# - nfs: on NFS share
+# - nim: on NIM server
+# Depending on the choice different variables below must be set
+cluster_update_type: copy
+
+# cluster_update_source: (str) path to PowerHA updates
+# cluster_update_type = copy: local path on Ansible controller node
+# cluster_update_type = nfs: NFS share like server:/pha_update
+# cluster_update_type = nim: name of lpp_source
+cluster_update_source: /pha_updates
+
+# cluster_update_remote_tmp: (str) path on remote server for temporary files
+cluster_update_remote_tmp: /tmp
+
+# cluster_update_nim_server: (str) NIM server with PowerHA update
+cluster_update_nim_server: nim
+
+# cluster_update_powerha_lpp: (str) name of the lpp_source resource on the NIM server with PowerHA updates
+cluster_update_powerha_lpp: powerha_lpp
+
+# cluster_update_nfs_server: (str) NFS server with PowerHA updates
+cluster_update_nfs_server: nfs
+
+# cluster_update_nfs_share: (str) share on the NFS server with PowerHA updates
+cluster_update_nfs_share: /export/powerha
+
+# cluster_update_nfs_options: (str) NFS mount options
+cluster_update_nfs_options: vers=3,soft,ro,llock,rsize=262144
+
+# cluster_update_local_dir: (str) directory on the managed node to mount NFS share with PowerHA updates
+cluster_update_local_dir: /mnt
+
+# cluster_update_cluster_name: (str) name of the cluster
+cluster_update_cluster_name: cluster1
+
+# nodes: (array of dict) cluster nodes. See README.md for description.
+cluster_update_nodes: []

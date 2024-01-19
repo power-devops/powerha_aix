@@ -1,0 +1,18 @@
+---
+- name: Mount NFS share
+  ibm.power_aix.mount:
+    state: mount
+    node: "{{ cluster_update_nfs_server }}"
+    mount_dir: "{{ cluster_update_nfs_share }}"
+    mount_over_dir: "{{ cluster_update_local_dir }}"
+    options: "{{ cluster_update_nfs_options }}"
+- name: Install PowerHA updates
+  ibm.power_aix.installp:
+    action: install
+    device: "{{ cluster_update_local_dir }}"
+    agree_licenses: true
+    updates_only: true
+- name: Unmount NFS share
+  ibm.power_aix.mount:
+    state: unmount
+    mount_dir: "{{ cluster_update_local_dir }}"

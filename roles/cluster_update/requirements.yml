@@ -1,0 +1,5 @@
+---
+collections:
+  - community.general
+  - enfence.powerha_aix
+  - ibm.power_aix

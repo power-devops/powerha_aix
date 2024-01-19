@@ -1,12 +1,11 @@
----
 galaxy_info:
   author: Andrey Klyachkin <info@power-devops.com>
-  description: IBM PowerHA SystemMirror 7.2.X cluster management
+  description: Update PowerHA SystemMirror for AIX
   company: eNFence
 
   license: GNU General Public License v3.0
 
-  min_ansible_version: 2.14.0
+  min_ansible_version: 2.13.0
 
   platforms:
     - name: AIX
@@ -19,7 +18,5 @@ galaxy_info:
     - powerha
     - cluster
     - infrastructure
-    - application
-    - tools
 
 dependencies: []

@@ -12,7 +12,7 @@ It is tested with IBM PowerHA 7.2.6 and 7.2.7 but should work with any PowerHA s
   - bos.cluster.rte
   - bos.clvm
   - rsct.basic.rte
-- Ansible 2.13
+- Ansible 2.14
 - Python 3.9
 
 ## Supported versions

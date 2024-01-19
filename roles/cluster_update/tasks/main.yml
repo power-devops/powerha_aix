@@ -1,0 +1,23 @@
+---
+- name: Get PowerHA application controllers
+  enfence.powerha_aix.ha_facts:
+    subset: appcontroller
+- name: Make backup of application controllers scripts
+  ansible.builtin.meta: noop
+- name: Install dummy application controllers scripts
+  ansible.builtin.meta: noop
+- name: Bring PowerHA in unmanaged mode
+  enfence.powerha_aix.cluster:
+    name: "{{ cluster_update_cluster_name }}"
+    state: stopped
+    manage: unmanage
+    broadcast: false
+    when: now
+  when: inventory_hostname in groups['node1']
+- name: Update PowerHA filesets
+  ansible.builtin.include_tasks:
+    file: "update_{{ cluster_update_type }}.yml"
+- name: Bring PowerHA online
+  ansible.builtin.meta: noop
+- name: Restore application controllers scripts
+  ansible.builtin.meta: noop
