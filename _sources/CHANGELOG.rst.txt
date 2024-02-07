@@ -1,6 +1,11 @@
 Changes
 =======
 
+Version 1.3.2
+-------------
+Feb 07, 2023
+  * updated Ansible requirements according to the certification procedure
+
 Version 1.3.1
 -------------
 Jan 19, 2023
