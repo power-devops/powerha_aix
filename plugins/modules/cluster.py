@@ -325,6 +325,7 @@ def create_cluster(module):
     opts += add_bool(module, 'verification_debugging', 'verification_debugging')
     opts += add_bool(module, 'caa_auto_start_dr', 'caa_auto_start_dr')
     opts += add_bool(module, 'skip_event_processing_manage_node', 'skip_event_processing_manage_node')
+    opts += add_bool(module, 'caa', 'caa')
     cmd = "%s add cluster %s" % (CLMGR, opts)
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
