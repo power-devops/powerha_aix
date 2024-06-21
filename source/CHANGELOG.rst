@@ -5,6 +5,7 @@ Version 1.3.3
 -------------
 Unpublished
   * Fix for caa attribute in cluster module (1dab93630673dff724b1ce5ee694554899a1a565 by @lewus)
+  * Documentation update according to RH requirements
 
 Version 1.3.2
 -------------
