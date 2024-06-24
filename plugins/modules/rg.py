@@ -362,6 +362,7 @@ def move_rg(module):
     module.debug('Starting command: %s' % cmd)
     return module.run_command(cmd)
 
+
 def run_module():
     module_args = dict(
         name=dict(type='str', required=True),
