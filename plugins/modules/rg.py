@@ -352,7 +352,7 @@ def stop_rg(module):
 
 
 def move_rg(module):
-    cmd = "%s move resource_group" % (CLMGR)
+    cmd = "%s move resource_group %s" % (CLMGR, module.params['name'])
     opts = ""
     if module.params['site'] is None:
         opts += add_string(module, 'node', 'node')
