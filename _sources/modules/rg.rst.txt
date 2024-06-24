@@ -30,10 +30,22 @@ Parameters
     list of the nodes where the resource group can be started. required if resource group is created.
 
 
+  node (False, str, None)
+    Name of a target node where the resource group must be moved to.
+
+    Required if resource group's state is \ :literal:`moved`\  and no target site is defined.
+
+
   secnodes (False, list, None)
     secondary nodes
 
     added in 1.1.3
+
+
+  site (False, str, None)
+    Name of a target site where the resource group must be moved to.
+
+    Required if resource group's state is \ :literal:`moved`\  and no target node is defined.
 
 
   sitepolicy (False, str, None)
@@ -169,7 +181,7 @@ Parameters
 
 
   state (False, str, present)
-    the desired state of the resource - \ :literal:`present`\ , \ :literal:`absent`\ , \ :literal:`started`\ , \ :literal:`stopped`\ .
+    the desired state of the resource - \ :literal:`present`\ , \ :literal:`absent`\ , \ :literal:`started`\ , \ :literal:`stopped`\ , \ :literal:`moved`\ .
 
     If the resource is already defined, it will not be changed.
 
@@ -188,7 +200,7 @@ Examples
 
     
     # create a new resource group
-    - name: create a new resource group
+    - name: Create a new resource group
       enfence.powerha_aix.rg:
         name: rg_oracle
         nodes:
@@ -204,21 +216,31 @@ Examples
           - vg02
           - vg03
         state: present
+
     # bring resource group online
-    - name: starting resource group
+    - name: Start resource group
       enfence.powerha_aix.rg:
         name: rg_oracle
         state: started
+
     # bring resource group offline
-    - name: stopping resource group
+    - name: Stop resource group
       enfence.powerha_aix.rg:
         name: rg_oracle
         state: stopped
+
     # delete an existing resource group
-    - name: delete an existing resource group
+    - name: Delete an existing resource group
       enfence.powerha_aix.rg:
         name: rg_oracle
         state: absent
+
+    # move resource group to another node
+    - name: Move resource group to another node
+      enfence.powerha_aix.rg:
+        name: rg_oracle
+        target_node: node2
+        state: moved
 
 
 
