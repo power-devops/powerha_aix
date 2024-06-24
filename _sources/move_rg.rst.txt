@@ -1,0 +1,34 @@
+Moving resource group to another node with Ansible
+==================================================
+
+.. code-block:: yaml
+
+   ---
+   - name: Move resource group to another node
+     hosts: all
+     gather_facts: false
+   
+     tasks:
+       - name: Get cluster information
+         enfence.powerha_aix.ha_facts:
+           subset: rg
+   
+       - name: Show where the resource group is active
+         ansible.builtin.debug:
+           msg: "The RG is active on node {{ ansible_facts.powerha.resource_groups.0.rg_oracle.CURRENT_NODE }}"
+   
+       - name: Move resource group
+         enfence.powerha_aix.rg:
+           state: moved
+           name: rg_oracle
+           target_node: aix102
+         when: inventory_hostname in groups['node1']
+   
+       - name: Update cluster information
+         enfence.powerha_aix.ha_facts:
+           subset: rg
+   
+       - name: Show where the resource group is active
+         ansible.builtin.debug:
+           msg: "The RG is active on node {{ ansible_facts.powerha.resource_groups.0.rg_oracle.CURRENT_NODE }}"
+ 

@@ -29,3 +29,4 @@ Additional documentation:
    delete_cluster
    create_vg
    delete_vg
+   move_rg
