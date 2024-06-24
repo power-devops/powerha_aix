@@ -26,6 +26,13 @@ options:
         required: false
         type: list
         elements: str
+    node:
+        description:
+            - Name of a target node where the resource group must be moved to.
+            - Required if resource group's state is C(moved) and no target site is defined.
+        required: false
+        type: str
+        aliases: [ target_node ]
     secnodes:
         description:
             - secondary nodes
@@ -34,6 +41,13 @@ options:
         type: list
         elements: str
         aliases: [ secondary_nodes, secondarynodes ]
+    site:
+        description:
+            - Name of a target site where the resource group must be moved to.
+            - Required if resource group's state is C(moved) and no target node is defined.
+        required: false
+        type: str
+        aliases: [ target_site ]
     sitepolicy:
         description:
             - site policy
@@ -186,12 +200,13 @@ options:
         type: str
     state:
         description:
-            - the desired state of the resource - C(present), C(absent), C(started), C(stopped).
+            - the desired state of the resource - C(present), C(absent),
+              C(started), C(stopped), C(moved).
             - If the resource is already defined, it will not be changed.
         default: present
         required: false
         type: str
-        choices: [ present, absent, started, stopped, online, offline ]
+        choices: [ present, absent, started, stopped, online, offline, moved ]
 
 author:
     - Andrey Klyachkin (@aklyachkin)
@@ -199,7 +214,7 @@ author:
 
 EXAMPLES = r'''
 # create a new resource group
-- name: create a new resource group
+- name: Create a new resource group
   enfence.powerha_aix.rg:
     name: rg_oracle
     nodes:
@@ -215,21 +230,31 @@ EXAMPLES = r'''
       - vg02
       - vg03
     state: present
+
 # bring resource group online
-- name: starting resource group
+- name: Start resource group
   enfence.powerha_aix.rg:
     name: rg_oracle
     state: started
+
 # bring resource group offline
-- name: stopping resource group
+- name: Stop resource group
   enfence.powerha_aix.rg:
     name: rg_oracle
     state: stopped
+
 # delete an existing resource group
-- name: delete an existing resource group
+- name: Delete an existing resource group
   enfence.powerha_aix.rg:
     name: rg_oracle
     state: absent
+
+# move resource group to another node
+- name: Move resource group to another node
+  enfence.powerha_aix.rg:
+    name: rg_oracle
+    target_node: node2
+    state: moved
 '''
 
 RETURN = r'''
@@ -326,13 +351,26 @@ def stop_rg(module):
     return module.run_command(cmd)
 
 
+def move_rg(module):
+    cmd = "%s move resource_group"
+    opts = ""
+    if module.params['site'] is None:
+        opts += add_string(module, 'node', 'node')
+    else:
+        opts += add_string(module, 'site', 'site')
+    cmd = "%s %s" % (cmd, opts)
+    module.debug('Starting command: %s' % cmd)
+    return module.run_command(cmd)
+
 def run_module():
     module_args = dict(
         name=dict(type='str', required=True),
-        state=dict(type='str', required=False, choices=['present', 'absent', 'started', 'stopped', 'online', 'offline'], default='present'),
+        state=dict(type='str', required=False, choices=['present', 'absent', 'started', 'stopped', 'online', 'offline', 'moved'], default='present'),
         nodes=dict(type='list', required=False, elements='str'),
+        node=dict(type='str', required=False, aliases=['target_node']),
         secnodes=dict(type='list', required=False, elements='str', aliases=['secondary_nodes', 'secondarynodes']),
         sitepolicy=dict(type='str', required=False, choices=['ignore', 'primary', 'either', 'both'], aliases=['site_policy']),
+        site=dict(type='str', required=False, aliases=['target_site']),
         startup=dict(type='str', required=False, choices=['OHN', 'OFAN', 'OAAN', 'OUDP'], aliases=['start']),
         fallover=dict(type='str', required=False, choices=['FNPN', 'FUDNP', 'BO']),
         fallback=dict(type='str', required=False, choices=['NFB', 'FBHPN']),
@@ -443,6 +481,29 @@ def run_module():
             result['msg'] = 'stopping resource group failed. see stderr for any error messages'
             module.fail_json(**result)
         result['msg'] = 'resource group is stopped'
+    elif module.params['state'] == 'moved':
+        if module.params['site'] is None and module.params['node'] is None:
+            result['msg'] = 'either target node or target site must be specified'
+            module.fail_json(**result)
+        state, result['rc'], result['stdout'], result['stderr'], opts = get_rg(module)
+        if state == 'absent':
+            result['msg'] = 'resource group is not defined'
+            module.fail_json(**result)
+        if state == 'offline':
+            result['msg'] = 'resource group is offline. If you want to move it to another node, start it there.'
+            module.fail_json(**result)
+        if module.params['site'] is None:
+            target = 'node %s' % module.params['node']
+        else:
+            target = 'site %s' % module.params['site']
+        if module.check_mode:
+            result['msg'] = 'resource group will be moved to %s' % (target)
+            module.exit_json(**result)
+        result['rc'], result['stdout'], result['stderr'] = move_rg(module)
+        if result['rc'] != 0:
+            result['msg'] = 'moving resource group to %s failed. see stderr for any error messages' % (target)
+            module.fail_json(**result)
+        result['msg'] = 'resource group is moved to %s' % (target)
     module.exit_json(**result)
 
 
