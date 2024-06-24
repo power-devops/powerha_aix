@@ -4,12 +4,13 @@
     src: "{{ cluster_update_source }}"
     dest: "{{ cluster_update_remote_tmp }}"
     mode: "0755"
+
 - name: Install PowerHA updates
-  ibm.power_aix.installp:
-    action: install
+  ibm.power_aix.install_all_updates:
     device: "{{ cluster_update_remote_tmp }}/{{ cluster_update_source | basename }}"
     agree_licenses: true
-    updates_only: true
+    extend_fs: true
+
 - name: Remove copied files from remote node
   ansible.builtin.file:
     path: "{{ cluster_update_remote_tmp }}/{{ cluster_update_source | basename }}"

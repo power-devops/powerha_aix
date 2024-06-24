@@ -4,13 +4,16 @@
     cmd: "nimclient -ll {{ cluster_update_powerha_lpp }}"
   changed_when: false
   register: lpp_info
+
 - name: Get LPP source directory
   ansible.builtin.set_fact:
     lpp_dir: "{{ lpp_info.stdout_lines | ansible.builtin.regex_search('location( +)= ([/A-Za-z0-9_-]+)', '\\2') | join }}"
+
 - name: Allocate LPP source
   ansible.builtin.command:
     cmd: "nimclient -o allocate -a lpp_source={{ powerha_lpp }}"
   changed_when: false
+
 - name: Mount LPP source
   ibm.power_aix.mount:
     state: mount
@@ -18,16 +21,19 @@
     mount_dir: "{{ lpp_dir }}"
     mount_over_dir: "{{ cluster_update_local_dir }}"
     options: "{{ cluster_update_nfs_options }}"
+
 - name: Install PowerHA updates
-  ibm.power_aix.installp:
-    action: install
+  ibm.power_aix.install_all_updates:
     device: "{{ cluster_update_local_dir }}"
     agree_licenses: true
-    updates_only: true
+    extend_fs: true
+
 - name: Unmount LPP source
-  ibm.power_aix.mount:
-    state: unmount
-    mount_dir: "{{ cluster_update_local_dir }}"
+  ansible.posix.mount:
+    state: unmounted
+    path: "{{ cluster_update_local_dir }}"
+    fstab: /dev/null
+
 - name: Dallocate LPP source
   ansible.builtin.command:
     cmd: "nimclient -o deallocate -a lpp_source={{ powerha_lpp }}"
