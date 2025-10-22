@@ -19,7 +19,7 @@ description: This module creates/deletes/starts or stops a PowerHA cluster. Depe
 options:
     name:
         description: name of the cluster.
-        required: true
+        required: false
         type: str
     state:
         description: the desired state of the cluster - present, absent, started, stopped, synced
@@ -221,20 +221,16 @@ EXAMPLES = r'''
     state: absent
 - name: start cluster
   enfence.powerha_aix.cluster:
-    name: cluster1
     state: started
 - name: stop cluster
   enfence.powerha_aix.cluster:
-    name: cluster1
     state: stopped
 - name: synchronize cluster
   enfence.powerha_aix.cluster:
-    name: cluster1
     fix: true
     state: synced
 - name: bring cluster apps in unmanaged state
   enfence.powerha_aix.cluster:
-    name: cluster1
     state: stopped
     manage: unmanage
 '''
@@ -281,7 +277,7 @@ def start_caa(module):
 
 def get_cluster_state(module):
     clusteropts = dict()
-    cmd = "%s query cluster %s" % (CLMGR, module.params['name'])
+    cmd = "%s query cluster %s" % CLMGR
     module.debug('Starting command: %s' % cmd)
     rc, stdout, stderr = module.run_command(cmd)
     if rc != 0:
@@ -373,7 +369,7 @@ def sync_cluster(module):
 
 def run_module():
     module_args = dict(
-        name=dict(type='str', required=True),
+        name=dict(type='str', required=False),
         state=dict(type='str', required=True, choices=['present', 'absent', 'started', 'stopped', 'synced']),
         nodes=dict(type='list', required=False, elements='str'),
         repos=dict(type='list', required=False, elements='str', aliases=['repositories', 'repo', 'repository']),
