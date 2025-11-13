@@ -277,7 +277,10 @@ def start_caa(module):
 
 def get_cluster_state(module):
     clusteropts = dict()
-    cmd = "%s query cluster %s" % CLMGR
+    if 'name' is in module.params:
+        cmd = "%s query cluster %s" % (CLMGR, module.params['name'])
+    else:
+        cmd = "%s query cluster %s" % CLMGR
     module.debug('Starting command: %s' % cmd)
     rc, stdout, stderr = module.run_command(cmd)
     if rc != 0:
@@ -446,6 +449,9 @@ def run_module():
 
     # create a new cluster
     if module.params['state'] == 'present':
+        if 'name' not in module.params:
+            result['msg'] = 'name parameter is required to create a cluster'
+            module.fail_json(**result)
         if module.check_mode:
             result['msg'] = 'cluster will be created'
             module.exit_json(**result)
