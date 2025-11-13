@@ -1,6 +1,10 @@
 Changes
 =======
 
+Unreleased
+----------
+  * Cluster name is now optional in the cluster module (262b2349567c5b1380a85a4d3e6fc4ee4bf87d68 by @lewus)
+
 Version 1.3.3
 -------------
 Jun 24, 2024
