@@ -3,6 +3,7 @@
   ansible.builtin.command:
     cmd: cfgmgr
   changed_when: false
+
 - name: Find CAA repo disks using LDEV numbers
   when: cluster_create_caa_disk == "ldev"
   block:
@@ -14,6 +15,7 @@
     - name: Set CAA repo variable
       ansible.builtin.set_fact:
         caa_luns: "{{ caa_luns_rc.results | map(attribute='pv') | flatten }}"
+
 - name: Find CAA repo disks using disk names
   when: cluster_create_caa_disk == "disk"
   block:
@@ -25,6 +27,7 @@
     - name: Set CAA repo variable
       ansible.builtin.set_fact:
         caa_luns: "{{ caa_luns_rc.results | map(attribute='pv') | flatten }}"
+
 - name: Find CAA repo disks using PVIDs
   when: cluster_create_caa_disk == "pvid"
   block:
@@ -36,6 +39,7 @@
     - name: Set CAA repo variable
       ansible.builtin.set_fact:
         caa_luns: "{{ caa_luns_rc.results | map(attribute='pv') | flatten }}"
+
 - name: Find CAA repo disks using UUIDs
   when: cluster_create_caa_disk == "uuid"
   block:
@@ -47,9 +51,11 @@
     - name: Set CAA repo variable
       ansible.builtin.set_fact:
         caa_luns: "{{ caa_luns_rc.results | map(attribute='pv') | flatten }}"
+
 - name: Stop if no CAA repo disk is found
   ansible.builtin.meta: end_host
   when: caa_luns | length == 0
+
 - name: Create PVID on CAA repo disks
   ibm.power_aix.devices:
     device: "{{ item }}"
@@ -58,23 +64,27 @@
       pv: "yes"
   loop: "{{ caa_luns }}"
   when: inventory_hostname in groups['node1']
+
 - name: Remove CAA repo disks on the second node
   ibm.power_aix.devices:
     device: "{{ item }}"
     state: absent
   loop: "{{ caa_luns }}"
   when: inventory_hostname in groups['node2']
+
 - name: Rescan CAA repo disks on the second node
   ansible.builtin.command:
     cmd: cfgmgr
   when: inventory_hostname in groups['node2']
   changed_when: false
+
 - name: Set attributes on CAA repo disks
   ibm.power_aix.devices:
     device: "{{ item }}"
     attributes:
       reserve_policy: no_reserve
   loop: "{{ caa_luns }}"
+
 - name: Create a cluster
   enfence.powerha_aix.cluster:
     name: "{{ cluster_create_cluster_name }}"
@@ -82,17 +92,20 @@
     repos: "{{ caa_luns }}"
     nodes: "{{ nodes | map(attribute='name') }}"
   when: inventory_hostname in groups['node1']
+
 - name: Start cluster
   enfence.powerha_aix.cluster:
     name: "{{ cluster_create_cluster_name }}"
     state: started
   when: inventory_hostname in groups['node1']
+
 - name: Get cluster network name
   ansible.builtin.command:
     cmd: /usr/es/sbin/cluster/utilities/clmgr query network
   changed_when: false
   register: pha_net
   when: inventory_hostname in groups['node1']
+
 - name: Add service label
   enfence.powerha_aix.service_ip:
     name: "{{ item.name }}"
@@ -102,6 +115,7 @@
     label: "{{ item.name }}"
   notify: "Synchronize cluster"
   when: inventory_hostname in groups['node1']
+
 - name: Add application controller
   enfence.powerha_aix.appcontroller:
     name: "{{ cluster_create_app.name }}"
@@ -110,6 +124,7 @@
     mode: foreground
   notify: "Synchronize cluster"
   when: inventory_hostname in groups['node1']
+
 - name: Add resource group
   enfence.powerha_aix.rg:
     name: "{{ cluster_create_rg.name }}"
@@ -122,9 +137,11 @@
       - "{{ cluster_create_app.name }}"
   notify: "Synchronize cluster"
   when: inventory_hostname in groups['node1']
+
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
   when: inventory_hostname in groups['node1']
+
 - name: Bring resource group online
   enfence.powerha_aix.rg:
     name: "{{ cluster_create_rg.name }}"
